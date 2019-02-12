@@ -307,6 +307,7 @@ __pycache__/
 *.sqlite3
 
 ### VisualStudioCode ###
+.vscode/
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
