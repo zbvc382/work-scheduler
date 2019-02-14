@@ -22,12 +22,12 @@ namespace WorkScheduler.API.Controllers
             _config = config;
         }
 
-        [AllowAnonymous]
-        [HttpPost("login")]
-        public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
-        {
-            // TODO
-        }
+        // [AllowAnonymous]
+        // [HttpPost("login")]
+        // public async Task<IActionResult> Login(UserForLoginDto userForLoginDto)
+        // {
+        //     // TODO
+        // }
 
         public string GenerateJwtToken(User user)
         {
