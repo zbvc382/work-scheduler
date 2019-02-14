@@ -83,6 +83,7 @@ namespace WorkScheduler.API
             // app.UseHttpsRedirection();
             // seed.SeedUsers();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseAuthentication();
             app.UseMvc();
         }
     }
