@@ -9,12 +9,14 @@ import { NavComponent } from './nav/nav.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './_services/auth.service';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
    declarations: [
       AppComponent,
       NavComponent,
-      LoginComponent
+      LoginComponent,
+      HomeComponent
    ],
    imports: [
       BrowserModule,
