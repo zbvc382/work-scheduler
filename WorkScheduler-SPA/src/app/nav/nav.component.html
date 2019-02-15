@@ -1,4 +1,5 @@
-<mat-toolbar color="primary">
+<!-- Subscribe to 'isLoggedIn$' and store its value in local template variable 'isLoggedIn'-->
+<mat-toolbar color="primary" *ngIf="isLoggedIn$ | async as isLoggedIn">
   <mat-toolbar-row>
     <span>Logo</span>
     <span class="nav-spacer"></span>
