@@ -10,6 +10,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './_services/auth.service';
 import { HomeComponent } from './home/home.component';
+import { RouterModule } from '@angular/router';
+import { appRoutes } from './routes';
 
 @NgModule({
    declarations: [
@@ -23,7 +25,8 @@ import { HomeComponent } from './home/home.component';
       HttpClientModule,
       BrowserAnimationsModule,
       MaterialModule,
-      ReactiveFormsModule
+      ReactiveFormsModule,
+      RouterModule.forRoot(appRoutes)
    ],
    providers: [
       AuthService
