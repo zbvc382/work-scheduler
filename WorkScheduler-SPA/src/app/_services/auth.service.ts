@@ -33,5 +33,4 @@ export class AuthService implements OnInit {
         localStorage.removeItem('token');
         this.loggedIn.next(false);
     }
-
 }
