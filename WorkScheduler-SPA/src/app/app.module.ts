@@ -12,6 +12,7 @@ import { AuthService } from './_services/auth.service';
 import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
+import { AuthGuard } from './_guards/auth.guard';
 
 @NgModule({
    declarations: [
@@ -29,7 +30,8 @@ import { appRoutes } from './routes';
       RouterModule.forRoot(appRoutes)
    ],
    providers: [
-      AuthService
+      AuthService,
+      AuthGuard
    ],
    bootstrap: [
       AppComponent
