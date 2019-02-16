@@ -1,36 +1,36 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AuthService } from '../_services/auth.service';
 import { Router } from '@angular/router';
-import { take, map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
-
+  subscription: Subscription;
   constructor(private authService: AuthService, private fb: FormBuilder, private router: Router) {}
 
   ngOnInit() {
-    this.redirectIfLoggedIn();
+    this.subscription = this.authService.isLoggedIn.subscribe(loggedIn => {
+      if (loggedIn) {
+        this.router.navigate(['/home']);
+      }
+    });
     this.createLoginForm();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
   createLoginForm() {
     this.loginForm = this.fb.group({
       username: ['', Validators.required ],
       password: ['', Validators.required]
-    });
-  }
-
-  redirectIfLoggedIn() {
-    this.authService.isLoggedIn.subscribe(loggedIn => {
-      if (loggedIn) {
-        this.router.navigate(['/home']);
-      }
     });
   }
 

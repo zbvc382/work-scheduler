@@ -1,20 +1,21 @@
 <!-- Subscribe to 'isLoggedIn$' and store its value in local template variable 'isLoggedIn'-->
-<mat-toolbar color="primary" *ngIf="isLoggedIn$ | async as isLoggedIn">
+<mat-toolbar color="primary" class="mat-elevation-z5" *ngIf="isLoggedIn$ | async as isLoggedIn">
   <mat-toolbar-row>
-    <span>Logo</span>
-    <span class="nav-spacer"></span>
-    <button mat-button [matMenuTriggerFor]="menu">
-      <mat-icon class="account-icon">account_box</mat-icon>
+    <button mat-button class="mat-button-icon" [routerLink]="['/home']">
+      <mat-icon>home</mat-icon>
     </button>
-    <mat-menu #menu="matMenu">
-      <button mat-menu-item [routerLink]="['/login']">
-        <mat-icon>settings</mat-icon>
-        <span>Settings</span>
-      </button>
-      <button mat-menu-item (click)="onLogOut()">
-        <mat-icon>exit_to_app</mat-icon>
-        <span>Logout</span>
-      </button>
-    </mat-menu>
+    <button mat-button [routerLink]="['/home']">
+      <span class="nav-button-text">Invoices</span>
+    </button>
+    <button mat-button [routerLink]="['/home']">
+      <span class="nav-button-text">Clients</span>
+    </button>
+    <span class="nav-spacer"></span>
+    <button mat-button class="mat-button-icon">
+      <mat-icon>settings</mat-icon>
+    </button>
+    <button mat-button class="mat-button-icon" (click)="onLogOut()">
+      <mat-icon>exit_to_app</mat-icon>
+    </button>
   </mat-toolbar-row>
 </mat-toolbar>

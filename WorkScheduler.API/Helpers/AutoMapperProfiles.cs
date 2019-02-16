@@ -8,7 +8,7 @@ namespace WorkScheduler.API.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<User, UserForLoginDto>();
+
         }
     }
 }
