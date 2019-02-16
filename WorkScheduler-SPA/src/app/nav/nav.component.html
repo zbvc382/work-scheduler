@@ -1,21 +1,42 @@
-<!-- Subscribe to 'isLoggedIn$' and store its value in local template variable 'isLoggedIn'-->
-<mat-toolbar color="primary" class="mat-elevation-z5" *ngIf="isLoggedIn$ | async as isLoggedIn">
-  <mat-toolbar-row>
-    <button mat-button class="mat-button-icon" [routerLink]="['/home']">
-      <mat-icon>home</mat-icon>
-    </button>
-    <button mat-button [routerLink]="['/home']">
-      <span class="nav-button-text">Invoices</span>
-    </button>
-    <button mat-button [routerLink]="['/home']">
-      <span class="nav-button-text">Clients</span>
-    </button>
-    <span class="nav-spacer"></span>
-    <button mat-button class="mat-button-icon">
-      <mat-icon>settings</mat-icon>
-    </button>
-    <button mat-button class="mat-button-icon" (click)="onLogOut()">
-      <mat-icon>exit_to_app</mat-icon>
-    </button>
-  </mat-toolbar-row>
-</mat-toolbar>
+<mat-sidenav-container *ngIf="isLoggedIn$ | async">
+    <mat-sidenav #sidenav role="navigation">
+      <mat-nav-list>
+        <a mat-list-item [routerLink]="['/home']" (click)="sidenav.close()">
+          <span class="nav-caption">Invoices</span>
+        </a>
+        <a mat-list-item [routerLink]="['/home']" (click)="sidenav.close()">
+          <span class="nav-caption">Clients</span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <mat-toolbar color="primary">
+        <div fxHide.gt-xs>
+          <button mat-button id="mat-button-icon-drawer" (click)="sidenav.open()">
+            <mat-icon>menu</mat-icon>
+          </button>
+        </div>
+        <button mat-button class="mat-button-icon-link" [routerLink]="['/home']">
+          <mat-icon>home</mat-icon>
+        </button>
+        <div fxFlex fxLayout fxLayoutAlign="start" fxHide.xs>
+          <ul fxLayout fxLayoutGap="15px" class="navigation-items">
+            <button mat-button [routerLink]="['/home']">
+              <span class="nav-button-text">Invoices</span>
+            </button>
+            <button mat-button [routerLink]="['/home']">
+              <span class="nav-button-text">Clients</span>
+            </button>
+          </ul>
+        </div>
+        <div fxFlex fxLayout fxLayoutAlign="end">
+          <button mat-button class="mat-button-icon-link">
+            <mat-icon>settings</mat-icon>
+          </button>
+          <button mat-button class="mat-button-icon-link" (click)="onLogOut()">
+            <mat-icon>exit_to_app</mat-icon>
+          </button>
+        </div>
+      </mat-toolbar>
+    </mat-sidenav-content>
+  </mat-sidenav-container>

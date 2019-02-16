@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { AuthService } from './_services/auth.service';
 
 @Component({
@@ -7,7 +8,7 @@ import { AuthService } from './_services/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  title = 'WorkScheduler-SPA';
+  isLoggedIn$: Observable<boolean>;
 
   constructor(private authService: AuthService) {}
 
@@ -15,5 +16,6 @@ export class AppComponent implements OnInit {
     if (localStorage.getItem('token')) {
       this.authService.loggedIn.next(true);
     }
+    this.isLoggedIn$ = this.authService.isLoggedIn;
   }
 }

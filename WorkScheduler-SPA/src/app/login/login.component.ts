@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   subscription: Subscription;
   constructor(private authService: AuthService, private fb: FormBuilder, private router: Router) {}
@@ -23,13 +23,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.createLoginForm();
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
   createLoginForm() {
     this.loginForm = this.fb.group({
-      username: ['', Validators.required ],
+      username: ['', Validators.required],
       password: ['', Validators.required]
     });
   }

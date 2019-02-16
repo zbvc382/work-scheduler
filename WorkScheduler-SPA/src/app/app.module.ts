@@ -13,19 +13,25 @@ import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
 import { AuthGuard } from './_guards/auth.guard';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { HeaderComponent } from './header/header.component';
+import { SidenavListComponent } from './sidenav-list/sidenav-list.component';
 
 @NgModule({
    declarations: [
       AppComponent,
       NavComponent,
       LoginComponent,
-      HomeComponent
+      HomeComponent,
+      HeaderComponent,
+      SidenavListComponent
    ],
    imports: [
       BrowserModule,
       HttpClientModule,
       BrowserAnimationsModule,
       MaterialModule,
+      FlexLayoutModule,
       ReactiveFormsModule,
       RouterModule.forRoot(appRoutes)
    ],
