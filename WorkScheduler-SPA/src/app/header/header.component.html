@@ -1,14 +1,14 @@
-<mat-toolbar color="primary">
+<mat-toolbar class="mat-elevation-z5" color="primary">
   <div fxHide.gt-xs>
     <button mat-button id="mat-button-icon-drawer" (click)="onToggleSidenav()">
       <mat-icon>menu</mat-icon>
     </button>
   </div>
-  <button mat-button class="mat-button-icon-link" [routerLink]="['/home']">
-    <mat-icon>home</mat-icon>
-  </button>
   <div fxFlex fxLayout fxLayoutAlign="start" fxHide.xs>
-    <ul fxLayout fxLayoutGap="15px" class="navigation-items">
+    <ul fxLayout fxLayoutGap="10px" class="navigation-items">
+        <button mat-button class="mat-button-icon-link" [routerLink]="['/home']">
+          <mat-icon>home</mat-icon>
+        </button>
       <button mat-button [routerLink]="['/home']">
         <span class="nav-button-text">Invoices</span>
       </button>
@@ -17,7 +17,7 @@
       </button>
     </ul>
   </div>
-  <div fxFlex fxLayout fxLayoutAlign="end">
+  <div fxFlex fxLayout fxLayoutAlign="end" id="right-side-nav-buttons">
     <button mat-button class="mat-button-icon-link">
       <mat-icon>settings</mat-icon>
     </button>

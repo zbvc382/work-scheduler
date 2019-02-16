@@ -33,3 +33,7 @@ mat-toolbar-row {
   padding-right: 22px;
   margin-bottom: 1px;
 }
+
+.navigation-items {
+  margin-left: -40px;;
+}
