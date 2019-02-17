@@ -19,23 +19,29 @@
         routerLinkActive="router-link-active"
         [routerLink]="['/invoices']"
       >
-        <span class="nav-button-text">Invoices</span>
+        <span class="left-nav-button-text">Invoices</span>
       </button>
       <button
         mat-button
         routerLinkActive="router-link-active"
         [routerLink]="['/client']"
       >
-        <span class="nav-button-text">Clients</span>
+        <span class="left-nav-button-text">Clients</span>
       </button>
     </ul>
   </div>
-  <div fxFlex fxLayout fxLayoutAlign="end">
-    <button mat-button class="mat-button-icon-link" [routerLink]="['/login']">
+  <div class="end-nav-icons" fxFlex fxLayout fxLayoutAlign="end">
+    <button mat-button [routerLink]="['/login']">
       <mat-icon>settings</mat-icon>
+      <span id="settings-nav-link" class="right-nav-button-text">
+        <p>Settings</p>
+      </span>
     </button>
     <button mat-button (click)="onLogOut()">
       <mat-icon>exit_to_app</mat-icon>
+      <span id="logout-nav-link" class="right-nav-button-text">
+        <p>Logout</p>
+      </span>
     </button>
   </div>
 </mat-toolbar>
