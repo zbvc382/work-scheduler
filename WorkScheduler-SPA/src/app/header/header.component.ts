@@ -11,10 +11,9 @@ import { Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
   @Output() public sidenavToggle = new EventEmitter();
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   onLogOut() {
     this.authService.logout();
@@ -25,6 +24,3 @@ export class HeaderComponent implements OnInit {
     this.sidenavToggle.emit();
   }
 }
-
-
-

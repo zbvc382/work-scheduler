@@ -9,18 +9,28 @@ import { Subscription } from 'rxjs';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
   subscription: Subscription;
-  constructor(private authService: AuthService, private fb: FormBuilder, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private fb: FormBuilder,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    this.subscription = this.authService.isLoggedIn.subscribe(loggedIn => {
-      if (loggedIn) {
-        this.router.navigate(['/home']);
+    this.subscription = this.authService.isLoggedIn.subscribe(value => {
+      if (value) {
+        this.router.navigate(['/']);
       }
     });
     this.createLoginForm();
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   createLoginForm() {
@@ -32,14 +42,17 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value)
-      .subscribe(next => {
-        console.log('login successfull');
-      }, error => {
-        console.log('login failed');
-      }, () => {
-        this.router.navigate(['/home']);
-      });
+      this.authService.login(this.loginForm.value).subscribe(
+        next => {
+          console.log('login successfull');
+        },
+        error => {
+          console.log('login failed');
+        },
+        () => {
+          this.router.navigate(['/home']);
+        }
+      );
     }
   }
 }
