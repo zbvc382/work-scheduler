@@ -11,9 +11,9 @@
   transform: scale(1.3);
 }
 
-.end-nav-icons .mat-icon {
+/* .end-nav-icons .mat-icon {
   color: rgba(158, 158, 158, 1);
-}
+} */
 
 .end-nav-icons .mat-button:hover .mat-icon,
 .end-nav-icons .mat-button:hover .right-nav-button-text {
@@ -63,11 +63,11 @@ span {
     border-bottom: 4px white solid;
   }
   #logout-nav-link:after {
-    content: "Logout"
+    /* content: "Logout" */
   }
-  #settings-nav-link:after {
+  /* #settings-nav-link:after {
     content: "Settings"
-  }
+  } */
 }
 
 .right-nav-button-text {

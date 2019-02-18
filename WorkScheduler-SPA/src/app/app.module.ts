@@ -8,19 +8,19 @@ import { MaterialModule } from './material';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './_services/auth.service';
-import { HomeComponent } from './home/home.component';
 import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
 import { AuthGuard } from './_guards/auth.guard';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HeaderComponent } from './header/header.component';
 import { SidenavListComponent } from './sidenav-list/sidenav-list.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
    declarations: [
       AppComponent,
       LoginComponent,
-      HomeComponent,
+      DashboardComponent,
       HeaderComponent,
       SidenavListComponent,
    ],
