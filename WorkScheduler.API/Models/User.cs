@@ -9,6 +9,5 @@ namespace WorkScheduler.API.Models
         public string LastName { get; set; }
         public string Country { get; set; }
         public ICollection<Job> Jobs { get; set; }
-        
     }
 }
