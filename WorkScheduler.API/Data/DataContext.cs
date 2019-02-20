@@ -8,5 +8,11 @@ namespace WorkScheduler.API.Data
     {
         public DataContext(DbContextOptions<DataContext> options) : base(options) {}
         
+        public DbSet<Agency> Agencies { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+        public DbSet<Landlord> Landlords { get; set; }
+        public DbSet<Private> Privates { get; set; }
+        public DbSet<Tenant> Tenants { get; set; }
+        public DbSet<Address> Addresses { get; set; }
     }
 }

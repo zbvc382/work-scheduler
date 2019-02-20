@@ -1,5 +1,10 @@
+using System;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using WorkScheduler.API.Data;
+using WorkScheduler.API.Models;
 
 namespace WorkScheduler.API.Controllers
 {
@@ -7,10 +12,30 @@ namespace WorkScheduler.API.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        [Authorize]
-        [HttpGet]
-        public IActionResult getValues() {
-            return Ok(new {value=1, value2=2});
+        private readonly DataContext context;
+
+        public ValuesController(DataContext context)
+        {
+            this.context = context;
+
         }
+        [AllowAnonymous]
+        [HttpGet("{id}", Name="getValues")]
+        public IActionResult getValues(int id)
+        {
+            var jobToReturn = context.Jobs.FirstOrDefault(j => j.Id == id);
+            return Ok(jobToReturn);
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult createJob([FromBody] Job job)
+        {
+           
+            context.Jobs.Add(job);
+            context.SaveChanges();
+            return CreatedAtRoute("getValues", new {job.Id}, job);
+        }
+
     }
 }

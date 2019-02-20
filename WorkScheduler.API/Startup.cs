@@ -41,6 +41,11 @@ namespace WorkScheduler.API
                 options.Password.RequireUppercase = false;
             });
 
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            .AddJsonOptions(opt => {
+                opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                });
+
             builder = new IdentityBuilder(builder.UserType, builder.Services);
             builder.AddEntityFrameworkStores<DataContext>();
             builder.AddUserManager<UserManager<User>>();
