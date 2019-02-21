@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using WorkScheduler.API.Models;
 
 namespace WorkScheduler.API.Data
 {
@@ -14,9 +17,11 @@ namespace WorkScheduler.API.Data
             this.DataContext = dataContext;
 
         }
-        public void Create(T entity)
+        public async Task<T> Create(T entity)
         {
-            this.DataContext.Set<T>().Add(entity);
+            await DataContext.Set<T>().AddAsync(entity);
+
+            return entity;
         }
 
         public void Delete(T entity)
@@ -24,9 +29,9 @@ namespace WorkScheduler.API.Data
             this.DataContext.Set<T>().Remove(entity);
         }
 
-        public IEnumerable<T> FindAll()
+        public IQueryable<T> FindAll()
         {
-            return this.DataContext.Set<T>();
+            return this.DataContext.Set<T>().AsQueryable();
         }
 
         public IEnumerable<T> FindByCondition(Expression<Func<T, bool>> expression)
@@ -36,7 +41,7 @@ namespace WorkScheduler.API.Data
 
         public void Save()
         {
-            this.DataContext.SaveChanges();
+            this.DataContext.SaveChangesAsync();
         }
 
         public void Update(T entity)

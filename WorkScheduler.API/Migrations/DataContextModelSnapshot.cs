@@ -166,7 +166,7 @@ namespace WorkScheduler.API.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AddressId");
+                    b.Property<int?>("AddressId");
 
                     b.Property<int?>("AgencyId");
 
@@ -374,8 +374,7 @@ namespace WorkScheduler.API.Migrations
                 {
                     b.HasOne("WorkScheduler.API.Models.Address", "Address")
                         .WithMany()
-                        .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AddressId");
 
                     b.HasOne("WorkScheduler.API.Models.Agency", "Agency")
                         .WithMany()
@@ -393,7 +392,7 @@ namespace WorkScheduler.API.Migrations
                         .WithMany()
                         .HasForeignKey("TenantId");
 
-                    b.HasOne("WorkScheduler.API.Models.User", "User")
+                    b.HasOne("WorkScheduler.API.Models.User")
                         .WithMany("Jobs")
                         .HasForeignKey("UserId");
                 });

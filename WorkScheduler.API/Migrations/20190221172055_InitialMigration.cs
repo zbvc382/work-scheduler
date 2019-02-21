@@ -258,12 +258,12 @@ namespace WorkScheduler.API.Migrations
                     DateAssigned = table.Column<DateTime>(nullable: false),
                     TimeFrom = table.Column<DateTime>(nullable: false),
                     TimeTo = table.Column<DateTime>(nullable: false),
-                    UserId = table.Column<string>(nullable: true),
-                    AddressId = table.Column<int>(nullable: false),
+                    AddressId = table.Column<int>(nullable: true),
                     AgencyId = table.Column<int>(nullable: true),
                     LandlordId = table.Column<int>(nullable: true),
                     PrivateId = table.Column<int>(nullable: true),
-                    TenantId = table.Column<int>(nullable: true)
+                    TenantId = table.Column<int>(nullable: true),
+                    UserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -273,7 +273,7 @@ namespace WorkScheduler.API.Migrations
                         column: x => x.AddressId,
                         principalTable: "Addresses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Jobs_Agencies_AgencyId",
                         column: x => x.AgencyId,

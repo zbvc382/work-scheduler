@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 
 namespace WorkScheduler.API.Models
 {
-    [Table("user")]
     public class User : IdentityUser
     {
         public string FirstName { get; set; }

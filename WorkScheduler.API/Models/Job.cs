@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WorkScheduler.API.Models
 {
-    [Table("job")]
     public class Job
     {
         public int Id { get; set; }
@@ -14,9 +13,7 @@ namespace WorkScheduler.API.Models
         public DateTime DateAssigned { get; set; }
         public DateTime TimeFrom { get; set; }
         public DateTime TimeTo { get; set; }
-        public string UserId { get; set; }
-        public User User { get; set; }
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; }
         public Address Address { get; set; }
         public int? AgencyId { get; set; }
         public Agency Agency { get; set; }
