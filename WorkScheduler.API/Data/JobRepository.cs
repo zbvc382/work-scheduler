@@ -13,12 +13,17 @@ namespace WorkScheduler.API.Data
 
         public async Task<List<Job>> GetJobs()
         {
-            return await FindAll().Include(j => j.Private).ToListAsync();
+            return await FindAll().Include(Job => Job.Private).ToListAsync();
         }
 
         public async Task<Job> GetJob(int id)
         {
-            return await FindAll().FirstOrDefaultAsync(j => j.Id == id);
+            return await FindAll()
+                .Include(Job => Job.Landlord)
+                .Include(Job => Job.Private)
+                .Include(Job => Job.Tenant)
+                .Include(Job => Job.Agency)
+                .FirstOrDefaultAsync(j => j.Id == id);
         }
     }
 }
