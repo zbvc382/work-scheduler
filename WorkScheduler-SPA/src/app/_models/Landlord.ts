@@ -1,4 +1,4 @@
-import { Address } from 'cluster';
+import { Address } from './Address';
 
 export interface Landlord {
     id: number;
