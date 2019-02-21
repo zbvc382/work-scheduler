@@ -1,7 +1,9 @@
 using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WorkScheduler.API.Models
 {
+    [Table("job")]
     public class Job
     {
         public int Id { get; set; }

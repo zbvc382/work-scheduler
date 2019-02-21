@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WorkScheduler.API.Models
 {
+    [Table("agency")]
     public class Agency {
         public int Id { get; set; }
         public string Name { get; set; }
