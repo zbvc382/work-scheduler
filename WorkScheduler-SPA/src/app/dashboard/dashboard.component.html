@@ -1,3 +1,58 @@
-<p>
-  dashboard works!
-</p>
+<mat-card>
+  <div class="main-container">
+    <div class="row">
+      <div class="col-sm-2">
+        <mat-icon class="info-icon">explore</mat-icon>
+        SW13 4NP
+      </div>
+      <div class="col-sm-2">
+        <mat-icon class="info-icon">access_time</mat-icon>
+        3PM-6PM
+      </div>
+      <div class="col-sm-2" id="person-col">
+        <mat-icon class="info-icon">person</mat-icon>
+        Josh Homes
+      </div>
+      <div class="col-sm-2">
+        <mat-icon class="info-icon">local_phone</mat-icon>
+        <a href="tel:07894875433">07894875433</a>
+      </div>
+      <div class="col-sm-4">
+        <mat-icon class="info-icon">home</mat-icon>
+        21 Hartington Road, Custom House
+      </div>
+      <button mat-button class="options-button">
+        <mat-icon class="edit-icon">edit</mat-icon>
+      </button>
+      <button mat-button class="options-button">
+        <mat-icon class="status-icon">brightness_1</mat-icon>
+      </button>
+      <button mat-button *ngIf="expanded[0]; else expandMore" class="options-button" (click)="onExpansion()">
+        <mat-icon class="expand-icon">expand_less</mat-icon>
+      </button>
+      <ng-template #expandMore>
+        <button mat-button class="options-button" (click)="onExpansion()">
+          <mat-icon class="expand-icon">expand_more</mat-icon>
+        </button>
+      </ng-template>
+    </div>
+  </div>
+  <mat-divider *ngIf="expanded[0]"></mat-divider>
+  <mat-card-content>
+    <div class="example-element-detail" [@detailExpand]="expanded[0] === true ? 'expanded' : 'collapsed'">
+      <div class="expansion-container">
+        <div class="row">
+          <div class="col-sm">
+            Contact: Josh Holmes
+          </div>
+          <div class="col-sm">
+            Address: 21 Hartington Road
+          </div>
+          <div class="col-sm">
+            Phone: 07894875433
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

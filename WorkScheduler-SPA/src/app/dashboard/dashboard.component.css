@@ -1,0 +1,91 @@
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.mat-card {
+  margin: 2%;
+}
+
+.main-container,
+.expansion-container {
+  margin-top: 1.5%;
+}
+
+.col-sm .details {
+  display: inline;
+  font-size: 120%;
+}
+
+.col-sm .mat-icon {
+  transform: scale(1.2);
+  padding-top: 10px;
+  margin-right: 2.5%;
+}
+
+@media screen and (max-width: 600px) {
+  .expansion-container .row {
+    margin-top: 10px;
+  }
+}
+
+.main-container .row,
+.expansion-container .row {
+  font-size: 16px;
+}
+
+mat-divider {
+  margin-top: 10px;
+}
+
+.expansion-container {
+  width: 100%;
+}
+
+.row > div {
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.info-icon {
+  transform: scale(0.8);
+  margin-right: 6px;
+  opacity: 1;
+  color: #484848;
+}
+
+.col-sm-2 {
+  max-width: 150px;
+}
+
+#person-col {
+  max-width: 150px;
+}
+
+.expand-icon {
+  position: relative;
+  margin-bottom: 50%;
+  transform: scale(1.4);
+}
+
+.status-icon {
+  position: relative;
+  margin-bottom: 50%;
+  transform: scale(0.8);
+}
+
+.edit-icon {
+  position: relative;
+  margin-bottom: 50%;
+  transform: scale(0.8);
+}
+
+.options-button {
+  font-size: 25px !important;
+  height: 25px !important;
+  width: 25px !important;
+}
+
+:focus {
+  outline: none !important;
+}

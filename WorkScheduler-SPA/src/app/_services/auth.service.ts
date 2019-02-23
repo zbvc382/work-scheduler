@@ -11,7 +11,7 @@ export class AuthService implements OnInit {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit(): void {}
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();

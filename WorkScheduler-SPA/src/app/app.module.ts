@@ -15,6 +15,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { HeaderComponent } from './header/header.component';
 import { SidenavListComponent } from './sidenav-list/sidenav-list.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { JobService } from './_services/job.service';
 
 @NgModule({
    declarations: [
@@ -36,6 +37,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
    ],
    providers: [
       AuthService,
+      JobService,
       AuthGuard
    ],
    bootstrap: [
