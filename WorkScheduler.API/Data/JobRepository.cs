@@ -13,7 +13,7 @@ namespace WorkScheduler.API.Data
 
         public async Task<List<Job>> GetJobs()
         {
-            return await FindAll().Include(Job => Job.Private).ToListAsync();
+            return await FindAll().Include(Job => Job.Private).Include(Job => Job.Address).ToListAsync();
         }
 
         public async Task<Job> GetJob(int id)
@@ -23,6 +23,7 @@ namespace WorkScheduler.API.Data
                 .Include(Job => Job.Private)
                 .Include(Job => Job.Tenant)
                 .Include(Job => Job.Agency)
+                .Include(Job => Job.Address)
                 .FirstOrDefaultAsync(j => j.Id == id);
         }
     }

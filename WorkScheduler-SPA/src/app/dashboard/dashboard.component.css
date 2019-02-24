@@ -5,6 +5,7 @@
 
 .mat-card {
   margin: 2%;
+  padding: 2%;
 }
 
 .main-container,
@@ -12,26 +13,45 @@
   margin-top: 1.5%;
 }
 
-.col-sm .details {
+/* .col-sm .details {
   display: inline;
-  font-size: 120%;
+  font-size: 200%;
+} */
+
+.info-icon {
+  transform: scale(1.25);
+  margin-right: 8px;
+  color: #484848;
 }
 
-.col-sm .mat-icon {
+a {
+  color: black;
+}
+
+/* .col-sm .mat-icon {
   transform: scale(1.2);
+  margin-right: 6px;
   padding-top: 10px;
   margin-right: 2.5%;
-}
+} */
 
 @media screen and (max-width: 600px) {
   .expansion-container .row {
     margin-top: 10px;
   }
+  .info-icon {
+    transform: scale(0.9);
+    margin-right: 8px;
+    color: #484848;
+  }
+ .row > div {
+   margin-bottom: 5px;
+ }
 }
 
 .main-container .row,
 .expansion-container .row {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 mat-divider {
@@ -45,45 +65,37 @@ mat-divider {
 .row > div {
   display: inline-flex;
   vertical-align: middle;
-}
 
-.info-icon {
-  transform: scale(0.8);
-  margin-right: 6px;
-  opacity: 1;
-  color: #484848;
 }
 
 .col-sm-2 {
-  max-width: 150px;
-}
-
-#person-col {
-  max-width: 150px;
+  max-width: 180px;
 }
 
 .expand-icon {
   position: relative;
   margin-bottom: 50%;
-  transform: scale(1.4);
+  transform: scale(1.7);
+
 }
 
 .status-icon {
   position: relative;
   margin-bottom: 50%;
-  transform: scale(0.8);
+  transform: scale(1);
 }
 
 .edit-icon {
   position: relative;
   margin-bottom: 50%;
-  transform: scale(0.8);
+  transform: scale(1);
 }
 
 .options-button {
-  font-size: 25px !important;
-  height: 25px !important;
-  width: 25px !important;
+  font-size: 30px !important;
+  height: 30px !important;
+  width: 30px !important;
+  /* display: flex; */
 }
 
 :focus {

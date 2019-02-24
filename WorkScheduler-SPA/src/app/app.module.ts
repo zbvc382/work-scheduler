@@ -16,6 +16,8 @@ import { HeaderComponent } from './header/header.component';
 import { SidenavListComponent } from './sidenav-list/sidenav-list.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { JobService } from './_services/job.service';
+import { CardComponent } from './card/card.component';
+import { JobsComponent } from './jobs/jobs.component';
 
 @NgModule({
    declarations: [
@@ -24,6 +26,9 @@ import { JobService } from './_services/job.service';
       DashboardComponent,
       HeaderComponent,
       SidenavListComponent,
+      CardComponent,
+      JobsComponent,
+      JobsComponent
    ],
    imports: [
       BrowserModule,
