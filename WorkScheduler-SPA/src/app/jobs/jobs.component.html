@@ -1,1 +1,13 @@
 <app-card [data]="jobs"></app-card>
+<button (click)="setSlots()"></button>
+<div *ngFor="let slot of slots">
+    <mat-card *ngIf="slot.filled; else emptySlot">
+        {{slot.job.payerType}}
+        {{slot.job.timeFrom | date: 'shortTime'}} - {{slot.job.timeTo | date: 'shortTime'}}
+    </mat-card>
+    <ng-template #emptySlot>
+        <mat-card>
+            {{slot.defaultTimeFrom | date: 'shortTime'}} - {{slot.defaultTimeTo | date: 'shortTime'}}
+        </mat-card>
+    </ng-template>
+</div>
