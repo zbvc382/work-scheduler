@@ -68,10 +68,6 @@
   
   }
   
-  .col-sm-2 {
-    max-width: 180px;
-  }
-  
   .expand-icon {
     position: relative;
     margin-bottom: 50%;
@@ -100,9 +96,5 @@
   
   :focus {
     outline: none !important;
-  }
-
-  .time-info {
-    max-width: 250px;
   }
   

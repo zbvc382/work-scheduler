@@ -1,4 +1,5 @@
-<app-card [data]="jobs"></app-card>
+<!-- <app-card [data]="jobs"></app-card> -->
+
 <button (click)="setSlots()"></button>
 <div *ngFor="let slot of slots">
     <mat-card *ngIf="slot.filled; else emptySlot">

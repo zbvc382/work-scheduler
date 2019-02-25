@@ -1,11 +1,11 @@
-<!-- <mat-card *ngFor="let job of jobs">
+<mat-card *ngFor="let job of jobs">
     <div class="main-container">
       <div class="row">
-        <div class="col-sm-2">
+        <div class="col-sm-2" id="postcode-col">
           <mat-icon class="info-icon">explore</mat-icon>
-          {{job.address.postCode}}
+          E16 3NP
         </div>
-        <div class="col-sm-2 time-info">
+        <div class="col-sm-2" id="time-col">
           <mat-icon class="info-icon">access_time</mat-icon>
           {{job.timeFrom | date: 'shortTime'}} - {{job.timeTo | date: 'shortTime'}}
         </div>
@@ -13,11 +13,11 @@
           <mat-icon class="info-icon">person</mat-icon>
           Josh Homes
         </div>
-        <div class="col-sm-2">
+        <div class="col-sm-2" id="phone-col">
           <mat-icon class="info-icon">local_phone</mat-icon>
           <a href="tel:{{job.private.phoneNumber}}">{{job.private.phoneNumber}}</a>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4" id="address-col">
           <mat-icon class="info-icon">home</mat-icon>
           {{job.address.addressLine1}}
         </div>
@@ -73,4 +73,4 @@
         </div>
       </div>
     </mat-card-content>
-  </mat-card> -->
+  </mat-card>
