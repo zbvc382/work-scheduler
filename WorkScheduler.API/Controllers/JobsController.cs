@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -44,6 +45,14 @@ namespace WorkScheduler.API.Controllers
 
             return CreatedAtRoute("GetJob", new {id = jobToReturn.Id}, jobToReturn);
 
+        }
+
+        [AllowAnonymous]
+        [HttpGet("date/{date}")]
+        public async Task<IActionResult> getJobWeek(DateTime date) {
+            var jobsToReturn = await _jobRepository.GetJobsByWeek(date);
+
+            return Ok(jobsToReturn);
         }
     }
 }

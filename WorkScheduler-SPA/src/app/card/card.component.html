@@ -1,5 +1,8 @@
-<mat-card *ngFor="let job of jobs">
-    <div class="main-container">
+<div *ngFor="let slot of slots">
+
+
+<mat-card *ngIf="slot.job !== null; else emptySlot">
+    <div class="card-container">
       <div class="row">
         <div class="col-sm-2" id="postcode-col">
           <mat-icon class="info-icon">explore</mat-icon>
@@ -7,7 +10,7 @@
         </div>
         <div class="col-sm-2" id="time-col">
           <mat-icon class="info-icon">access_time</mat-icon>
-          {{job.timeFrom | date: 'shortTime'}} - {{job.timeTo | date: 'shortTime'}}
+          {{slot.job.timeFrom | date: 'shortTime'}} - {{slot.job.timeTo | date: 'shortTime'}}
         </div>
         <div class="col-sm-2">
           <mat-icon class="info-icon">person</mat-icon>
@@ -15,11 +18,11 @@
         </div>
         <div class="col-sm-2" id="phone-col">
           <mat-icon class="info-icon">local_phone</mat-icon>
-          <a href="tel:{{job.private.phoneNumber}}">{{job.private.phoneNumber}}</a>
+          <a href="tel:{{slot.job.private.phoneNumber}}">{{slot.job.private.phoneNumber}}</a>
         </div>
         <div class="col-sm-4" id="address-col">
           <mat-icon class="info-icon">home</mat-icon>
-          {{job.address.addressLine1}}
+          {{slot.job.address.addressLine1}}
         </div>
         <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
           <button mat-button class="options-button">
@@ -74,3 +77,9 @@
       </div>
     </mat-card-content>
   </mat-card>
+  <ng-template #emptySlot>
+    <mat-card>
+      OPEN SLOT - TIME: {{slot.job | date: 'shortTime'}} - {{slot.defaultTo | date: 'shortTime'}}
+    </mat-card>
+  </ng-template>
+</div>

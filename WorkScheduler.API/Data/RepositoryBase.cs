@@ -34,9 +34,9 @@ namespace WorkScheduler.API.Data
             return this.DataContext.Set<T>().AsQueryable();
         }
 
-        public IEnumerable<T> FindByCondition(Expression<Func<T, bool>> expression)
+        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
         {
-            return this.DataContext.Set<T>().Where(expression);
+            return this.DataContext.Set<T>().Where(expression).AsQueryable();
         }
 
         public void Save()

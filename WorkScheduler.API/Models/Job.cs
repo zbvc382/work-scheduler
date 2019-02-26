@@ -13,6 +13,8 @@ namespace WorkScheduler.API.Models
         public DateTime DateAssigned { get; set; }
         public DateTime TimeFrom { get; set; }
         public DateTime TimeTo { get; set; }
+        public bool slotReplaced { get; set; }
+        public int? slotIndex { get; set; }
         public int? AddressId { get; set; }
         public Address Address { get; set; }
         public int? AgencyId { get; set; }

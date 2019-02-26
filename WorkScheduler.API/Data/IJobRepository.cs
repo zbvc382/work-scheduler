@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,5 +10,7 @@ namespace WorkScheduler.API.Data
     {
         Task<List<Job>> GetJobs();
         Task<Job> GetJob(int id);
+        Task<List<Job>> GetJobsByWeek(DateTime start);
+    
     }
 }

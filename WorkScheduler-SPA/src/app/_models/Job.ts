@@ -12,6 +12,8 @@ export interface Job {
     dateAssigned: Date;
     timeFrom: Date;
     timeTo: Date;
+    slotReplaced: boolean;
+    slotIndex?: number;
     addressId?: number;
     address?: Address;
     agencyId?: number;

@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using WorkScheduler.API.Helpers;
 using WorkScheduler.API.Models;
 
 namespace WorkScheduler.API.Data
@@ -25,6 +27,12 @@ namespace WorkScheduler.API.Data
                 .Include(Job => Job.Agency)
                 .Include(Job => Job.Address)
                 .FirstOrDefaultAsync(j => j.Id == id);
+        }
+
+        public async Task<List<Job>> GetJobsByWeek(DateTime start)
+        {
+            var end = BusinessDays.getEndDate(start);
+            return await FindByCondition(x => x.DateAssigned >= start && x.DateAssigned < end).ToListAsync();
         }
     }
 }

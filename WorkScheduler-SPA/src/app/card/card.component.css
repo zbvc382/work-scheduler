@@ -7,11 +7,7 @@
     margin: 2%;
     padding: 2%;
   }
-  
-  .main-container,
-  .expansion-container {
-    margin-top: 1.5%;
-  }
+
   
   /* .col-sm .details {
     display: inline;
@@ -47,11 +43,6 @@
    .row > div {
      margin-bottom: 5px;
    }
-  }
-  
-  .main-container .row,
-  .expansion-container .row {
-    font-size: 18px;
   }
   
   mat-divider {

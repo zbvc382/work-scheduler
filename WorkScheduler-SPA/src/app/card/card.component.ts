@@ -3,6 +3,7 @@ import { Job } from '../_models/Job';
 import { JobService } from '../_services/job.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { BehaviorSubject } from 'rxjs';
+import { Slot } from '../_models/slot';
 
 @Component({
   selector: 'app-card',
@@ -18,10 +19,10 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class CardComponent implements OnInit {
   expanded: boolean[] = [false];
-  jobs: Job[];
-  private $data = new BehaviorSubject<Job[]>([]);
+  slots: Slot[];
+  private $data = new BehaviorSubject<Slot[]>([]);
 
-  @Input() set data(value: Job[]) {
+  @Input() set data(value: Slot[]) {
     this.$data.next(value);
   }
 
@@ -29,11 +30,11 @@ export class CardComponent implements OnInit {
     return this.$data.getValue();
   }
 
-  constructor(private jobsService: JobService) { }
+  constructor() { }
 
   ngOnInit() {
     this.$data.subscribe(j => {
-      this.jobs = this.data;
+      this.slots = this.data;
     });
   }
 
