@@ -1,5 +1,24 @@
 <div *ngFor="let day of days">
-  {{day.date | date: 'fullDate'}}
+    <!-- <div class="row week-header">
+        <div fxFlex fxLayout fxLayoutAlign="start">
+            <button mat-raised-button>Add Job</button>
+        </div>
+        <div fxFlex fxLayout fxLayoutAlign="end">
+            {{day.date | date: 'fullDate'}}
+        </div> -->
+
+        <div class="row week-header">
+         
+            <button mat-fab>
+                <mat-icon aria-label="Example icon-button with a heart icon">add_circle</mat-icon>
+              </button>
+          
+    <span>
+        {{day.date | date: 'fullDate'}}
+    </span>
+    
+     
+    </div>
   <div *ngFor="let slot of day.slots">
     <mat-card *ngIf="slot.job !== null; else emptySlot">
       <div class="card-container">
@@ -12,7 +31,7 @@
             <mat-icon class="info-icon">access_time</mat-icon>
             {{slot.job.timeFrom | date: 'shortTime'}} - {{slot.job.timeTo | date: 'shortTime'}}
           </div>
-          <div class="col-sm-2">
+          <div class="col-sm-2" id="contact-col">
             <mat-icon class="info-icon">person</mat-icon>
             Josh Homes
           </div>
@@ -77,6 +96,9 @@
         </div>
       </mat-card-content>
     </mat-card>
+    <ng-template #filledSlot>
+
+    </ng-template>
     <ng-template #emptySlot>
       <mat-card>
         OPEN SLOT - TIME: {{slot.defaultFrom | date: 'shortTime'}} - {{slot.defaultTo | date: 'shortTime'}}
