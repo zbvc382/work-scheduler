@@ -3,7 +3,7 @@ import { Job } from '../_models/Job';
 import { JobService } from '../_services/job.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { BehaviorSubject } from 'rxjs';
-import { Slot } from '../_models/slot';
+import { Slot } from '../_models/Slot';
 
 @Component({
   selector: 'app-card',

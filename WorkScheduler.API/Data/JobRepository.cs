@@ -32,7 +32,13 @@ namespace WorkScheduler.API.Data
         public async Task<List<Job>> GetJobsByWeek(DateTime start)
         {
             var end = BusinessDays.getEndDate(start);
-            return await FindByCondition(x => x.DateAssigned >= start && x.DateAssigned < end).ToListAsync();
+            return await FindByCondition(x => x.DateAssigned >= start && x.DateAssigned < end)
+                .Include(Job => Job.Landlord)
+                .Include(Job => Job.Private)
+                .Include(Job => Job.Tenant)
+                .Include(Job => Job.Agency)
+                .Include(Job => Job.Address)
+                .ToListAsync();
         }
     }
 }

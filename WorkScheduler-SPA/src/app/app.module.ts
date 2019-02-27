@@ -18,6 +18,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { JobService } from './_services/job.service';
 import { CardComponent } from './card/card.component';
 import { JobsComponent } from './jobs/jobs.component';
+import { MomentModule } from 'ngx-moment';
+import { DateFormat } from './_pipes/date-format.pipe';
 
 @NgModule({
    declarations: [
@@ -38,12 +40,14 @@ import { JobsComponent } from './jobs/jobs.component';
       FlexLayoutModule,
       ReactiveFormsModule,
       RouterModule,
+      MomentModule,
       RouterModule.forRoot(appRoutes)
    ],
    providers: [
       AuthService,
       JobService,
-      AuthGuard
+      AuthGuard,
+      DateFormat
    ],
    bootstrap: [
       AppComponent
