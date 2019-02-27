@@ -20,6 +20,7 @@ import { CardComponent } from './card/card.component';
 import { JobsComponent } from './jobs/jobs.component';
 import { MomentModule } from 'ngx-moment';
 import { DateFormat } from './_pipes/date-format.pipe';
+import { SlotService } from './_services/slot.service';
 
 @NgModule({
    declarations: [
@@ -47,7 +48,8 @@ import { DateFormat } from './_pipes/date-format.pipe';
       AuthService,
       JobService,
       AuthGuard,
-      DateFormat
+      DateFormat,
+      SlotService
    ],
    bootstrap: [
       AppComponent

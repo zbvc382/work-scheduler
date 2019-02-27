@@ -11,7 +11,7 @@ namespace WorkScheduler.API.Data
 {
     public class JobRepository : RepositoryBase<Job>, IJobRepository
     {
-        public JobRepository(DataContext dataContext) : base(dataContext) {}
+        public JobRepository(DataContext dataContext) : base(dataContext) { }
 
         public async Task<List<Job>> GetJobs()
         {
