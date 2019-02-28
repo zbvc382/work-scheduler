@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { BehaviorSubject } from 'rxjs';
 import { Day } from '../_models/Day';
@@ -18,7 +18,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
     ]),
   ]
 })
-export class CardComponent implements OnInit {
+export class CardComponent implements OnInit, OnDestroy {
   date = new FormControl(new Date());
   expanded: boolean[] = [false];
   days: Day[];
@@ -38,6 +38,11 @@ export class CardComponent implements OnInit {
     this.$data.subscribe(j => {
       this.days = this.data;
     });
+    console.log('on init');
+  }
+
+  ngOnDestroy(): void {
+    console.log('on destroy');
   }
 
   onExpansion() {

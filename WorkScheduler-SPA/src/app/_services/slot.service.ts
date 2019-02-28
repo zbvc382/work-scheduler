@@ -33,7 +33,10 @@ export class SlotService {
       }
     );
     return this.days;
+  }
 
+  clearWeekSlots() {
+    this.days = [];
   }
 
   private setSlots() {

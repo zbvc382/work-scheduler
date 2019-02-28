@@ -23,5 +23,6 @@ export class JobsComponent implements OnInit {
 
   ngOnInit() {
     this.days = this.slotService.getWeekSlots(new Date());
+    this.slotService.clearWeekSlots();
   }
 }
