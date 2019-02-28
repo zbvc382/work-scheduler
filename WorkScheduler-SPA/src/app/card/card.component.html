@@ -1,26 +1,40 @@
+<div class="main-toolbar">
+  <div fxFlex fxLayout fxLayoutAlign="start">
+      <mat-form-field class="calendar-picker">
+          <input matInput [matDatepicker]="dp" (click)="dp.open()" [formControl]="date">
+          <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+          <mat-datepicker [touchUi]="isMobile" #dp></mat-datepicker>
+        </mat-form-field>
+  </div>
+  <div fxFlex fxLayout fxLayoutAlign="end">
+    <div class="search-form">
+      <mat-form-field class="search-bar">
+        <input type="search" matInput placeholder="Search Jobs">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
 <div *ngFor="let day of days">
-    <!-- <div class="row week-header">
-        <div fxFlex fxLayout fxLayoutAlign="start">
-            <button mat-raised-button>Add Job</button>
+<div class="weekday-display">
+      <div fxFlex fxLayout fxLayoutGap="5px" fxLayoutAlign="start">
+       <button mat-raised-button>
+         <mat-icon>
+           add
+         </mat-icon>
+       </button>
+       <button mat-raised-button fxHide.xs>
+          <mat-icon>
+              print
+            </mat-icon>
+        </button>
         </div>
         <div fxFlex fxLayout fxLayoutAlign="end">
             {{day.date | date: 'fullDate'}}
-        </div> -->
-
-        <div class="row week-header">
-         
-            <button mat-fab>
-                <mat-icon aria-label="Example icon-button with a heart icon">add_circle</mat-icon>
-              </button>
-          
-    <span>
-        {{day.date | date: 'fullDate'}}
-    </span>
-    
-     
-    </div>
+          </div>
+</div>
   <div *ngFor="let slot of day.slots">
-    <mat-card *ngIf="slot.job !== null; else emptySlot">
+    <mat-card class="filled-mat-card" *ngIf="slot.job !== null; else emptySlot">
       <div class="card-container">
         <div class="row">
           <div class="col-sm-2" id="postcode-col">
@@ -97,11 +111,26 @@
       </mat-card-content>
     </mat-card>
     <ng-template #filledSlot>
-
     </ng-template>
     <ng-template #emptySlot>
-      <mat-card>
-        OPEN SLOT - TIME: {{slot.defaultFrom | date: 'shortTime'}} - {{slot.defaultTo | date: 'shortTime'}}
+      <mat-card class="empty-mat-card">
+        <div id="empty-slot-time">
+          {{slot.defaultFrom | date: 'shortTime'}} - {{slot.defaultTo | date: 'shortTime'}}
+        </div>
+        <div fxHide.xs fxLayout="row" fxLayoutAlign="center center">
+          <button mat-icon-button [disableRipple]="true">
+            <mat-icon id="add-circle-icon">
+              add
+            </mat-icon>
+          </button>
+        </div>
+        <div fxHide.gt-xs fxLayout="row" fxLayoutAlign="center center">
+          <button mat-icon-button [disableRipple]="true">
+            <mat-icon id="add-circle-icon">
+              add
+            </mat-icon>
+          </button>
+        </div>
       </mat-card>
     </ng-template>
   </div>

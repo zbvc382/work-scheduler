@@ -3,11 +3,25 @@
   display: flex;
 }
 
-.mat-card {
+.filled-mat-card {
   margin: 2%;
+  margin-top: 1%;
   padding-top: 2%;
   padding-right: 2%;
   padding-left: 2%;
+  border-radius: 0;
+}
+
+.main-toolbar {
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+.empty-mat-card {
+  margin: 2%;
+  position: relative;
+  padding: 1.2%;
+  border-radius: 0;
 }
 
 a {
@@ -55,35 +69,37 @@ mat-divider {
   outline: none !important;
 }
 
-@media screen and (max-width: 600px) {
+@media (max-width: 600px) {
   .info-icon {
-  transform: scale(0.85);
-  margin-right: 8px;
-  color: #484848;
-}
-.week-header span {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  font-size: 15px;
-  font-weight: 120;
-}
-
-.week-header {
-  margin-left: 8px;
-  margin-right: 25px;
-  position: relative;
-}
-}
-
-@media screen and (min-width: 1280px) and (max-width: 1400px) {
-  .mat-card {
-    margin: 1%;
-    padding-top: 1%;
-    padding-right: 1%;
-    padding-left: 1%;
+    transform: scale(0.85);
+    margin-right: 8px;
+    color: #484848;
   }
-  
+  .weekday-display > div {
+    font-size: 15px;
+    opacity: 0.5;
+  }
+
+  .weekday-display {
+    margin-right: 2%;
+    margin-bottom: 1.5%;
+  }
+
+  #empty-slot-time {
+    position: absolute;
+    padding-top: 3%;
+    font-size: 85%;
+    opacity: 0.5;
+    padding-left: 2.5%;
+  }
+
+  .calendar-picker {
+    max-width: 150px;
+  }
+
+  .search-bar {
+    width: 150px;
+  }
 }
 
 @media screen and (min-width: 1280px) {
@@ -98,17 +114,17 @@ mat-divider {
   .row > div {
     margin-bottom: 5px;
   }
-  #postcode-col{
+  #postcode-col {
     min-width: 130px;
     max-width: 130px;
   }
 
-  #time-col{
+  #time-col {
     min-width: 220px;
     max-width: 220px;
   }
 
-  #contact-col{
+  #contact-col {
     min-width: 180px;
     max-width: 180px;
   }
@@ -128,32 +144,67 @@ mat-divider {
     margin-bottom: 50%;
     transform: scale(1.5);
   }
-  
+
   .status-icon {
     position: relative;
     margin-bottom: 50%;
     transform: scale(0.8);
   }
-  
+
   .edit-icon {
     position: relative;
     margin-bottom: 50%;
     transform: scale(0.8);
   }
-  .week-header span {
-    position: absolute;
-    bottom: 0;
-    right: 0;
+  .weekday-display > div {
     font-size: 25px;
     font-weight: 100;
   }
-  .week-header {
-    margin-left: 35px;
+  .weekday-display {
     margin-right: 40px;
-    position: relative;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 2%;
+  }
+
+  .weekday-display button {
+    background: #3f51b5;
+    color: white;
+  }
+
+  .weekday-display .mat-icon {
+    color: white;
+  }
+
+  #empty-slot-time {
+    position: absolute;
+    padding-top: 0.5%;
+    opacity: 0.5;
+    padding-left: 20px;
+  }
+
+  .search-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+
+  .search-bar {
+    width: 100%;
   }
 }
 
-.week-header .mat-raised-button {
-  /* color: green; */
+.mat-icon-button {
+  height: 40px !important;
+  width: 40px !important;
+}
+
+.mat-icon-button:hover #add-circle-icon {
+  color: #3f51b5;
+  opacity: 1;
+}
+
+#add-circle-icon {
+  transform: scale(2);
+  opacity: 0.25;
 }

@@ -2,6 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { BehaviorSubject } from 'rxjs';
 import { Day } from '../_models/Day';
+import { FormControl } from '@angular/forms';
+import { BreakpointObserver } from '@angular/cdk/layout';
+
 
 @Component({
   selector: 'app-card',
@@ -16,6 +19,7 @@ import { Day } from '../_models/Day';
   ]
 })
 export class CardComponent implements OnInit {
+  date = new FormControl(new Date());
   expanded: boolean[] = [false];
   days: Day[];
   private $data = new BehaviorSubject<Day[]>([]);
@@ -28,7 +32,7 @@ export class CardComponent implements OnInit {
     return this.$data.getValue();
   }
 
-  constructor() { }
+  constructor(private breakpointObserver: BreakpointObserver) { }
 
   ngOnInit() {
     this.$data.subscribe(j => {
@@ -42,5 +46,9 @@ export class CardComponent implements OnInit {
     } else {
       this.expanded[0] = false;
     }
+  }
+
+  get isMobile() {
+    return this.breakpointObserver.isMatched('(max-width: 600px)');
   }
 }

@@ -16,9 +16,6 @@
   color: white;
 }
 
-mat-toolbar {
-  margin-bottom: 0;
-}
 .mat-button:hover .left-nav-button-text {
   color: white;
 }

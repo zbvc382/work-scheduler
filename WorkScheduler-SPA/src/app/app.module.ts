@@ -21,6 +21,9 @@ import { JobsComponent } from './jobs/jobs.component';
 import { MomentModule } from 'ngx-moment';
 import { DateFormat } from './_pipes/date-format.pipe';
 import { SlotService } from './_services/slot.service';
+import { NgMatSearchBarModule } from 'ng-mat-search-bar';
+import { MomentDateModule } from '@angular/material-moment-adapter';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
    declarations: [
@@ -42,14 +45,18 @@ import { SlotService } from './_services/slot.service';
       ReactiveFormsModule,
       RouterModule,
       MomentModule,
-      RouterModule.forRoot(appRoutes)
+      RouterModule.forRoot(appRoutes),
+      NgMatSearchBarModule,
+      LayoutModule
+
    ],
    providers: [
       AuthService,
       JobService,
       AuthGuard,
       DateFormat,
-      SlotService
+      SlotService,
+      MomentDateModule
    ],
    bootstrap: [
       AppComponent
