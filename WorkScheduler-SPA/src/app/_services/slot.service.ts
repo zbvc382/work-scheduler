@@ -4,6 +4,7 @@ import { JobService } from './job.service';
 import { DateFormat } from '../_pipes/date-format.pipe';
 import { Job } from '../_models/Job';
 import { Day } from '../_models/Day';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +12,11 @@ import { Day } from '../_models/Day';
 export class SlotService {
   private jobs: Job[] = [];
   private days: Day[] = [];
+  private days$ = new BehaviorSubject<Day[]>([]);
 
   constructor(private jobService: JobService, private dateFormatPipe: DateFormat) { }
 
-  getWeekSlots(date: Date): Day[] {
+  getWeekSlots(date: Date): Observable<Day[]> {
     date.setHours(0, 0, 0, 0);
     const dateFormated = this.dateFormatPipe.transform(date);
 
@@ -27,16 +29,19 @@ export class SlotService {
         });
         this.jobs = jobs;
         this.setSlots();
+        this.days$.next(this.days);
+        this.Clear();
       },
       error => {
         console.log('Failed to fetch jobs.');
       }
     );
-    return this.days;
+    return this.days$.asObservable();
   }
 
-  clearWeekSlots() {
+  private Clear() {
     this.days = [];
+    this.jobs = [];
   }
 
   private setSlots() {
