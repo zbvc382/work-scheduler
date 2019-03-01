@@ -20,7 +20,7 @@ namespace WorkScheduler.API.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetJobs()
         {
@@ -29,7 +29,7 @@ namespace WorkScheduler.API.Controllers
             return Ok(jobsToReturn);
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet("{id}", Name="GetJob")]
         public async Task<IActionResult> GetJob(int id) {
             var jobToReturn = await _jobRepository.GetJob(id);
@@ -47,7 +47,7 @@ namespace WorkScheduler.API.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet("date/{date}")]
         public async Task<IActionResult> getJobWeek(DateTime date) {
             var jobsToReturn = await _jobRepository.GetJobsByWeek(date);
