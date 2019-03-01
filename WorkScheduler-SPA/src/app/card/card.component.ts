@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Day } from '../_models/Day';
 import { FormControl } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { AuthService } from '../_services/auth.service';
 
 
 @Component({
@@ -32,22 +33,21 @@ export class CardComponent implements OnInit, OnDestroy {
     return this.$data.getValue();
   }
 
-  constructor(private breakpointObserver: BreakpointObserver) { }
+  constructor(private breakpointObserver: BreakpointObserver, private auth: AuthService) { }
 
   ngOnInit() {
     this.$data.subscribe(j => {
       this.days = this.data;
     });
-    console.log('on init');
   }
 
   ngOnDestroy(): void {
-    console.log('on destroy');
   }
 
   onExpansion() {
     if (this.expanded[0] === false) {
       this.expanded[0] = true;
+
     } else {
       this.expanded[0] = false;
     }
