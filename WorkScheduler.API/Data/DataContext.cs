@@ -13,6 +13,8 @@ namespace WorkScheduler.API.Data
         public DbSet<Landlord> Landlords { get; set; }
         public DbSet<Private> Privates { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
-        public DbSet<Address> Addresses { get; set; }
+        public DbSet<AgencyAddress> AgencyAddresses { get; set; }
+        public DbSet<PropertyAddress> PropertyAddress { get; set; }
+        public DbSet<LandlordAddress> LandlordAddress { get; set; }
     }
 }
