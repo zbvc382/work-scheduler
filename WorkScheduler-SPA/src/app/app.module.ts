@@ -24,6 +24,11 @@ import { SlotService } from './_services/slot.service';
 import { NgMatSearchBarModule } from 'ng-mat-search-bar';
 import { MomentDateModule } from '@angular/material-moment-adapter';
 import { LayoutModule } from '@angular/cdk/layout';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+   return localStorage.getItem('token');
+}
 
 @NgModule({
    declarations: [
@@ -47,8 +52,14 @@ import { LayoutModule } from '@angular/cdk/layout';
       MomentModule,
       RouterModule.forRoot(appRoutes),
       NgMatSearchBarModule,
-      LayoutModule
-
+      LayoutModule,
+      JwtModule.forRoot({
+         config: {
+            tokenGetter,
+            whitelistedDomains: ['localhost:5000'],
+            blacklistedRoutes: ['localhost:5000/auth']
+         }
+      })
    ],
    providers: [
       AuthService,
