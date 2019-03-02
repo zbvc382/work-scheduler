@@ -77,12 +77,19 @@ mat-divider {
   }
   .weekday-display > div {
     font-size: 15px;
-    opacity: 0.5;
+    opacity: 1;
+    color: #3f51b5;
+  }
+
+  #week {
+    opacity: 0.8;
   }
 
   .weekday-display {
-    margin-right: 2%;
-    margin-bottom: 1.5%;
+    margin-top: 10%;
+    margin-right: 2.5%;
+    margin-left: 2%;
+    margin-bottom: 5%;
   }
 
   #empty-slot-time {
@@ -159,21 +166,13 @@ mat-divider {
   .weekday-display > div {
     font-size: 25px;
     font-weight: 100;
+    color: #3f51b5;
   }
   .weekday-display {
     margin-right: 40px;
     margin-top: 2%;
     margin-bottom: 2%;
     margin-left: 2%;
-  }
-
-  .weekday-display button {
-    background: #3f51b5;
-    color: white;
-  }
-
-  .weekday-display .mat-icon {
-    color: white;
   }
 
   #empty-slot-time {
@@ -207,4 +206,13 @@ mat-divider {
 #add-circle-icon {
   transform: scale(2);
   opacity: 0.25;
+}
+
+.weekday-display button {
+  background: #3f51b5;
+  color: white;
+}
+
+.weekday-display .mat-icon {
+  color: white;
 }

@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -25,6 +24,7 @@ import { NgMatSearchBarModule } from 'ng-mat-search-bar';
 import { MomentDateModule } from '@angular/material-moment-adapter';
 import { LayoutModule } from '@angular/cdk/layout';
 import { JwtModule } from '@auth0/angular-jwt';
+import { JobDialogComponent } from './job-dialog/job-dialog.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -39,7 +39,7 @@ export function tokenGetter() {
       SidenavListComponent,
       CardComponent,
       JobsComponent,
-      JobsComponent
+      JobDialogComponent
    ],
    imports: [
       BrowserModule,
@@ -71,6 +71,7 @@ export function tokenGetter() {
    ],
    bootstrap: [
       AppComponent
-   ]
+   ],
+   entryComponents: [JobDialogComponent]
 })
 export class AppModule { }

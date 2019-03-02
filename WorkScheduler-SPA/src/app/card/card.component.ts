@@ -5,7 +5,8 @@ import { Day } from '../_models/Day';
 import { FormControl } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { AuthService } from '../_services/auth.service';
-
+import { MatDialog, MatDialogConfig } from '@angular/material';
+import { JobDialogComponent } from '../job-dialog/job-dialog.component';
 
 @Component({
   selector: 'app-card',
@@ -33,7 +34,7 @@ export class CardComponent implements OnInit, OnDestroy {
     return this.$data.getValue();
   }
 
-  constructor(private breakpointObserver: BreakpointObserver, private auth: AuthService) { }
+  constructor(private breakpointObserver: BreakpointObserver, private auth: AuthService, private dialog: MatDialog) { }
 
   ngOnInit() {
     this.$data.subscribe(j => {
@@ -55,5 +56,32 @@ export class CardComponent implements OnInit, OnDestroy {
 
   get isMobile() {
     return this.breakpointObserver.isMatched('(max-width: 600px)');
+  }
+
+  openDialog() {
+
+    const dialogConfig = new MatDialogConfig();
+
+    // dialogConfig.disableClose = true;
+    // dialogConfig.autoFocus = true;
+
+    // dialogConfig.position = {
+    //   top: '50px',
+    //   left: '250px',
+    //   right: '200px'
+    // };
+
+    
+
+    dialogConfig.data = {
+      id: 1,
+      title: 'Angular For Beginners'
+    };
+
+    const dialogRef = this.dialog.open(JobDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      data => console.log('Dialog output:', data)
+    );
   }
 }

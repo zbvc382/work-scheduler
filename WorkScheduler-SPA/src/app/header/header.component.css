@@ -4,7 +4,7 @@
 }
 
 .mat-toolbar.mat-primary {
-  background: #202123;
+  background: #3f51b5;
 }
 
 .mat-icon {
@@ -23,8 +23,8 @@
 span {
   font-size: 18px;
   font-family: Roboto, Arial, sans-serif;
-  font-weight: 400;
-  color: rgba(158, 158, 158, 1);
+  font-weight: 40;
+  color: white;
 }
 
 .navigation-items {
@@ -46,7 +46,7 @@ span {
 
 @media screen and (min-width: 600px) {
   .navigation-items .mat-button {
-    border-bottom: 4px #202123 solid;
+    border-bottom: 4px #3f51b5 solid;
   }
   .navigation-items .router-link-active {
     color: white;
