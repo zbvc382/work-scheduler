@@ -71,7 +71,7 @@ export class CardComponent implements OnInit, OnDestroy {
     //   right: '200px'
     // };
 
-    
+
 
     dialogConfig.data = {
       id: 1,

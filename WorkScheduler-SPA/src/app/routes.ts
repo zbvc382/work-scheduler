@@ -11,7 +11,7 @@ export const appRoutes: Routes = [
         children: [
             { path: 'login', component: LoginComponent },
             { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-            { path: 'jobs', component: JobsComponent}
+            { path: 'jobs', component: JobsComponent, canActivate: [AuthGuard]}
         ]
     },
     { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },

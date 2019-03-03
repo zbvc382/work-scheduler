@@ -9,13 +9,13 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  isLoggedIn$: Observable<boolean>;
+  $isLoggedIn: Observable<boolean>;
   jwtHelper = new JwtHelperService();
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
     this.authService.authenticate();
-    this.isLoggedIn$ = this.authService.isLoggedIn;
+    this.$isLoggedIn = this.authService.isLoggedIn;
   }
 }

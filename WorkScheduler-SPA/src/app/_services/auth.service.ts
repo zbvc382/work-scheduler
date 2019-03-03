@@ -36,18 +36,23 @@ export class AuthService implements OnInit {
   }
 
   logout() {
-    localStorage.removeItem('token');
+    const token = localStorage.getItem('token');
+    if (token) {
+      localStorage.removeItem('token');
+    }
     this.loggedIn.next(false);
   }
 
   authenticate() {
-    if (localStorage.getItem('token')) {
+    const token = localStorage.getItem('token');
+
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
       this.decodedToken = this.jwtHelper.decodeToken(localStorage.getItem('token'));
       this.currentUser.id = this.decodedToken.nameid;
       this.currentUser.username = this.decodedToken.unique_name;
       this.loggedIn.next(true);
     } else {
-      this.loggedIn.next(false);
+      this.logout();
     }
   }
 }
