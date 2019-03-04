@@ -4,18 +4,26 @@
             <input matInput formControlName="ApplianceType" placeholder="Appliance Type">
         </mat-form-field>
         <mat-form-field>
-            <mat-select placeholder="Payer Type">
+            <mat-select placeholder="Payer Type" formControlName="PayerType">
                 <mat-option *ngFor="let payerType of payerTypes" [value]="payerType">
                     {{payerType}}
                 </mat-option>
             </mat-select>
         </mat-form-field>
-               <div class="time-picker">
-                    <app-time-picker [time]='timeFrom'></app-time-picker>
-               </div>
-               <div class="time-picker">
-                    <app-time-picker [time]='timeTo'></app-time-picker>
-               </div>
+        <mat-form-field class="example-full-width">
+                <input type="text" placeholder="Assignee" aria-label="Assignee" matInput formControlName="Agency" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                  <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                    {{option.name}}
+                  </mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+        <div class="time-picker">
+            <app-time-picker [timeFrame]='timeFrom' (timeEmitter)='timeFromEvent($event)'></app-time-picker>
+        </div>
+        <div class="time-picker">
+            <app-time-picker  [timeFrame]='timeTo' (timeEmitter)='timeToEvent($event)'></app-time-picker>
+        </div>
     </div>
 </mat-dialog-content>
 <mat-dialog-actions>

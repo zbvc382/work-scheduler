@@ -1,4 +1,4 @@
 <mat-form-field>
-    <input matInput [ngxTimepicker]="default" placeholder={{time}}>
+    <input matInput [ngxTimepicker]="default" [(ngModel)]="time">
     <ngx-material-timepicker #default></ngx-material-timepicker>
 </mat-form-field>
