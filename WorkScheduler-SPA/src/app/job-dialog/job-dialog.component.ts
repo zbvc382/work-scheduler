@@ -9,19 +9,27 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class JobDialogComponent implements OnInit {
   form: FormGroup;
-  description: string;
+  payerTypes: string[];
+  timeFrom = 'Time From';
+  timeTo = 'Time To';
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<JobDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data) {
 
-    this.description = data.description;
+    this.payerTypes = data.payerTypes;
   }
 
   ngOnInit() {
     this.form = this.fb.group({
-      description: ['', []],
+      PayerType: ['', []],
+      ApplianceType: ['', []],
+      ProblemGiven: ['', []],
+      TimeFrom: ['', []],
+      TimeTo: ['', []],
+      PropertyAddress: ['', []],
+      Time: ['', []]
     });
   }
   save() {
@@ -31,4 +39,5 @@ export class JobDialogComponent implements OnInit {
   close() {
     this.dialogRef.close();
   }
+
 }

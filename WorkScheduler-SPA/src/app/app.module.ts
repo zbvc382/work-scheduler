@@ -25,6 +25,8 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
 import { LayoutModule } from '@angular/cdk/layout';
 import { JwtModule } from '@auth0/angular-jwt';
 import { JobDialogComponent } from './job-dialog/job-dialog.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { TimePickerComponent } from './time-picker/time-picker.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -39,7 +41,8 @@ export function tokenGetter() {
       SidenavListComponent,
       CardComponent,
       JobsComponent,
-      JobDialogComponent
+      JobDialogComponent,
+      TimePickerComponent
    ],
    imports: [
       BrowserModule,
@@ -53,6 +56,7 @@ export function tokenGetter() {
       RouterModule.forRoot(appRoutes),
       NgMatSearchBarModule,
       LayoutModule,
+      NgxMaterialTimepickerModule.forRoot(),
       JwtModule.forRoot({
          config: {
             tokenGetter,

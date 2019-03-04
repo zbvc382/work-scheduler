@@ -25,6 +25,7 @@ export class CardComponent implements OnInit, OnDestroy {
   expanded: boolean[] = [false];
   days: Day[];
   private $data = new BehaviorSubject<Day[]>([]);
+  payerTypes = ['Agency', 'Private', 'Landlord'];
 
   @Input() set data(value: Day[]) {
     this.$data.next(value);
@@ -62,20 +63,14 @@ export class CardComponent implements OnInit, OnDestroy {
 
     const dialogConfig = new MatDialogConfig();
 
-    // dialogConfig.disableClose = true;
-    // dialogConfig.autoFocus = true;
+    dialogConfig.height = '500px';
+    dialogConfig.width = '800px';
 
-    // dialogConfig.position = {
-    //   top: '50px',
-    //   left: '250px',
-    //   right: '200px'
-    // };
-
-
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = false;
 
     dialogConfig.data = {
-      id: 1,
-      title: 'Angular For Beginners'
+      payerTypes: this.payerTypes
     };
 
     const dialogRef = this.dialog.open(JobDialogComponent, dialogConfig);
