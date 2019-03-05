@@ -9,7 +9,7 @@ using WorkScheduler.API.Data;
 namespace WorkScheduler.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190301201306_InitialMigration")]
+    [Migration("20190305023121_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -130,44 +130,19 @@ namespace WorkScheduler.API.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AgencyAddressId");
-
-                    b.Property<string>("AgencyName");
-
-                    b.Property<string>("Email");
-
-                    b.Property<string>("PhoneNumber");
+                    b.Property<string>("Name");
 
                     b.HasKey("Id");
 
                     b.ToTable("Agencies");
                 });
 
-            modelBuilder.Entity("WorkScheduler.API.Models.AgencyAddress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AddressLine1");
-
-                    b.Property<string>("AddressLine2");
-
-                    b.Property<int>("AgencyId");
-
-                    b.Property<string>("PostCode");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AgencyId")
-                        .IsUnique();
-
-                    b.ToTable("AgencyAddresses");
-                });
-
             modelBuilder.Entity("WorkScheduler.API.Models.Job", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Address");
 
                     b.Property<int>("AgencyId");
 
@@ -179,11 +154,11 @@ namespace WorkScheduler.API.Migrations
 
                     b.Property<string>("PayerType");
 
+                    b.Property<string>("PostCode");
+
                     b.Property<int>("PrivateId");
 
                     b.Property<string>("ProblemGiven");
-
-                    b.Property<int>("PropertyAddressId");
 
                     b.Property<int>("TenantId");
 
@@ -206,8 +181,6 @@ namespace WorkScheduler.API.Migrations
 
                     b.HasIndex("PrivateId");
 
-                    b.HasIndex("PropertyAddressId");
-
                     b.HasIndex("TenantId");
 
                     b.HasIndex("UserId");
@@ -220,10 +193,6 @@ namespace WorkScheduler.API.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Email");
-
-                    b.Property<int>("LandlordAddressId");
-
                     b.Property<string>("Name");
 
                     b.Property<string>("PhoneNumber");
@@ -231,27 +200,6 @@ namespace WorkScheduler.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Landlords");
-                });
-
-            modelBuilder.Entity("WorkScheduler.API.Models.LandlordAddress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AddressLine1");
-
-                    b.Property<string>("AddressLine2");
-
-                    b.Property<int>("LandlordId");
-
-                    b.Property<string>("PostCode");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("LandlordId")
-                        .IsUnique();
-
-                    b.ToTable("LandlordAddresses");
                 });
 
             modelBuilder.Entity("WorkScheduler.API.Models.Private", b =>
@@ -266,22 +214,6 @@ namespace WorkScheduler.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Privates");
-                });
-
-            modelBuilder.Entity("WorkScheduler.API.Models.PropertyAddress", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("AddressLine1");
-
-                    b.Property<string>("AddressLine2");
-
-                    b.Property<string>("PostCode");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PropertyAddresses");
                 });
 
             modelBuilder.Entity("WorkScheduler.API.Models.Tenant", b =>
@@ -308,16 +240,10 @@ namespace WorkScheduler.API.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
-                    b.Property<string>("Country");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
-
-                    b.Property<string>("FirstName");
-
-                    b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -399,14 +325,6 @@ namespace WorkScheduler.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("WorkScheduler.API.Models.AgencyAddress", b =>
-                {
-                    b.HasOne("WorkScheduler.API.Models.Agency", "Agency")
-                        .WithOne("AgencyAddress")
-                        .HasForeignKey("WorkScheduler.API.Models.AgencyAddress", "AgencyId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("WorkScheduler.API.Models.Job", b =>
                 {
                     b.HasOne("WorkScheduler.API.Models.Agency", "Agency")
@@ -424,11 +342,6 @@ namespace WorkScheduler.API.Migrations
                         .HasForeignKey("PrivateId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("WorkScheduler.API.Models.PropertyAddress", "PropertyAddress")
-                        .WithMany("Jobs")
-                        .HasForeignKey("PropertyAddressId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("WorkScheduler.API.Models.Tenant", "Tenant")
                         .WithMany("Jobs")
                         .HasForeignKey("TenantId")
@@ -437,14 +350,6 @@ namespace WorkScheduler.API.Migrations
                     b.HasOne("WorkScheduler.API.Models.User", "User")
                         .WithMany("Jobs")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("WorkScheduler.API.Models.LandlordAddress", b =>
-                {
-                    b.HasOne("WorkScheduler.API.Models.Landlord", "Landlord")
-                        .WithOne("LandlordAddress")
-                        .HasForeignKey("WorkScheduler.API.Models.LandlordAddress", "LandlordId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

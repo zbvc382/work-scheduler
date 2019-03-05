@@ -5,3 +5,7 @@
 .time-picker {
   width: 100%;
 }
+
+:focus {
+  outline: none !important;
+}

@@ -13,10 +13,7 @@ namespace WorkScheduler.API.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    AgencyName = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    AgencyAddressId = table.Column<int>(nullable: false)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,10 +52,7 @@ namespace WorkScheduler.API.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
-                    Country = table.Column<string>(nullable: true)
+                    AccessFailedCount = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -72,9 +66,7 @@ namespace WorkScheduler.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    LandlordAddressId = table.Column<int>(nullable: false)
+                    PhoneNumber = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -96,21 +88,6 @@ namespace WorkScheduler.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PropertyAddresses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    AddressLine1 = table.Column<string>(nullable: true),
-                    AddressLine2 = table.Column<string>(nullable: true),
-                    PostCode = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PropertyAddresses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Tenants",
                 columns: table => new
                 {
@@ -122,28 +99,6 @@ namespace WorkScheduler.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tenants", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AgencyAddresses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    AgencyId = table.Column<int>(nullable: false),
-                    AddressLine1 = table.Column<string>(nullable: true),
-                    AddressLine2 = table.Column<string>(nullable: true),
-                    PostCode = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AgencyAddresses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AgencyAddresses_Agencies_AgencyId",
-                        column: x => x.AgencyId,
-                        principalTable: "Agencies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -253,28 +208,6 @@ namespace WorkScheduler.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "LandlordAddresses",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    LandlordId = table.Column<int>(nullable: false),
-                    AddressLine1 = table.Column<string>(nullable: true),
-                    AddressLine2 = table.Column<string>(nullable: true),
-                    PostCode = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_LandlordAddresses", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_LandlordAddresses_Landlords_LandlordId",
-                        column: x => x.LandlordId,
-                        principalTable: "Landlords",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Jobs",
                 columns: table => new
                 {
@@ -286,9 +219,10 @@ namespace WorkScheduler.API.Migrations
                     DateAssigned = table.Column<DateTime>(nullable: false),
                     TimeFrom = table.Column<DateTime>(nullable: false),
                     TimeTo = table.Column<DateTime>(nullable: false),
+                    Address = table.Column<string>(nullable: true),
+                    PostCode = table.Column<string>(nullable: true),
                     slotReplaced = table.Column<bool>(nullable: false),
                     slotIndex = table.Column<int>(nullable: true),
-                    PropertyAddressId = table.Column<int>(nullable: false),
                     AgencyId = table.Column<int>(nullable: false),
                     LandlordId = table.Column<int>(nullable: false),
                     PrivateId = table.Column<int>(nullable: false),
@@ -317,12 +251,6 @@ namespace WorkScheduler.API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Jobs_PropertyAddresses_PropertyAddressId",
-                        column: x => x.PropertyAddressId,
-                        principalTable: "PropertyAddresses",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Jobs_Tenants_TenantId",
                         column: x => x.TenantId,
                         principalTable: "Tenants",
@@ -335,12 +263,6 @@ namespace WorkScheduler.API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_AgencyAddresses_AgencyId",
-                table: "AgencyAddresses",
-                column: "AgencyId",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -395,11 +317,6 @@ namespace WorkScheduler.API.Migrations
                 column: "PrivateId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Jobs_PropertyAddressId",
-                table: "Jobs",
-                column: "PropertyAddressId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Jobs_TenantId",
                 table: "Jobs",
                 column: "TenantId");
@@ -408,19 +325,10 @@ namespace WorkScheduler.API.Migrations
                 name: "IX_Jobs_UserId",
                 table: "Jobs",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_LandlordAddresses_LandlordId",
-                table: "LandlordAddresses",
-                column: "LandlordId",
-                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AgencyAddresses");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -440,28 +348,22 @@ namespace WorkScheduler.API.Migrations
                 name: "Jobs");
 
             migrationBuilder.DropTable(
-                name: "LandlordAddresses");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "Agencies");
 
             migrationBuilder.DropTable(
-                name: "Privates");
+                name: "Landlords");
 
             migrationBuilder.DropTable(
-                name: "PropertyAddresses");
+                name: "Privates");
 
             migrationBuilder.DropTable(
                 name: "Tenants");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Landlords");
         }
     }
 }

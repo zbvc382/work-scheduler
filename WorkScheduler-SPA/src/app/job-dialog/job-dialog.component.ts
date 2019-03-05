@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Observable } from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 
 export interface Zyze {
   id: number;
@@ -20,9 +20,9 @@ export class JobDialogComponent implements OnInit {
   timeFrom = 'Time From';
   timeTo = 'Time To';
   options: Zyze[] = [
-    {id: 1, name: 'Mary'},
-    {id: 2, name: 'Shelley'},
-    {id: 3, name: 'Igor'}
+    { id: 1, name: 'Mary' },
+    { id: 2, name: 'Shelley' },
+    { id: 3, name: 'Igor' }
   ];
   filteredOptions: Observable<Zyze[]>;
 
@@ -45,12 +45,13 @@ export class JobDialogComponent implements OnInit {
       Time: ['', []],
       Agency: ['', []]
     });
+    // tslint:disable-next-line:no-string-literal
     this.filteredOptions = this.form.controls['Agency'].valueChanges
-    .pipe(
-      startWith<string | Zyze>(''),
-      map(value => typeof value === 'string' ? value : value.name),
-      map(name => name ? this.filter(name) : this.options.slice())
-    );
+      .pipe(
+        startWith<string | Zyze>(''),
+        map(value => typeof value === 'string' ? value : value.name),
+        map(name => name ? this.filter(name) : this.options.slice())
+      );
   }
   save() {
     this.dialogRef.close(this.form.value);
@@ -58,10 +59,12 @@ export class JobDialogComponent implements OnInit {
   }
 
   timeFromEvent(value) {
+    // tslint:disable-next-line:no-string-literal
     this.form.controls['TimeFrom'].setValue(value);
   }
 
   timeToEvent(value) {
+    // tslint:disable-next-line:no-string-literal
     this.form.controls['TimeTo'].setValue(value);
   }
 

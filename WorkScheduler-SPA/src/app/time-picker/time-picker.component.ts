@@ -1,27 +1,31 @@
 import { Component, OnInit, Input, Output, EventEmitter, DoCheck } from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 
 @Component({
   selector: 'app-time-picker',
   templateUrl: './time-picker.component.html',
   styleUrls: ['./time-picker.component.css'],
-//   animations: [
-//     trigger('slideToggle', [
-//         state('inactive', style({height: 0})),
-//         state('active', style({height: '*'})),
-//         transition('inactive <=> active', [
-//             animate(300)
-//         ])
-//     ])
-// ]
 })
 export class TimePickerComponent implements OnInit, DoCheck {
   @Input() timeFrame: string;
   @Output() timeEmitter = new EventEmitter();
   time: any;
   animationState = 'inactive';
+  darkTheme: NgxMaterialTimepickerTheme = {
+    container: {
+      buttonColor: '#3f51b5'
+    },
+    dial: {
+      dialBackgroundColor: '#3f51b5'
+    },
+    clockFace: {
+      clockFaceInnerTimeInactiveColor: '#3f51b5',
+      clockHandColor: '#3f51b5'
+    }
+  };
 
-  constructor() { }
+  constructor(private breakpointObserver: BreakpointObserver) { }
 
   ngOnInit() {
   }
@@ -30,11 +34,7 @@ export class TimePickerComponent implements OnInit, DoCheck {
     this.timeEmitter.emit(this.time);
   }
 
-  // onEvent(value: any) {
-  //   this.timeValue.emit(value);
-  // }
-
-//   toggleAnimState(): void {
-//     this.animationState = this.animationState === 'inactive' ? 'active' : 'inactive';
-// }
+  get isMobile() {
+    return this.breakpointObserver.isMatched('(max-width: 600px)');
+  }
 }
