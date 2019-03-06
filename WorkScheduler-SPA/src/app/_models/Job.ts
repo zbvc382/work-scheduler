@@ -1,4 +1,3 @@
-import { Address } from './Address';
 import { Agency } from './Agency';
 import { Landlord } from './Landlord';
 import { Private } from './Private';
@@ -8,14 +7,13 @@ export interface Job {
     id: number;
     payerType: string;
     problemGiven: string;
-    dateCreated: Date;
     dateAssigned: Date;
     timeFrom: Date;
     timeTo: Date;
     slotReplaced: boolean;
     slotIndex?: number;
-    addressId?: number;
-    address?: Address;
+    address?: string;
+    postcode?: string;
     agencyId?: number;
     agency?: Agency;
     landlordId?: number;

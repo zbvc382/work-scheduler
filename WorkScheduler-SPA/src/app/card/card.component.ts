@@ -63,7 +63,7 @@ export class CardComponent implements OnInit, OnDestroy {
 
     const dialogConfig = new MatDialogConfig();
 
-    dialogConfig.height = '500px';
+    dialogConfig.height = '600px';
     dialogConfig.width = '800px';
 
     dialogConfig.disableClose = true;

@@ -1,33 +1,162 @@
 <mat-dialog-content [formGroup]="form">
-    <div fxLayout="column" fxLayoutAlign="center center">
-        <mat-form-field>
-            <input matInput formControlName="ApplianceType" placeholder="Appliance Type">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-select placeholder="Payer Type" formControlName="PayerType">
-                <mat-option *ngFor="let payerType of payerTypes" [value]="payerType">
-                    {{payerType}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
-        <mat-form-field class="example-full-width">
-            <input type="text" placeholder="Assignee" aria-label="Assignee" matInput formControlName="Agency"
-                [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                    {{option.name}}
-                </mat-option>
-            </mat-autocomplete>
-        </mat-form-field>
-        <div class="time-picker">
-            <app-time-picker [timeFrame]="timeFrom" (timeEmitter)='timeFromEvent($event)'></app-time-picker>
-        </div>
-        <div class="time-picker">
-            <app-time-picker [timeFrame]="timeFrom" (timeEmitter)='timeToEvent($event)'></app-time-picker>
-        </div>
+  <div
+    class="flex-row"
+    fxLayout="row"
+    fxLayoutGap="20px"
+    fxLayoutAlign="center center"
+  >
+    <div class="time-picker">
+      <app-time-picker
+        [timeFrame]="timeFrom"
+        (timeEmitter)="timeFromEvent($event)"
+      ></app-time-picker>
     </div>
+    <div class="time-picker">
+      <app-time-picker
+        [timeFrame]="timeTo"
+        (timeEmitter)="timeToEvent($event)"
+      ></app-time-picker>
+    </div>
+  </div>
+  <div
+    class="flex-row"
+    fxLayout="row"
+    fxLayoutGap="20px"
+    fxLayoutAlign="center center"
+  >
+    <mat-form-field>
+      <mat-select
+        placeholder="Payer Type"
+        (selectionChange)="onPayerTypeSelection()"
+        formControlName="PayerType"
+      >
+        <mat-option *ngFor="let payerType of payerTypes" [value]="payerType">
+          {{ payerType }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="Appliance" placeholder="Appliance" />
+    </mat-form-field>
+  </div>
+  <div
+    class="flex-row"
+    fxLayout="row"
+    fxLayoutGap="20px"
+    fxLayoutAlign="center center"
+  >
+    <mat-form-field>
+      <input matInput formControlName="Address" placeholder="Address" />
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="Postcode" placeholder="Postcode" />
+    </mat-form-field>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="center center">
+    <mat-form-field>
+      <input matInput formControlName="Problem" placeholder="Problem" />
+    </mat-form-field>
+  </div>
+
+  <div
+    class="flex-row"
+    fxLayout="row"
+    fxLayoutGap="20px"
+    fxLayoutAlign="center center"
+  >
+    <mat-form-field class="example-full-width" *ngIf="isAgency">
+      <input
+        type="text"
+        placeholder="Agency"
+        matInput
+        formControlName="Agency"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option
+          *ngFor="let option of (filteredOptions | async)"
+          [value]="option"
+        >
+          {{ option.name }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-slide-toggle
+      *ngIf="isAgency"
+      formControlName="KeyPickup"
+      (toggleChange)="onKeyToggle()"
+      >Pickup Key</mat-slide-toggle
+    >
+    <mat-form-field *ngIf="isLandlord">
+      <input
+        matInput
+        formControlName="LandlordName"
+        placeholder="Landlord Name"
+      />
+    </mat-form-field>
+    <mat-form-field *ngIf="isLandlord">
+      <input
+        matInput
+        formControlName="LandlordPhone"
+        placeholder="Landlord Phone"
+      />
+    </mat-form-field>
+    <mat-form-field *ngIf="isPrivate">
+      <input
+        matInput
+        formControlName="PrivateName"
+        placeholder="Client Name"
+      />
+    </mat-form-field>
+    <mat-form-field *ngIf="isPrivate">
+      <input
+        matInput
+        formControlName="PrivatePhone"
+        placeholder="Client Phone"
+      />
+    </mat-form-field>
+  </div>
+  <div
+    class="flex-row"
+    fxLayout="row"
+    fxLayoutGap="20px"
+    fxLayoutAlign="center center"
+  >
+    <mat-form-field *ngIf="isAgency">
+      <input matInput formControlName="KeyAddress" placeholder="Key Address" />
+    </mat-form-field>
+    <mat-form-field *ngIf="isAgency">
+      <input
+        matInput
+        formControlName="AgencyReference"
+        placeholder="Reference"
+      />
+    </mat-form-field>
+  </div>
+
+  <div
+    class="flex-row"
+    fxLayout="row"
+    fxLayoutGap="20px"
+    fxLayoutAlign="center center"
+  >
+    <mat-form-field *ngIf="isAgency || isLandlord">
+      <input
+        matInput
+        formControlName="TenantName"
+        placeholder="Tenant Name"
+      />
+    </mat-form-field>
+    <mat-form-field *ngIf="isAgency || isLandlord">
+      <input
+        matInput
+        formControlName="TenantPhone"
+        placeholder="Tenant Phone"
+      />
+    </mat-form-field>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions>
-    <button class="mat-raised-button" (click)="close()">Close</button>
-    <button class="mat-raised-button mat-primary" (click)="save()">Save</button>
+  <button class="mat-raised-button" (click)="close()">Close</button>
+  <button class="mat-raised-button mat-primary" (click)="save()">Save</button>
 </mat-dialog-actions>

@@ -27,6 +27,7 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { JobDialogComponent } from './job-dialog/job-dialog.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { TimePickerComponent } from './time-picker/time-picker.component';
+import { AgencyService } from './_services/agency.service';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -72,7 +73,8 @@ export function tokenGetter() {
       AuthGuard,
       DateFormat,
       SlotService,
-      MomentDateModule
+      MomentDateModule,
+      AgencyService
    ],
    bootstrap: [
       AppComponent

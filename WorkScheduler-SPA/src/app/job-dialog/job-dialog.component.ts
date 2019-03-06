@@ -1,13 +1,10 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, OnChanges } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-
-export interface Zyze {
-  id: number;
-  name: string;
-}
+import { AgencyService } from '../_services/agency.service';
+import { Agency } from '../_models/Agency';
 
 @Component({
   selector: 'app-job-dialog',
@@ -19,43 +16,91 @@ export class JobDialogComponent implements OnInit {
   payerTypes: string[];
   timeFrom = 'Time From';
   timeTo = 'Time To';
-  options: Zyze[] = [
-    { id: 1, name: 'Mary' },
-    { id: 2, name: 'Shelley' },
-    { id: 3, name: 'Igor' }
-  ];
-  filteredOptions: Observable<Zyze[]>;
+  agencies: Agency[] = [];
+  isLandlord = false;
+  isAgency = false;
+  isPrivate = false;
+
+  filteredOptions: Observable<Agency[]>;
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<JobDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data) {
-
+    @Inject(MAT_DIALOG_DATA) data,
+    private agencyService: AgencyService
+  ) {
     this.payerTypes = data.payerTypes;
   }
 
   ngOnInit() {
     this.form = this.fb.group({
       PayerType: ['', []],
-      ApplianceType: ['', []],
-      ProblemGiven: ['', []],
+      Appliance: ['', []],
+      Problem: ['', []],
       TimeFrom: ['', []],
       TimeTo: ['', []],
-      PropertyAddress: ['', []],
-      Time: ['', []],
-      Agency: ['', []]
+      Agency: ['', []],
+      LandlordName: ['', []],
+      LandlordPhone: ['', []],
+      PrivateName: ['', []],
+      PrivatePhone: ['', []],
+      Address: ['', []],
+      Postcode: ['', []],
+      TenantName: ['', []],
+      TenantPhone: ['', []],
+      KeyAddress: [{ value: '', disabled: true }],
+      KeyPickup: false,
+      AgencyReference: ['', []]
     });
-    // tslint:disable-next-line:no-string-literal
-    this.filteredOptions = this.form.controls['Agency'].valueChanges
-      .pipe(
-        startWith<string | Zyze>(''),
-        map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this.filter(name) : this.options.slice())
-      );
+
+    this.getAgenciesFromService();
   }
+
+  onPayerTypeSelection() {
+    // tslint:disable-next-line:no-string-literal
+    const selection = this.form.controls['PayerType'].value;
+
+    if (selection === 'Agency') {
+      this.isAgency = true;
+      this.isLandlord = false;
+      this.isPrivate = false;
+    }
+
+    if (selection === 'Landlord') {
+      this.isAgency = false;
+      this.isLandlord = true;
+      this.isPrivate = false;
+    }
+
+    if (selection === 'Private') {
+      this.isAgency = false;
+      this.isLandlord = false;
+      this.isPrivate = true;
+    }
+  }
+
+  getAgenciesFromService() {
+    this.agencyService.getAgencies().subscribe((agencies: Agency[]) => {
+      this.agencies = agencies;
+      this.filterOptions();
+    });
+  }
+
   save() {
     this.dialogRef.close(this.form.value);
-    console.log(this.form.value);
+  }
+
+  onKeyToggle() {
+    const control = this.form.get('KeyAddress');
+    control.disabled ? control.enable() : control.disable();
+  }
+
+  private filterOptions() {
+    // tslint:disable-next-line:no-string-literal
+    this.filteredOptions = this.form.controls['Agency'].valueChanges.pipe(
+      startWith(''),
+      map(val => (val.length >= 1 ? this.filter(val) : []))
+    );
   }
 
   timeFromEvent(value) {
@@ -72,12 +117,14 @@ export class JobDialogComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  private filter(name: string): Zyze[] {
+  private filter(name: string): Agency[] {
     const filterValue = name.toLowerCase();
-    return this.options.filter(option => option.name.toLowerCase().indexOf(filterValue) === 0);
+    return this.agencies.filter(
+      option => option.name.toLowerCase().indexOf(filterValue) === 0
+    );
   }
 
-  displayFn(user?: Zyze): string | undefined {
+  displayFn(user?: Agency): string | undefined {
     return user ? user.name : undefined;
   }
 }

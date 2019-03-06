@@ -25,8 +25,6 @@ namespace WorkScheduler.API.Data
                 .Include(Job => Job.Private)
                 .Include(Job => Job.Tenant)
                 .Include(Job => Job.Agency)
-                .Include(Job => Job.Address)
-                .Include(Job => Job.PostCode)
                 .FirstOrDefaultAsync(j => j.Id == id);
         }
 
@@ -38,8 +36,6 @@ namespace WorkScheduler.API.Data
                 .Include(Job => Job.Private)
                 .Include(Job => Job.Tenant)
                 .Include(Job => Job.Agency)
-                .Include(Job => Job.Address)
-                .Include(Job => Job.PostCode)
                 .ToListAsync();
         }
     }
