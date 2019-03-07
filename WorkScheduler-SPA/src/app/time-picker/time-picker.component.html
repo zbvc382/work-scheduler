@@ -1,5 +1,5 @@
 <mat-form-field>
-    <input matInput required [ngxTimepicker]="timepickerWithButtons" [value]="defaultTime" [(ngModel)]="time" placeholder={{timeFrame}}>
+    <input matInput required [ngxTimepicker]="timepickerWithButtons" [value]="'01:00 pm'" [(ngModel)]="time" placeholder={{timeFrame}}>
     <ngx-material-timepicker #timepickerWithButtons [ngxMaterialTimepickerTheme]="darkTheme"
         [cancelBtnTmpl]="cancelBtn" [confirmBtnTmpl]="confirmBtn">
     </ngx-material-timepicker>

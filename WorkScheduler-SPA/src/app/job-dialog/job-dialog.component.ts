@@ -37,9 +37,9 @@ export class JobDialogComponent implements OnInit {
       PayerType: ['', []],
       Appliance: ['', []],
       Problem: ['', []],
+      Agency: ['', []],
       TimeFrom: ['', []],
       TimeTo: ['', []],
-      Agency: ['', []],
       LandlordName: ['', []],
       LandlordPhone: ['', []],
       PrivateName: ['', []],
@@ -106,11 +106,13 @@ export class JobDialogComponent implements OnInit {
   }
 
   timeFromEvent(value) {
+
     // tslint:disable-next-line:no-string-literal
     this.form.controls['TimeFrom'].setValue(value);
   }
 
   timeToEvent(value) {
+
     // tslint:disable-next-line:no-string-literal
     this.form.controls['TimeTo'].setValue(value);
   }
