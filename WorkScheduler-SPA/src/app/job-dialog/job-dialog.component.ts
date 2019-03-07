@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, OnChanges } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -86,10 +86,6 @@ export class JobDialogComponent implements OnInit {
     });
   }
 
-  save() {
-    this.dialogRef.close(this.form.value);
-  }
-
   onKeyToggle() {
     const control = this.form.get('KeyAddress');
     control.disabled ? control.enable() : control.disable();
@@ -101,6 +97,12 @@ export class JobDialogComponent implements OnInit {
       startWith(''),
       map(val => (val.length >= 1 ? this.filter(val) : []))
     );
+  }
+
+  onSubmit() {
+    if (this.form.valid) {
+      this.dialogRef.close(this.form.value);
+    }
   }
 
   timeFromEvent(value) {
