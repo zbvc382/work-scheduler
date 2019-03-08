@@ -16,6 +16,7 @@ import { JobDialogComponent } from '../job-dialog/job-dialog.component';
 import { Job } from '../_models/Job';
 import { JobService } from '../_services/job.service';
 import { TimeService } from '../_services/time.service';
+import { isObject } from 'util';
 
 @Component({
   selector: 'app-card',
@@ -78,8 +79,18 @@ export class CardComponent implements OnInit, OnDestroy {
     return this.breakpointObserver.isMatched('(max-width: 600px)');
   }
 
-  addJob(data: Job, date: Date, index: number) {
+  addJob(data, date: Date, index: number) {
     const job: Job = data;
+
+    if (isObject(data.agency)) {
+      job.agencyName = data.agency.name;
+      job.agencyId = data.agency.id;
+    } else {
+      job.agencyName = data.agency;
+      job.agencyId = null;
+    }
+
+    delete job.agency;
     job.dateAssigned = date;
 
     if (index != null) {
@@ -97,12 +108,19 @@ export class CardComponent implements OnInit, OnDestroy {
     job.timeFrom = this.timeService.get24HourTime(job.timeFrom, new Date(date));
     job.timeTo = this.timeService.get24HourTime(job.timeTo, new Date(date));
 
-    this.jobService.createJob(job).subscribe(error => {
-      console.log(error);
-    });
+    console.log(job);
+
+    // this.jobService.createJob(job).subscribe(error => {
+    //   console.log(error);
+    // });
   }
 
-  openDialog(date: Date, index: number, defaultFrom: Date = null, defaultTo: Date = null) {
+  openDialog(
+    date: Date,
+    index: number,
+    defaultFrom: Date = null,
+    defaultTo: Date = null
+  ) {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.height = '600px';
@@ -114,12 +132,11 @@ export class CardComponent implements OnInit, OnDestroy {
     console.log(defaultFrom);
     console.log(defaultTo);
 
-
     dialogConfig.data = {
       payerTypes: this.payerTypes,
       fromDefault: '',
       toDefault: '',
-      replaced: false,
+      replaced: false
     };
 
     if (defaultFrom != null && defaultTo != null) {
@@ -127,7 +144,7 @@ export class CardComponent implements OnInit, OnDestroy {
         fromDefault: defaultFrom,
         toDefault: defaultTo,
         payerTypes: this.payerTypes,
-        replaced: true,
+        replaced: true
       };
     }
 

@@ -1,4 +1,5 @@
 export interface Job {
+  [x: string]: any;
     id: number;
     payerType: string;
     applianceType?: string;
@@ -19,4 +20,6 @@ export interface Job {
     privatePhone?: string;
     tenantName?: string;
     tenantPhone?: string;
+    agencyName?: string;
+    agencyId?: number;
 }

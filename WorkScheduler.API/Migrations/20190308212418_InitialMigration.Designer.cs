@@ -9,7 +9,7 @@ using WorkScheduler.API.Data;
 namespace WorkScheduler.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190308034553_InitialMigration")]
+    [Migration("20190308212418_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -184,8 +184,6 @@ namespace WorkScheduler.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AgencyId");
-
                     b.ToTable("Jobs");
                 });
 
@@ -282,13 +280,6 @@ namespace WorkScheduler.API.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("WorkScheduler.API.Models.Job", b =>
-                {
-                    b.HasOne("WorkScheduler.API.Models.Agency", "Agency")
-                        .WithMany("Jobs")
-                        .HasForeignKey("AgencyId");
                 });
 #pragma warning restore 612, 618
         }

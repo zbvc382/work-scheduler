@@ -89,12 +89,6 @@ namespace WorkScheduler.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Jobs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Jobs_Agencies_AgencyId",
-                        column: x => x.AgencyId,
-                        principalTable: "Agencies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -239,15 +233,13 @@ namespace WorkScheduler.API.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Jobs_AgencyId",
-                table: "Jobs",
-                column: "AgencyId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Agencies");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -271,9 +263,6 @@ namespace WorkScheduler.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Agencies");
         }
     }
 }
