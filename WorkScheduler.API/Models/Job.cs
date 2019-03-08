@@ -17,21 +17,17 @@ namespace WorkScheduler.API.Models
         public string PostCode { get; set; }
         public bool slotReplaced { get; set; }
         public int? slotIndex { get; set; }
+        public bool Key { get; set; }
+        public string KeyAddress { get; set; }
+        public string AgencyReference { get; set; }
+        public string LandlordName { get; set; }
+        public string LandlordPhone { get; set; }
+        public string TenantName { get; set; }
+        public string TenantPhone { get; set; }
+        public string PrivateName { get; set; }
+        public string PrivatePhone { get; set; }
 
-        public int AgencyId { get; set; }
+        public int? AgencyId { get; set; }
         public Agency Agency { get; set; }
-
-        public int LandlordId { get; set; }
-        public Landlord Landlord { get; set; }
-
-        public int PrivateId { get; set; }
-        public Private Private { get; set; }
-
-        public int TenantId { get; set; }
-        public Tenant Tenant { get; set; }
-
-        [Required]
-        public string UserId { get; set; }
-        public User User { get; set; }
     }
 }

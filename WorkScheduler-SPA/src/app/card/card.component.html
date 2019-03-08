@@ -23,7 +23,7 @@
 <div *ngFor="let day of days">
   <div class="weekday-display">
     <div fxFlex fxLayout fxLayoutGap="5px" fxLayoutAlign="start">
-      <button mat-raised-button (click)="openDialog()">
+      <button mat-raised-button (click)="openDialog(day.date)">
         <mat-icon>
           add
         </mat-icon>
@@ -57,9 +57,9 @@
           </div>
           <div class="col-sm-2" id="phone-col">
             <mat-icon class="info-icon">local_phone</mat-icon>
-            <a href="tel:{{ slot.job.private.phoneNumber }}">{{
-              slot.job.private.phoneNumber
-            }}</a>
+            <a href="tel:">
+              
+            </a>
           </div>
           <div class="col-sm-4" id="address-col">
             <mat-icon class="info-icon">home</mat-icon>
@@ -131,7 +131,6 @@
         </div>
       </mat-card-content>
     </mat-card>
-    <ng-template #filledSlot> </ng-template>
     <ng-template #emptySlot>
       <mat-card class="empty-mat-card">
         <div id="empty-slot-time">
@@ -139,7 +138,7 @@
           {{ slot.defaultTo | date: 'shortTime' }}
         </div>
         <div fxHide.xs fxLayout="row" fxLayoutAlign="center center">
-          <button mat-icon-button [disableRipple]="true">
+          <button mat-icon-button [disableRipple]="true" (click)="openDialog(day.date, slot.index, slot.defaultFrom)">
             <mat-icon id="add-circle-icon">
               add
             </mat-icon>

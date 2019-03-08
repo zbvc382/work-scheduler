@@ -30,7 +30,7 @@ fxLayoutAlign="center center"
         <mat-select
           placeholder="Payer Type"
           (selectionChange)="onPayerTypeSelection()"
-          formControlName="PayerType"
+          formControlName="payerType"
           required
         >
           <mat-option *ngFor="let payerType of payerTypes" [value]="payerType">
@@ -39,7 +39,7 @@ fxLayoutAlign="center center"
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <input matInput formControlName="Appliance" placeholder="Appliance" />
+        <input matInput formControlName="applianceType" placeholder="Appliance" />
       </mat-form-field>
     </div>
     <div
@@ -51,7 +51,7 @@ fxLayoutAlign="center center"
       <mat-form-field>
         <input
           matInput
-          formControlName="Address"
+          formControlName="address"
           placeholder="Address"
           required
         />
@@ -59,7 +59,7 @@ fxLayoutAlign="center center"
       <mat-form-field>
         <input
           matInput
-          formControlName="Postcode"
+          formControlName="postcode"
           placeholder="Postcode"
           required
         />
@@ -67,7 +67,7 @@ fxLayoutAlign="center center"
     </div>
     <div fxLayout="column" fxLayoutAlign="center center">
       <mat-form-field>
-        <input matInput formControlName="Problem" placeholder="Problem" />
+        <input matInput formControlName="problemGiven" placeholder="Problem" />
       </mat-form-field>
     </div>
 
@@ -82,7 +82,7 @@ fxLayoutAlign="center center"
           type="text"
           placeholder="Agency"
           matInput
-          formControlName="Agency"
+          formControlName="agency"
           [matAutocomplete]="auto"
         />
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
@@ -96,35 +96,35 @@ fxLayoutAlign="center center"
       </mat-form-field>
       <mat-slide-toggle
         *ngIf="isAgency"
-        formControlName="KeyPickup"
+        formControlName="key"
         (toggleChange)="onKeyToggle()"
         >Pickup Key</mat-slide-toggle
       >
       <mat-form-field *ngIf="isLandlord">
         <input
           matInput
-          formControlName="LandlordName"
+          formControlName="landlordName"
           placeholder="Landlord Name"
         />
       </mat-form-field>
       <mat-form-field *ngIf="isLandlord">
         <input
           matInput
-          formControlName="LandlordPhone"
+          formControlName="landlordPhone"
           placeholder="Landlord Phone"
         />
       </mat-form-field>
       <mat-form-field *ngIf="isPrivate">
         <input
           matInput
-          formControlName="PrivateName"
+          formControlName="privateName"
           placeholder="Client Name"
         />
       </mat-form-field>
       <mat-form-field *ngIf="isPrivate">
         <input
           matInput
-          formControlName="PrivatePhone"
+          formControlName="privatePhone"
           placeholder="Client Phone"
         />
       </mat-form-field>
@@ -138,14 +138,14 @@ fxLayoutAlign="center center"
       <mat-form-field *ngIf="isAgency">
         <input
           matInput
-          formControlName="KeyAddress"
+          formControlName="keyAddress"
           placeholder="Key Address"
         />
       </mat-form-field>
       <mat-form-field *ngIf="isAgency">
         <input
           matInput
-          formControlName="AgencyReference"
+          formControlName="agencyReference"
           placeholder="Reference"
         />
       </mat-form-field>
@@ -160,14 +160,14 @@ fxLayoutAlign="center center"
       <mat-form-field *ngIf="isAgency || isLandlord">
         <input
           matInput
-          formControlName="TenantName"
+          formControlName="tenantName"
           placeholder="Tenant Name"
         />
       </mat-form-field>
       <mat-form-field *ngIf="isAgency || isLandlord">
         <input
           matInput
-          formControlName="TenantPhone"
+          formControlName="tenantPhone"
           placeholder="Tenant Phone"
         />
       </mat-form-field>

@@ -10,8 +10,5 @@ namespace WorkScheduler.API.Data
 
         public DbSet<Agency> Agencies { get; set; }
         public DbSet<Job> Jobs { get; set; }
-        public DbSet<Landlord> Landlords { get; set; }
-        public DbSet<Private> Privates { get; set; }
-        public DbSet<Tenant> Tenants { get; set; }
     }
 }

@@ -20,7 +20,7 @@ namespace WorkScheduler.API.Controllers
 
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetJobs()
         {
@@ -37,7 +37,7 @@ namespace WorkScheduler.API.Controllers
             return Ok(jobToReturn);
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> AddJob(Job job) {
             var jobToReturn = await _jobRepository.Create(job);

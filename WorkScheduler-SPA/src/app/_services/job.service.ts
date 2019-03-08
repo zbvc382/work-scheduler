@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import { Job } from '../_models/Job';
 
 @Injectable()
@@ -12,5 +12,9 @@ export class JobService implements OnInit {
 
   getJobs(date: Date) {
     return this.httpClient.get<Job[]>(this.baseUrl + '/date/' + date);
+  }
+  createJob(job: Job) {
+    console.log('job service method');
+    return this.httpClient.post(this.baseUrl, job);
   }
 }

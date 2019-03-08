@@ -6,6 +6,5 @@ namespace WorkScheduler.API.Models
 {
     public class User : IdentityUser
     {
-        public ICollection<Job> Jobs { get; set; }
     }
 }

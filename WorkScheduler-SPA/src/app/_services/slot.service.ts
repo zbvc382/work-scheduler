@@ -47,14 +47,26 @@ export class SlotService {
   private setSlots() {
     for (let i = 0; i < 8; i++) {
       const tempDate = new Date();
+      tempDate.setHours(0, 0, 0, 0);
+
       if (tempDate.getDay() !== 7) {
-        let jobs: Job[];
+        let jobs: Job[] = [];
         tempDate.setDate(tempDate.getDate() + i);
         const tempSlots = this.getDefaultSlots();
 
-        jobs = this.jobs.filter(x => x.dateAssigned.getFullYear() === tempDate.getFullYear()
-          && x.dateAssigned.getMonth() === tempDate.getMonth()
-          && x.dateAssigned.getDay() === tempDate.getDay());
+        // jobs = this.jobs.filter(x => x.dateAssigned.getFullYear() === tempDate.getFullYear()
+        //   && x.dateAssigned.getMonth() === tempDate.getMonth()
+        //   && x.dateAssigned.getDay() === tempDate.getDay());
+
+        jobs = this.jobs.filter(x => x.dateAssigned.getTime() === tempDate.getTime());
+
+
+        // if (this.jobs[0].dateAssigned.getTime() === tempDate.getTime()) {
+        //   console.log('equals');
+        // }
+        // console.log(this.jobs[0].dateAssigned.getTime());
+        // console.log(tempDate.getTime());
+        // console.log(jobs);
 
         jobs.forEach(element => {
           if (element.slotReplaced === true) {

@@ -34,23 +34,23 @@ export class JobDialogComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.fb.group({
-      PayerType: ['', []],
-      Appliance: ['', []],
-      Problem: ['', []],
-      Agency: ['', []],
-      TimeFrom: ['', []],
-      TimeTo: ['', []],
-      LandlordName: ['', []],
-      LandlordPhone: ['', []],
-      PrivateName: ['', []],
-      PrivatePhone: ['', []],
-      Address: ['', []],
-      Postcode: ['', []],
-      TenantName: ['', []],
-      TenantPhone: ['', []],
-      KeyAddress: [{ value: '', disabled: true }],
-      KeyPickup: false,
-      AgencyReference: ['', []]
+      payerType: ['', [Validators.required]],
+      applianceType: ['', []],
+      problemGiven: ['', []],
+      agency: ['', []],
+      timeFrom: ['', [Validators.required]],
+      timeTo: ['', [Validators.required]],
+      landlordName: ['', []],
+      landlordPhone: ['', []],
+      privateName: ['', []],
+      privatePhone: ['', []],
+      address: ['', [Validators.required]],
+      postcode: ['', [Validators.required]],
+      tenantName: ['', []],
+      tenantPhone: ['', []],
+      keyAddress: [{ value: '', disabled: true }],
+      key: false,
+      agencyReference: ['', []]
     });
 
     this.getAgenciesFromService();
@@ -58,7 +58,7 @@ export class JobDialogComponent implements OnInit {
 
   onPayerTypeSelection() {
     // tslint:disable-next-line:no-string-literal
-    const selection = this.form.controls['PayerType'].value;
+    const selection = this.form.controls['payerType'].value;
 
     if (selection === 'Agency') {
       this.isAgency = true;
@@ -87,13 +87,13 @@ export class JobDialogComponent implements OnInit {
   }
 
   onKeyToggle() {
-    const control = this.form.get('KeyAddress');
+    const control = this.form.get('keyAddress');
     control.disabled ? control.enable() : control.disable();
   }
 
   private filterOptions() {
     // tslint:disable-next-line:no-string-literal
-    this.filteredOptions = this.form.controls['Agency'].valueChanges.pipe(
+    this.filteredOptions = this.form.controls['agency'].valueChanges.pipe(
       startWith(''),
       map(val => (val.length >= 1 ? this.filter(val) : []))
     );
@@ -101,20 +101,68 @@ export class JobDialogComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
+      // tslint:disable-next-line:no-string-literal
+      if (!this.form.controls['agency'].dirty) {
+        // tslint:disable-next-line:no-string-literal
+        this.form.controls['agency'].setValue(null);
+      }
+      // tslint:disable-next-line:no-string-literal
+      if (!this.form.controls['applianceType'].dirty) {
+        // tslint:disable-next-line:no-string-literal
+        this.form.controls['applianceType'].setValue(null);
+      }
+      // tslint:disable-next-line:no-string-literal
+      if (!this.form.controls['problemGiven'].dirty) {
+        // tslint:disable-next-line:no-string-literal
+        this.form.controls['problemGiven'].setValue(null);
+      }
+      // tslint:disable-next-line:no-string-literal
+      if (!this.form.controls['landlordName'].dirty) {
+        // tslint:disable-next-line:no-string-literal
+        this.form.controls['landlordName'].setValue(null);
+      }
+      // tslint:disable-next-line:no-string-literal
+      if (!this.form.controls['landlordPhone'].dirty) {
+        // tslint:disable-next-line:no-string-literal
+        this.form.controls['landlordPhone'].setValue(null);
+      }
+      // tslint:disable-next-line:no-string-literal
+      if (!this.form.controls['privatePhone'].dirty) {
+        // tslint:disable-next-line:no-string-literal
+        this.form.controls['privatePhone'].setValue(null);
+      }
+      // tslint:disable-next-line:no-string-literal
+      if (!this.form.controls['privateName'].dirty) {
+        // tslint:disable-next-line:no-string-literal
+        this.form.controls['privateName'].setValue(null);
+      }
+      // tslint:disable-next-line:no-string-literal
+      if (!this.form.controls['tenantName'].dirty) {
+        // tslint:disable-next-line:no-string-literal
+        this.form.controls['tenantName'].setValue(null);
+      }
+      // tslint:disable-next-line:no-string-literal
+      if (!this.form.controls['tenantPhone'].dirty) {
+        // tslint:disable-next-line:no-string-literal
+        this.form.controls['tenantPhone'].setValue(null);
+      }
+      // tslint:disable-next-line:no-string-literal
+      if (!this.form.controls['agencyReference'].dirty) {
+        // tslint:disable-next-line:no-string-literal
+        this.form.controls['agencyReference'].setValue(null);
+      }
       this.dialogRef.close(this.form.value);
     }
   }
 
   timeFromEvent(value) {
-
     // tslint:disable-next-line:no-string-literal
-    this.form.controls['TimeFrom'].setValue(value);
+    this.form.controls['timeFrom'].setValue(value);
   }
 
   timeToEvent(value) {
-
     // tslint:disable-next-line:no-string-literal
-    this.form.controls['TimeTo'].setValue(value);
+    this.form.controls['timeTo'].setValue(value);
   }
 
   close() {
