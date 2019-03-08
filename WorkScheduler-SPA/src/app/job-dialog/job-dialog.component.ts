@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { AgencyService } from '../_services/agency.service';
 import { Agency } from '../_models/Agency';
+import { DataRowOutlet } from '@angular/cdk/table';
+import { TimeService } from '../_services/time.service';
 
 @Component({
   selector: 'app-job-dialog',
@@ -20,6 +22,9 @@ export class JobDialogComponent implements OnInit {
   isLandlord = false;
   isAgency = false;
   isPrivate = false;
+  fromDefault = '';
+  toDefault = '';
+  replaced = false;
 
   filteredOptions: Observable<Agency[]>;
 
@@ -27,9 +32,13 @@ export class JobDialogComponent implements OnInit {
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<JobDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data,
-    private agencyService: AgencyService
+    private agencyService: AgencyService,
+    private timeService: TimeService
   ) {
     this.payerTypes = data.payerTypes;
+    this.fromDefault = data.fromDefault;
+    this.toDefault = data.toDefault;
+    this.replaced = data.replaced;
   }
 
   ngOnInit() {
@@ -156,11 +165,17 @@ export class JobDialogComponent implements OnInit {
   }
 
   timeFromEvent(value) {
+    if (value instanceof Date) {
+      value = this.timeService.get12HourTime(value);
+    }
     // tslint:disable-next-line:no-string-literal
     this.form.controls['timeFrom'].setValue(value);
   }
 
   timeToEvent(value) {
+    if (value instanceof Date) {
+      value = this.timeService.get12HourTime(value);
+    }
     // tslint:disable-next-line:no-string-literal
     this.form.controls['timeTo'].setValue(value);
   }

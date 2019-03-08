@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, DoCheck } from '@angular/core';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
+import { TimeService } from '../_services/time.service';
 
 @Component({
   selector: 'app-time-picker',
@@ -10,8 +11,8 @@ import { NgxMaterialTimepickerTheme } from 'ngx-material-timepicker';
 export class TimePickerComponent implements OnInit, DoCheck {
   @Input() timeFrame: string;
   @Output() timeEmitter = new EventEmitter();
-  time: any;
-  defaultTime: string;
+  @Input() time: any;
+  // @Input() replaced = false;
   animationState = 'inactive';
   darkTheme: NgxMaterialTimepickerTheme = {
     container: {

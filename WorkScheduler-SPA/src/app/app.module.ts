@@ -28,6 +28,7 @@ import { JobDialogComponent } from './job-dialog/job-dialog.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { TimePickerComponent } from './time-picker/time-picker.component';
 import { AgencyService } from './_services/agency.service';
+import { TimeService } from './_services/time.service';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -74,7 +75,8 @@ export function tokenGetter() {
       DateFormat,
       SlotService,
       MomentDateModule,
-      AgencyService
+      AgencyService,
+      TimeService
    ],
    bootstrap: [
       AppComponent

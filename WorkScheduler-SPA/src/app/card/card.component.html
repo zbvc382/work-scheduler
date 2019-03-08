@@ -138,7 +138,7 @@
           {{ slot.defaultTo | date: 'shortTime' }}
         </div>
         <div fxHide.xs fxLayout="row" fxLayoutAlign="center center">
-          <button mat-icon-button [disableRipple]="true" (click)="openDialog(day.date, slot.index, slot.defaultFrom)">
+          <button mat-icon-button [disableRipple]="true" (click)="openDialog(day.date, slot.index, slot.defaultFrom, slot.defaultTo)">
             <mat-icon id="add-circle-icon">
               add
             </mat-icon>

@@ -6,15 +6,16 @@ import {
   transition,
   trigger
 } from '@angular/animations';
-import { BehaviorSubject} from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Day } from '../_models/Day';
 import { FormControl } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { AuthService } from '../_services/auth.service';
-import { MatDialog, MatDialogConfig} from '@angular/material';
+import { MatDialog, MatDialogConfig } from '@angular/material';
 import { JobDialogComponent } from '../job-dialog/job-dialog.component';
 import { Job } from '../_models/Job';
 import { JobService } from '../_services/job.service';
+import { TimeService } from '../_services/time.service';
 
 @Component({
   selector: 'app-card',
@@ -53,7 +54,8 @@ export class CardComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     private auth: AuthService,
     private dialog: MatDialog,
-    private jobService: JobService
+    private jobService: JobService,
+    private timeService: TimeService
   ) {}
 
   ngOnInit() {
@@ -92,15 +94,15 @@ export class CardComponent implements OnInit, OnDestroy {
       job.keyAddress = null;
     }
 
-    job.timeFrom = this.setTime(job.timeFrom, new Date(date));
-    job.timeTo = this.setTime(job.timeTo, new Date(date));
+    job.timeFrom = this.timeService.get24HourTime(job.timeFrom, new Date(date));
+    job.timeTo = this.timeService.get24HourTime(job.timeTo, new Date(date));
 
     this.jobService.createJob(job).subscribe(error => {
       console.log(error);
     });
   }
 
-  openDialog(date: Date, index: number, defaultFrom: Date) {
+  openDialog(date: Date, index: number, defaultFrom: Date = null, defaultTo: Date = null) {
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.height = '600px';
@@ -109,70 +111,32 @@ export class CardComponent implements OnInit, OnDestroy {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = false;
 
+    console.log(defaultFrom);
+    console.log(defaultTo);
+
+
     dialogConfig.data = {
-      payerTypes: this.payerTypes
+      payerTypes: this.payerTypes,
+      fromDefault: '',
+      toDefault: '',
+      replaced: false,
     };
 
-    console.log(defaultFrom);
+    if (defaultFrom != null && defaultTo != null) {
+      dialogConfig.data = {
+        fromDefault: defaultFrom,
+        toDefault: defaultTo,
+        payerTypes: this.payerTypes,
+        replaced: true,
+      };
+    }
 
     const dialogRef = this.dialog.open(JobDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         this.addJob(data, date, index);
-
       }
     });
   }
-
-  timeConvert(time: string) {
-    const splt = time.split(' ');
-    const hoursAndMin = splt[0].split(':');
-    const amPm = splt[1];
-    let hours = Number(hoursAndMin[0]);
-    const minutes = Number(hoursAndMin[1]);
-
-    const finalDate = [];
-
-    if (hours === 12 && amPm === 'am') {
-      hours = 0;
-    }
-
-    if (hours >= 1 && hours <= 11 && amPm === 'pm') {
-      hours = hours + 12;
-    }
-
-    finalDate[0] = hours;
-    finalDate[1] = minutes;
-
-    return finalDate;
-  }
-
-  setTime(time: Date, date: Date) {
-    const timeString = time.toString();
-    const timeArray = this.timeConvert(timeString);
-    const timeDate = date;
-    timeDate.setHours(timeArray[0], timeArray[1], 0, 0);
-
-    return timeDate;
-  }
-
-  // setTimeFrom(date: Date) {
-  //   const timeString = this.job.timeFrom.toString();
-  //   const timeArray = this.timeConvert(timeString);
-  //   const timeDate = date;
-  //   timeDate.setHours(timeArray[0], timeArray[1], 0, 0);
-
-  //   this.job.timeFrom = timeDate;
-  // }
-
-  // setTimeTo(date: Date) {
-  //   const timeString = this.job.timeTo.toString();
-  //   const timeArray = this.timeConvert(timeString);
-  //   const timeDate = date;
-  //   timeDate.setHours(timeArray[0], timeArray[1], 0, 0);
-
-  //   console.log(timeDate);
-  //   this.job.timeTo = timeDate;
-  // }
 }

@@ -8,12 +8,14 @@ fxLayoutAlign="center center"
   <app-time-picker
     [timeFrame]="timeFrom"
     (timeEmitter)="timeFromEvent($event)"
+    [time]="fromDefault"
   ></app-time-picker>
 </div>
 <div class="time-picker">
   <app-time-picker
     [timeFrame]="timeTo"
     (timeEmitter)="timeToEvent($event)"
+    [time]="toDefault"
   ></app-time-picker>
 </div>
 </div>
