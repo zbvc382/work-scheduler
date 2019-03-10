@@ -13,6 +13,10 @@ export class JobsComponent implements OnInit {
   constructor(private slotService: SlotService) { }
 
   ngOnInit() {
+    this.getDaysSlotsOfCurrentWeek();
+  }
+
+  getDaysSlotsOfCurrentWeek() {
     this.slotService.getWeekSlots(new Date()).subscribe((days: Day[]) => {
       this.days = days;
     });

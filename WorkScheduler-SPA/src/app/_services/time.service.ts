@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { Day } from '../_models/Day';
+import { Slot } from '../_models/Slot';
 
 @Injectable({
   providedIn: 'root'
@@ -69,4 +71,11 @@ export class TimeService {
 
     return UtcTime;
   }
+
+  // public sortSlotsByDate(): void {
+
+  //   array.sort((a: Slot, b: Slot) => {
+  //       return a.defaultFrom.getTime() - b.defaultFrom.getTime();
+  //   });
+  // }
 }

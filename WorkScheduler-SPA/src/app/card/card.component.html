@@ -138,14 +138,14 @@
           {{ slot.defaultTo | date: 'shortTime' }}
         </div>
         <div fxHide.xs fxLayout="row" fxLayoutAlign="center center">
-          <button mat-icon-button [disableRipple]="true" (click)="openDialog(day.date, slot.index, slot.defaultFrom, slot.defaultTo)">
+          <button onclick="this.blur()" mat-icon-button [disableRipple]="true" (click)="openDialog(day.date, slot.index, slot.defaultFrom, slot.defaultTo)">
             <mat-icon id="add-circle-icon">
               add
             </mat-icon>
           </button>
         </div>
         <div fxHide.gt-xs fxLayout="row" fxLayoutAlign="center center">
-          <button mat-icon-button [disableRipple]="true">
+          <button onclick="this.blur()" mat-icon-button [disableRipple]="true" (click)="openDialog(day.date, slot.index, slot.defaultFrom, slot.defaultTo)">
             <mat-icon id="add-circle-icon">
               add
             </mat-icon>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import {
   animate,
   state,
@@ -37,11 +37,13 @@ import { isObject } from 'util';
   ]
 })
 export class CardComponent implements OnInit, OnDestroy {
+  @Output() addJobEmitter = new EventEmitter();
   date = new FormControl(new Date());
   expanded: boolean[] = [false];
   days: Day[];
   private $data = new BehaviorSubject<Day[]>([]);
   payerTypes = ['Agency', 'Private', 'Landlord'];
+
 
   @Input() set data(value: Day[]) {
     this.$data.next(value);
@@ -53,7 +55,6 @@ export class CardComponent implements OnInit, OnDestroy {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private auth: AuthService,
     private dialog: MatDialog,
     private jobService: JobService,
     private timeService: TimeService
@@ -108,11 +109,11 @@ export class CardComponent implements OnInit, OnDestroy {
     job.timeFrom = this.timeService.get24HourTime(job.timeFrom, new Date(date));
     job.timeTo = this.timeService.get24HourTime(job.timeTo, new Date(date));
 
-    console.log(job);
-
-    // this.jobService.createJob(job).subscribe(error => {
-    //   console.log(error);
-    // });
+    this.jobService.createJob(job).subscribe(() => {
+      this.addJobEmitter.emit(null);
+    }, error => {
+      console.log(error);
+    });
   }
 
   openDialog(

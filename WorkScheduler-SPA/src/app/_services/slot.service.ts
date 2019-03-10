@@ -14,7 +14,10 @@ export class SlotService {
   private days: Day[] = [];
   private days$ = new BehaviorSubject<Day[]>([]);
 
-  constructor(private jobService: JobService, private dateFormatPipe: DateFormat) { }
+  constructor(
+    private jobService: JobService,
+    private dateFormatPipe: DateFormat,
+  ) {}
 
   getWeekSlots(date: Date): Observable<Day[]> {
     date.setHours(0, 0, 0, 0);
@@ -49,36 +52,46 @@ export class SlotService {
       const tempDate = new Date();
       tempDate.setHours(0, 0, 0, 0);
 
-      if (tempDate.getDay() !== 7) {
-        let jobs: Job[] = [];
-        tempDate.setDate(tempDate.getDate() + i);
-        const tempSlots = this.getDefaultSlots();
+      let jobs: Job[] = [];
+      tempDate.setDate(tempDate.getDate() + i);
+      const tempSlots = this.getDefaultSlots();
 
-        // jobs = this.jobs.filter(x => x.dateAssigned.getFullYear() === tempDate.getFullYear()
-        //   && x.dateAssigned.getMonth() === tempDate.getMonth()
-        //   && x.dateAssigned.getDay() === tempDate.getDay());
+      jobs = this.jobs.filter(
+        x => x.dateAssigned.getTime() === tempDate.getTime()
+      );
 
-        jobs = this.jobs.filter(x => x.dateAssigned.getTime() === tempDate.getTime());
+      jobs.forEach(element => {
+        if (element.slotReplaced === true) {
+          tempSlots[element.slotIndex].job = element;
+          tempSlots[element.slotIndex].defaultFrom = element.timeFrom;
+        }
+        if (element.slotReplaced === false) {
+          const jobToInsert = element;
+          tempSlots.push({
+            index: null,
+            job: jobToInsert,
+            defaultFrom: element.timeFrom,
+            defaultTo: null
+          });
+        }
+      });
 
+      const remainingEmptySlots = tempSlots.filter(x => x.job === null);
 
-        // if (this.jobs[0].dateAssigned.getTime() === tempDate.getTime()) {
-        //   console.log('equals');
-        // }
-        // console.log(this.jobs[0].dateAssigned.getTime());
-        // console.log(tempDate.getTime());
-        // console.log(jobs);
+      remainingEmptySlots.forEach(element => {
+        element.defaultFrom.setFullYear(
+          tempDate.getFullYear(),
+          tempDate.getMonth(),
+          tempDate.getDate()
+        );
+        tempSlots[element.index] = element;
+      });
 
-        jobs.forEach(element => {
-          if (element.slotReplaced === true) {
-            tempSlots[element.slotIndex].job = element;
-          }
-          if (element.slotReplaced === false) {
-            const jobToInsert = element;
-            tempSlots.push({ index: null, job: jobToInsert, defaultFrom: null, defaultTo: null });
-          }
-        });
-        this.days.push({ date: tempDate, slots: tempSlots });
-      }
+      tempSlots.sort((a: Slot, b: Slot) => {
+        return a.defaultFrom.getTime() - b.defaultFrom.getTime();
+      });
+
+      this.days.push({ date: tempDate, slots: tempSlots });
     }
   }
 
@@ -111,5 +124,4 @@ export class SlotService {
     ];
     return slots;
   }
-
 }

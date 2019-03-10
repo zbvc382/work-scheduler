@@ -216,3 +216,7 @@ mat-divider {
 .weekday-display .mat-icon {
   color: white;
 }
+
+.mat-icon-button-focus-overlay {
+  background-color: transparent!important;
+}

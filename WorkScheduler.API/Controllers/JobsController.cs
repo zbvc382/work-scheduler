@@ -40,8 +40,6 @@ namespace WorkScheduler.API.Controllers
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> AddJob(Job job) {
-
-
             var jobToReturn = await _jobRepository.Create(job);
             _jobRepository.Save();
 
