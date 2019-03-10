@@ -5,3 +5,11 @@ html, body {
   margin: 0;
   height: 100%;
 }
+
+.success-snackbar {
+  background: #4CAF50;
+}
+
+.success-snackbar > .mat-simple-snackbar {
+  justify-content: center;
+}

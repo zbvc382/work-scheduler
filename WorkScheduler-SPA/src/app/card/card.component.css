@@ -59,6 +59,12 @@ mat-divider {
   transform: scale(1);
 }
 
+.delete-icon {
+  position: relative;
+  margin-bottom: 50%;
+  transform: scale(1);
+}
+
 .options-button {
   font-size: 30px !important;
   height: 30px !important;
@@ -79,6 +85,16 @@ mat-divider {
     font-size: 15px;
     opacity: 1;
     color: #3f51b5;
+  }
+
+  .card-container .row div {
+    margin-top: 8px;
+  }
+
+  .options-button {
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    margin-top: 3%;
   }
 
   #week {

@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnDestroy,
+  Output,
+  EventEmitter
+} from '@angular/core';
 import {
   animate,
   state,
@@ -11,12 +18,13 @@ import { Day } from '../_models/Day';
 import { FormControl } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { AuthService } from '../_services/auth.service';
-import { MatDialog, MatDialogConfig } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
 import { JobDialogComponent } from '../job-dialog/job-dialog.component';
 import { Job } from '../_models/Job';
 import { JobService } from '../_services/job.service';
 import { TimeService } from '../_services/time.service';
 import { isObject } from 'util';
+import { DeleteJobDialogComponent } from '../delete-job-dialog/delete-job-dialog.component';
 
 @Component({
   selector: 'app-card',
@@ -44,7 +52,6 @@ export class CardComponent implements OnInit, OnDestroy {
   private $data = new BehaviorSubject<Day[]>([]);
   payerTypes = ['Agency', 'Private', 'Landlord'];
 
-
   @Input() set data(value: Day[]) {
     this.$data.next(value);
   }
@@ -57,7 +64,8 @@ export class CardComponent implements OnInit, OnDestroy {
     private breakpointObserver: BreakpointObserver,
     private dialog: MatDialog,
     private jobService: JobService,
-    private timeService: TimeService
+    private timeService: TimeService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -78,6 +86,13 @@ export class CardComponent implements OnInit, OnDestroy {
 
   get isMobile() {
     return this.breakpointObserver.isMatched('(max-width: 600px)');
+  }
+
+  openSnackbar(message: string, className: string) {
+    this.snackBar.open(message, '', {
+      duration: 4000,
+      panelClass: [className],
+    });
   }
 
   addJob(data, date: Date, index: number) {
@@ -109,11 +124,15 @@ export class CardComponent implements OnInit, OnDestroy {
     job.timeFrom = this.timeService.get24HourTime(job.timeFrom, new Date(date));
     job.timeTo = this.timeService.get24HourTime(job.timeTo, new Date(date));
 
-    this.jobService.createJob(job).subscribe(() => {
-      this.addJobEmitter.emit(null);
-    }, error => {
-      console.log(error);
-    });
+    this.jobService.createJob(job).subscribe(
+      () => {
+        this.addJobEmitter.emit(null);
+        this.openSnackbar('Job successfully created.', 'success-snackbar' );
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   openDialog(
@@ -154,6 +173,39 @@ export class CardComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         this.addJob(data, date, index);
+      }
+    });
+  }
+
+  onDeleteJobDialog(jobId: number, dayId: number) {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = false;
+
+    const dialogRef = this.dialog.open(DeleteJobDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.jobService.deleteJob(jobId).subscribe(
+          () => {
+            let index: number;
+
+            for (let i = 0; i < this.days[dayId].slots.length; i++) {
+              if (this.days[dayId].slots[i].job != null) {
+                if (this.days[dayId].slots[i].job.id === jobId) {
+                  index = i;
+                }
+              }
+            }
+            this.days[dayId].slots.splice(index, 1);
+
+            console.log('Job deleted');
+            this.openSnackbar('Job successfully deleted.', 'success-snackbar' );
+          },
+          error => {
+            console.log('Could not delete job');
+          }
+        );
       }
     });
   }

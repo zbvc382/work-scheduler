@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,7 @@ namespace WorkScheduler.API.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetJobs()
         {
@@ -37,7 +38,7 @@ namespace WorkScheduler.API.Controllers
             return Ok(jobToReturn);
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> AddJob(Job job) {
             var jobToReturn = await _jobRepository.Create(job);
@@ -53,6 +54,21 @@ namespace WorkScheduler.API.Controllers
             var jobsToReturn = await _jobRepository.GetJobsByWeek(date);
 
             return Ok(jobsToReturn);
+        }
+
+        [AllowAnonymous]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> deleteJob(int id) {
+            var jobToDelete = await _jobRepository.GetJob(id);
+
+            if (jobToDelete != null) {
+                _jobRepository.Delete(jobToDelete);
+                _jobRepository.Save();
+
+                return NoContent();
+            }
+
+            return BadRequest();
         }
     }
 }

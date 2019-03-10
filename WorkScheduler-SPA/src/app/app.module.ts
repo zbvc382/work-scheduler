@@ -29,6 +29,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { TimePickerComponent } from './time-picker/time-picker.component';
 import { AgencyService } from './_services/agency.service';
 import { TimeService } from './_services/time.service';
+import { DeleteJobDialogComponent } from './delete-job-dialog/delete-job-dialog.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -44,6 +45,7 @@ export function tokenGetter() {
       CardComponent,
       JobsComponent,
       JobDialogComponent,
+      DeleteJobDialogComponent,
       TimePickerComponent
    ],
    imports: [
@@ -81,6 +83,6 @@ export function tokenGetter() {
    bootstrap: [
       AppComponent
    ],
-   entryComponents: [JobDialogComponent]
+   entryComponents: [JobDialogComponent, DeleteJobDialogComponent]
 })
 export class AppModule { }

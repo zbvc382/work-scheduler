@@ -21,7 +21,6 @@ namespace WorkScheduler.API.Data
         public async Task<Job> GetJob(int id)
         {
             return await FindAll()
-               
                 .FirstOrDefaultAsync(j => j.Id == id);
         }
 
@@ -29,7 +28,6 @@ namespace WorkScheduler.API.Data
         {
             var end = BusinessDays.getEndDate(start);
             return await FindByCondition(x => x.DateAssigned >= start && x.DateAssigned < end)
-               
                 .ToListAsync();
         }
     }

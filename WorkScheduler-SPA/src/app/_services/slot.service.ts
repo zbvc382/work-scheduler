@@ -91,7 +91,7 @@ export class SlotService {
         return a.defaultFrom.getTime() - b.defaultFrom.getTime();
       });
 
-      this.days.push({ date: tempDate, slots: tempSlots });
+      this.days.push({id: i, date: tempDate, slots: tempSlots });
     }
   }
 
