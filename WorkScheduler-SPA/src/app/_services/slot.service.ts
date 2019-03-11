@@ -59,8 +59,6 @@ export class SlotService {
 
       tempDate.setHours(0, 0, 0, 0);
 
-      console.log(tempDate);
-
       let jobs: Job[] = [];
       tempDate.setDate(tempDate.getDate() + i);
       const tempSlots = this.getDefaultSlots();

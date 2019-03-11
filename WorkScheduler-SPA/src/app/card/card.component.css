@@ -236,3 +236,7 @@ mat-divider {
 .mat-icon-button-focus-overlay {
   background-color: transparent!important;
 }
+
+#clearIcon {
+  cursor: pointer;
+}

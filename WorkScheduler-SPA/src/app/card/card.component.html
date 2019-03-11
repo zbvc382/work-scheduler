@@ -15,8 +15,9 @@
   <div fxFlex fxLayout fxLayoutAlign="end">
     <div class="search-form">
       <mat-form-field class="search-bar">
-        <input type="search" matInput placeholder="Search Jobs" />
-        <mat-icon matSuffix>search</mat-icon>
+        <input type="search" [(ngModel)]="searchValue" (ngModelChange)="onSearchInput()" (keyup.enter)="onSearchEnter()" matInput placeholder="Search Jobs" />
+        <mat-icon *ngIf="!searchClear" matSuffix>search</mat-icon>
+        <mat-icon *ngIf="searchClear" id="clearIcon" (click)="onSearchClear()" matSuffix>clear</mat-icon>
       </mat-form-field>
     </div>
   </div>
