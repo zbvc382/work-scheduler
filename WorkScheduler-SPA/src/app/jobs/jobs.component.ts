@@ -16,9 +16,16 @@ export class JobsComponent implements OnInit {
     this.getDaysSlotsOfCurrentWeek();
   }
 
-  getDaysSlotsOfCurrentWeek() {
-    this.slotService.getWeekSlots(new Date()).subscribe((days: Day[]) => {
-      this.days = days;
-    });
+  getDaysSlotsOfCurrentWeek(value?: any) {
+
+    if (value) {
+      this.slotService.getWeekSlots(value.date).subscribe((days: Day[]) => {
+        this.days = days;
+      });
+    } else {
+      this.slotService.getWeekSlots(new Date()).subscribe((days: Day[]) => {
+        this.days = days;
+      });
+    }
   }
 }

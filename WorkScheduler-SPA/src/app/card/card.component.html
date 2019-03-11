@@ -6,6 +6,7 @@
         [matDatepicker]="dp"
         (click)="dp.open()"
         [formControl]="date"
+        (dateChange)="onCalendarSelect()"
       />
       <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
       <mat-datepicker [touchUi]="isMobile" #dp></mat-datepicker>

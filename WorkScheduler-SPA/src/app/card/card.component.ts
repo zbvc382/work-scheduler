@@ -4,7 +4,8 @@ import {
   Input,
   OnDestroy,
   Output,
-  EventEmitter
+  EventEmitter,
+  OnChanges
 } from '@angular/core';
 import {
   animate,
@@ -18,13 +19,15 @@ import { Day } from '../_models/Day';
 import { FormControl } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { AuthService } from '../_services/auth.service';
-import { MatDialog, MatDialogConfig, MatSnackBar } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatSnackBar, MatDatepickerInputEvent } from '@angular/material';
 import { JobDialogComponent } from '../job-dialog/job-dialog.component';
 import { Job } from '../_models/Job';
 import { JobService } from '../_services/job.service';
 import { TimeService } from '../_services/time.service';
 import { isObject } from 'util';
 import { DeleteJobDialogComponent } from '../delete-job-dialog/delete-job-dialog.component';
+import { SlotService } from '../_services/slot.service';
+import { defaultStyleSanitizer } from '@angular/core/src/sanitization/sanitization';
 
 @Component({
   selector: 'app-card',
@@ -46,6 +49,8 @@ import { DeleteJobDialogComponent } from '../delete-job-dialog/delete-job-dialog
 })
 export class CardComponent implements OnInit, OnDestroy {
   @Output() addJobEmitter = new EventEmitter();
+  @Output() calendarEmitter = new EventEmitter<{date: Date}>();
+  @Output() dateChange: EventEmitter<MatDatepickerInputEvent<any>>;
   date = new FormControl(new Date());
   expanded: boolean[] = [false];
   days: Day[];
@@ -65,16 +70,22 @@ export class CardComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private jobService: JobService,
     private timeService: TimeService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private slotService: SlotService
   ) {}
 
   ngOnInit() {
     this.$data.subscribe(j => {
       this.days = this.data;
+      console.log(this.days);
     });
   }
 
   ngOnDestroy(): void {}
+
+  onCalendarSelect() {
+    this.calendarEmitter.emit({date: this.date.value});
+  }
 
   onExpansion() {
     if (this.expanded[0] === false) {

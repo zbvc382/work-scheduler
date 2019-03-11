@@ -31,7 +31,7 @@ export class SlotService {
           job.dateAssigned = new Date(job.dateAssigned);
         });
         this.jobs = jobs;
-        this.setSlots();
+        this.setSlots(date);
         this.days$.next(this.days);
         this.Clear();
       },
@@ -47,10 +47,19 @@ export class SlotService {
     this.jobs = [];
   }
 
-  private setSlots() {
+  private setSlots(date: Date) {
     for (let i = 0; i < 8; i++) {
-      const tempDate = new Date();
+      const tempDate = new Date(
+        date.getFullYear(),
+        date.getMonth(),
+        date.getDate(),
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds());
+
       tempDate.setHours(0, 0, 0, 0);
+
+      console.log(tempDate);
 
       let jobs: Job[] = [];
       tempDate.setDate(tempDate.getDate() + i);
