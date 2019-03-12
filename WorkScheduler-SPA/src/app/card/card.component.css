@@ -240,3 +240,7 @@ mat-divider {
 #clearIcon {
   cursor: pointer;
 }
+
+#yes {
+  filter: blur(2px);
+}

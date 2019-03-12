@@ -52,6 +52,9 @@ export class CardComponent implements OnInit, OnDestroy {
   expanded: boolean[] = [false];
   days: Day[];
   searchValue = '';
+  blur = false;
+  two = '2px';
+  zero = '0px';
   searchClear = false;
   private $data = new BehaviorSubject<Day[]>([]);
   payerTypes = ['Agency', 'Private', 'Landlord'];
@@ -86,6 +89,14 @@ export class CardComponent implements OnInit, OnDestroy {
     } else {
       this.searchClear = false;
     }
+  }
+
+  onSearchFocus(){
+    this.blur = true;
+  }
+
+  onSearchFocusOut() {
+    this.blur = false;
   }
 
   onCalendarSelect() {

@@ -1,6 +1,6 @@
 <div class="main-toolbar">
   <div fxFlex fxLayout fxLayoutAlign="start">
-    <mat-form-field class="calendar-picker">
+    <mat-form-field class="calendar-picker" [style.filter]="blur ? ('blur(2px)' | safe ): ('blur(0px)' | safe)">
       <input
         matInput
         [matDatepicker]="dp"
@@ -15,14 +15,14 @@
   <div fxFlex fxLayout fxLayoutAlign="end">
     <div class="search-form">
       <mat-form-field class="search-bar">
-        <input type="search" [(ngModel)]="searchValue" (ngModelChange)="onSearchInput()" (keyup.enter)="onSearchEnter()" matInput placeholder="Search Jobs" />
+        <input type="search" (focus)="onSearchFocus()" (focusout)="onSearchFocusOut()" [(ngModel)]="searchValue" (ngModelChange)="onSearchInput()" (keyup.enter)="onSearchEnter()" matInput placeholder="Search Jobs" />
         <mat-icon *ngIf="!searchClear" matSuffix>search</mat-icon>
         <mat-icon *ngIf="searchClear" id="clearIcon" (click)="onSearchClear()" matSuffix>clear</mat-icon>
       </mat-form-field>
     </div>
   </div>
 </div>
-<div *ngFor="let day of days">
+<div class="slot-card" [style.filter]="blur ? ('blur(2px)' | safe ): ('blur(0px)' | safe)" *ngFor="let day of days">
   <div class="weekday-display">
     <div fxFlex fxLayout fxLayoutGap="5px" fxLayoutAlign="start">
       <button mat-raised-button (click)="openDialog(day.date)">

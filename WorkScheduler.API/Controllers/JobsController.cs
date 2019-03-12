@@ -70,5 +70,12 @@ namespace WorkScheduler.API.Controllers
 
             return BadRequest();
         }
+
+        [AllowAnonymous]
+        [HttpGet("search")]
+        public  IActionResult searchJobs(string q) {
+            string[] query = q.Split(' ');
+            return Ok(query[1]);
+        }
     }
 }
