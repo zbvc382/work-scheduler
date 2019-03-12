@@ -31,8 +31,9 @@ namespace WorkScheduler.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("{id}", Name="GetJob")]
-        public async Task<IActionResult> GetJob(int id) {
+        [HttpGet("{id}", Name = "GetJob")]
+        public async Task<IActionResult> GetJob(int id)
+        {
             var jobToReturn = await _jobRepository.GetJob(id);
 
             return Ok(jobToReturn);
@@ -40,17 +41,19 @@ namespace WorkScheduler.API.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddJob(Job job) {
+        public async Task<IActionResult> AddJob(Job job)
+        {
             var jobToReturn = await _jobRepository.Create(job);
             _jobRepository.Save();
 
-            return CreatedAtRoute("GetJob", new {id = jobToReturn.Id}, jobToReturn);
+            return CreatedAtRoute("GetJob", new { id = jobToReturn.Id }, jobToReturn);
 
         }
 
         [Authorize]
         [HttpGet("date/{date}")]
-        public async Task<IActionResult> getJobWeek(DateTime date) {
+        public async Task<IActionResult> getJobWeek(DateTime date)
+        {
             var jobsToReturn = await _jobRepository.GetJobsByWeek(date);
 
             return Ok(jobsToReturn);
@@ -58,10 +61,12 @@ namespace WorkScheduler.API.Controllers
 
         [AllowAnonymous]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> deleteJob(int id) {
+        public async Task<IActionResult> deleteJob(int id)
+        {
             var jobToDelete = await _jobRepository.GetJob(id);
 
-            if (jobToDelete != null) {
+            if (jobToDelete != null)
+            {
                 _jobRepository.Delete(jobToDelete);
                 _jobRepository.Save();
 
@@ -73,9 +78,24 @@ namespace WorkScheduler.API.Controllers
 
         [AllowAnonymous]
         [HttpGet("search")]
-        public  IActionResult searchJobs(string q) {
-            string[] query = q.Split(' ');
-            return Ok(query[1]);
+        public async Task<IActionResult> searchJobs(string q)
+        {
+
+            if (!string.IsNullOrEmpty(q))
+            {
+                var jobs = await _jobRepository.SearchAllJobs(q);
+
+                if (jobs != null)
+                {
+                    return Ok(jobs);
+                }
+
+                else
+                {
+                    return NoContent();
+                }
+            }
+            return BadRequest();
         }
     }
 }
