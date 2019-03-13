@@ -12,6 +12,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class SlotService {
   private jobs: Job[] = [];
   private days: Day[] = [];
+  private queriedJobs$ = new BehaviorSubject<Job[]>([]);
   private days$ = new BehaviorSubject<Day[]>([]);
 
   constructor(
@@ -40,6 +41,23 @@ export class SlotService {
       }
     );
     return this.days$.asObservable();
+  }
+
+  getSearchSlots(query: string) {
+    this.jobService.searchJobs(query).subscribe(
+      (jobs: Job[]) => {
+        jobs.forEach(job => {
+          job.timeFrom = new Date(job.timeFrom);
+          job.timeTo = new Date(job.timeTo);
+          job.dateAssigned = new Date(job.dateAssigned);
+        });
+        this.queriedJobs$.next(jobs);
+      },
+      error => {
+        console.log('Failed to fetch jobs');
+      }
+    );
+    return this.queriedJobs$.asObservable();
   }
 
   private Clear() {

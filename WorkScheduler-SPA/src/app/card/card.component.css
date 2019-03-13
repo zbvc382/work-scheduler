@@ -87,6 +87,17 @@ mat-divider {
     color: #3f51b5;
   }
 
+  .matchFound {
+    font-size: 15px;
+    opacity: 1;
+    color: #4caf50;
+  }
+
+  .matchNotFound {
+    font-size: 15px;
+    opacity: 1;
+  }
+
   .card-container .row div {
     margin-top: 8px;
   }
@@ -95,6 +106,11 @@ mat-divider {
     margin-left: 2.5%;
     margin-right: 2.5%;
     margin-top: 3%;
+  }
+
+  .status-col-icon {
+    transform: scale(0.8);
+    margin-right: 8px;
   }
 
   #week {
@@ -120,6 +136,10 @@ mat-divider {
     max-width: 150px;
   }
 
+  .date-range-picker {
+    max-width: 150px;
+  }
+
   .search-bar {
     width: 150px;
   }
@@ -129,6 +149,19 @@ mat-divider {
   .expansion-container .row {
     margin-top: 10px;
   }
+
+  .matchFound {
+    font-size: 25px;
+    font-weight: 100;
+    color: #4caf50;
+  }
+
+  .matchNotFound {
+    font-size: 25px;
+    font-weight: 100;
+    color: red;
+  }
+
   .info-icon {
     transform: scale(0.9);
     margin-right: 8px;
@@ -142,9 +175,29 @@ mat-divider {
     max-width: 130px;
   }
 
+  #postcode-col-search {
+    min-width: 150px;
+    max-width: 150px;
+  }
+
   #time-col {
     min-width: 220px;
     max-width: 220px;
+  }
+
+  #date-col-search {
+    min-width: 180px;
+    max-width: 180px;
+  }
+
+  #job-number-col-search {
+    min-width: 150px;
+    max-width: 150px;
+  }
+
+  #status-col-search {
+    min-width: 150px;
+    max-width: 150px;
   }
 
   #contact-col {
@@ -153,13 +206,23 @@ mat-divider {
   }
 
   #address-col {
-    min-width: 300px;
-    max-width: 300px;
+    min-width: 600px;
+    max-width: 600px;
   }
 
   #phone-col {
     min-width: 180px;
     max-width: 180px;
+  }
+
+  #job-number-col-search {
+    min-width: 130px;
+    max-width: 130px;
+  }
+
+  .status-col-icon {
+    transform: scale(0.8);
+    margin-right: 8px;
   }
 
   .expand-icon {
@@ -184,6 +247,7 @@ mat-divider {
     font-weight: 100;
     color: #3f51b5;
   }
+
   .weekday-display {
     margin-right: 40px;
     margin-top: 2%;
@@ -234,13 +298,27 @@ mat-divider {
 }
 
 .mat-icon-button-focus-overlay {
-  background-color: transparent!important;
+  background-color: transparent !important;
 }
 
 #clearIcon {
   cursor: pointer;
 }
 
-#yes {
-  filter: blur(2px);
+.search-result-length > div {
+  font-size: 25px;
+  font-weight: 100;
+  color: #3f51b5;
+}
+
+.search-result-length {
+  margin-top: 2%;
+  margin-right: 2.5%;
+  margin-bottom: 2%;
+}
+
+#paginator {
+  bottom: 0;
+  width: 96%;
+  margin: 2%;
 }

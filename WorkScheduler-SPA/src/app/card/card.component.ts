@@ -25,6 +25,7 @@ import { JobService } from '../_services/job.service';
 import { TimeService } from '../_services/time.service';
 import { isObject } from 'util';
 import { DeleteJobDialogComponent } from '../delete-job-dialog/delete-job-dialog.component';
+import { SlotService } from '../_services/slot.service';
 
 @Component({
   selector: 'app-card',
@@ -53,8 +54,10 @@ export class CardComponent implements OnInit, OnDestroy {
   days: Day[];
   searchValue = '';
   blur = false;
-  two = '2px';
-  zero = '0px';
+  searchResultLength = 0;
+  dateRangeSelected = '';
+  queriedJobs: Job[];
+  searching = false;
   searchClear = false;
   private $data = new BehaviorSubject<Day[]>([]);
   payerTypes = ['Agency', 'Private', 'Landlord'];
@@ -72,7 +75,8 @@ export class CardComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private jobService: JobService,
     private timeService: TimeService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private slotService: SlotService
   ) {}
 
   ngOnInit() {
@@ -88,10 +92,11 @@ export class CardComponent implements OnInit, OnDestroy {
       this.searchClear = true;
     } else {
       this.searchClear = false;
+      this.searching = false;
     }
   }
 
-  onSearchFocus(){
+  onSearchFocus() {
     this.blur = true;
   }
 
@@ -105,13 +110,19 @@ export class CardComponent implements OnInit, OnDestroy {
 
   onSearchEnter() {
     if (this.searchValue.trim().length > 0) {
-      console.log(this.searchValue);
+      this.slotService.getSearchSlots(this.searchValue).subscribe((jobs: Job[]) => {
+        this.queriedJobs = jobs;
+      });
+      this.searching = true;
     }
   }
 
   onSearchClear() {
     this.searchValue = '';
     this.searchClear = false;
+    this.searching = false;
+    this.dateRangeSelected = '';
+    this.queriedJobs = null;
   }
 
   onExpansion() {

@@ -19,4 +19,7 @@ export class JobService implements OnInit {
   deleteJob(id: number) {
     return this.httpClient.delete(this.baseUrl + '/' + id);
   }
+  searchJobs(query: string) {
+    return this.httpClient.get(this.baseUrl + '/search?q=' + query);
+  }
 }
