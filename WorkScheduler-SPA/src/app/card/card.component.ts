@@ -5,7 +5,8 @@ import {
   OnDestroy,
   Output,
   EventEmitter,
-  OnChanges
+  OnChanges,
+  ViewChild
 } from '@angular/core';
 import {
   animate,
@@ -18,7 +19,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Day } from '../_models/Day';
 import { FormControl } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { MatDialog, MatDialogConfig, MatSnackBar, MatDatepickerInputEvent } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatSnackBar, MatDatepickerInputEvent, MatPaginator } from '@angular/material';
 import { JobDialogComponent } from '../job-dialog/job-dialog.component';
 import { Job } from '../_models/Job';
 import { JobService } from '../_services/job.service';
@@ -45,10 +46,11 @@ import { SlotService } from '../_services/slot.service';
     ])
   ]
 })
-export class CardComponent implements OnInit, OnDestroy {
+export class CardComponent implements OnInit, OnDestroy, OnChanges {
   @Output() addJobEmitter = new EventEmitter();
   @Output() calendarEmitter = new EventEmitter<{date: Date}>();
   @Output() dateChange: EventEmitter<MatDatepickerInputEvent<any>>;
+  @Input() hidePageSize: boolean;
   date = new FormControl(new Date());
   expanded: boolean[] = [false];
   days: Day[];
@@ -57,6 +59,9 @@ export class CardComponent implements OnInit, OnDestroy {
   searchResultLength = 0;
   dateRangeSelected = '';
   queriedJobs: Job[];
+  totalItems = 0;
+  pageIndex = 0;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   searching = false;
   searchClear = false;
   private $data = new BehaviorSubject<Day[]>([]);
@@ -87,6 +92,15 @@ export class CardComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {}
 
+  ngOnChanges() {
+    console.log(this.pageIndex);
+  }
+
+  onPaginateChange(event) {
+    const pageNumber = event.pageIndex + 1;
+    this.queryJobs(pageNumber.toString());
+  }
+
   onSearchInput() {
     if (this.searchValue.length > 0) {
       this.searchClear = true;
@@ -110,11 +124,19 @@ export class CardComponent implements OnInit, OnDestroy {
 
   onSearchEnter() {
     if (this.searchValue.trim().length > 0) {
-      this.slotService.getSearchSlots(this.searchValue).subscribe((jobs: Job[]) => {
-        this.queriedJobs = jobs;
-      });
+      this.queryJobs();
       this.searching = true;
+      this.paginator.firstPage();
     }
+  }
+
+  queryJobs(pageNumber?: string) {
+    this.slotService.getSearchSlots(this.searchValue.trim(), pageNumber).subscribe(data => {
+      if (data !== null) {
+        this.queriedJobs = data.result;
+        this.totalItems = data.pagination.totalItems;
+      }
+    });
   }
 
   onSearchClear() {
@@ -176,7 +198,7 @@ export class CardComponent implements OnInit, OnDestroy {
     this.jobService.createJob(job).subscribe(
       () => {
         this.addJobEmitter.emit(null);
-        this.openSnackbar('Job successfully created.', 'success-snackbar' );
+        this.openSnackbar('Job added.', 'success-snackbar' );
       },
       error => {
         console.log(error);
@@ -247,9 +269,7 @@ export class CardComponent implements OnInit, OnDestroy {
               }
             }
             this.days[dayId].slots.splice(index, 1);
-
-            console.log('Job deleted');
-            this.openSnackbar('Job successfully deleted.', 'success-snackbar' );
+            this.openSnackbar('Job deleted.', 'success-snackbar' );
           },
           error => {
             console.log('Could not delete job');

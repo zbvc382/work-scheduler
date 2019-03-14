@@ -5,6 +5,7 @@ import { DateFormat } from '../_pipes/date-format.pipe';
 import { Job } from '../_models/Job';
 import { Day } from '../_models/Day';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { PaginatedResult } from '../_models/Pagination';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class SlotService {
   private days: Day[] = [];
   private queriedJobs$ = new BehaviorSubject<Job[]>([]);
   private days$ = new BehaviorSubject<Day[]>([]);
+  private queriedResult$ = new BehaviorSubject<PaginatedResult<Job[]>>(null);
 
   constructor(
     private jobService: JobService,
@@ -43,21 +45,25 @@ export class SlotService {
     return this.days$.asObservable();
   }
 
-  getSearchSlots(query: string) {
-    this.jobService.searchJobs(query).subscribe(
-      (jobs: Job[]) => {
-        jobs.forEach(job => {
+  getSearchSlots(query: string, pageNumber?: string) {
+    this.jobService.searchJobs(query, pageNumber).subscribe(
+      (data) => {
+        data.result.forEach((job: Job) => {
           job.timeFrom = new Date(job.timeFrom);
           job.timeTo = new Date(job.timeTo);
           job.dateAssigned = new Date(job.dateAssigned);
         });
-        this.queriedJobs$.next(jobs);
+        // this.queriedJobs$.next(jobs);
+        this.queriedResult$.next(data);
+        console.log(this.queriedResult$.getValue());
       },
       error => {
-        console.log('Failed to fetch jobs');
+        console.log('Error: ' + error);
       }
     );
-    return this.queriedJobs$.asObservable();
+    // return this.queriedJobs$.asObservable();
+    // console.log(this.queriedResult$.value);
+    return this.queriedResult$.asObservable();
   }
 
   private Clear() {
