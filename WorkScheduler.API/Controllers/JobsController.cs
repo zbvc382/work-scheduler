@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WorkScheduler.API.Data;
+using WorkScheduler.API.Helpers;
 using WorkScheduler.API.Models;
 
 namespace WorkScheduler.API.Controllers
@@ -78,16 +79,16 @@ namespace WorkScheduler.API.Controllers
 
         [AllowAnonymous]
         [HttpGet("search")]
-        public async Task<IActionResult> searchJobs(string q)
+        public async  Task<IActionResult> searchJobs([FromQuery] SearchParams searchParams)
         {
-
-            if (!string.IsNullOrEmpty(q))
+            if (!string.IsNullOrEmpty(searchParams.Query))
             {
-                var jobs = await _jobRepository.SearchAllJobs(q);
+                var pagedJobs = await _jobRepository.SearchAllJobs(searchParams);
 
-                if (jobs != null)
+                if (pagedJobs != null)
                 {
-                    return Ok(jobs);
+                    Response.AddPagination(pagedJobs.TotalCount);
+                    return Ok(pagedJobs);
                 }
 
                 else

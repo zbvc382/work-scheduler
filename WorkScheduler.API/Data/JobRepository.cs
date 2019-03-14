@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WorkScheduler.API.Helpers;
 using WorkScheduler.API.Models;
-using WorkScheduler.API.Extensions;
 
 namespace WorkScheduler.API.Data
 {
@@ -32,20 +31,22 @@ namespace WorkScheduler.API.Data
                 .ToListAsync();
         }
 
-        public async Task<List<Job>> SearchAllJobs(string query)
+        public async Task<PagedJobs<Job>> SearchAllJobs(SearchParams searchParams)
         {
-            return await FindByCondition(x => x.Address.ContainsWords(query)
-            || x.PostCode.ContainsWords(query)
-            || x.AgencyReference.ContainsWords(query)
-            || x.AgencyName.ContainsWords(query)
-            || x.LandlordName.ContainsWords(query)
-            || x.LandlordPhone.ContainsWords(query)
-            || x.PrivateName.ContainsWords(query)
-            || x.PrivatePhone.ContainsWords(query)
-            || x.ProblemGiven.ContainsWords(query)
-            || x.TenantName.ContainsWords(query)
-            || x.TenantPhone.ContainsWords(query)
-            ).ToListAsync();
+            var jobs = FindByCondition(x => x.Address.ContainsWords(searchParams.Query)
+            || x.PostCode.ContainsWords(searchParams.Query)
+            || x.AgencyReference.ContainsWords(searchParams.Query)
+            || x.AgencyName.ContainsWords(searchParams.Query)
+            || x.LandlordName.ContainsWords(searchParams.Query)
+            || x.LandlordPhone.ContainsWords(searchParams.Query)
+            || x.PrivateName.ContainsWords(searchParams.Query)
+            || x.PrivatePhone.ContainsWords(searchParams.Query)
+            || x.ProblemGiven.ContainsWords(searchParams.Query)
+            || x.TenantName.ContainsWords(searchParams.Query)
+            || x.TenantPhone.ContainsWords(searchParams.Query)
+            );
+
+            return await PagedJobs<Job>.CreateAsync(jobs, searchParams.PageNumber, searchParams.PageSize);
         }
     }
 }

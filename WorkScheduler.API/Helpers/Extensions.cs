@@ -1,9 +1,22 @@
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
-namespace WorkScheduler.API.Extensions
+namespace WorkScheduler.API.Helpers
 {
-    static class StringExtension
+    static class Extensions
     {
+        public static void AddPagination(this HttpResponse response, int totalItems)
+        {
+            var paginationHeader = new PaginationHeader(totalItems);
+            var camelCaseFormatter = new JsonSerializerSettings();
+            camelCaseFormatter.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            response.Headers.Add("Pagination", JsonConvert.SerializeObject(paginationHeader, camelCaseFormatter));
+            response.Headers.Add("Access-Control-Expose-Headers", "Pagination");
+        }
+
+
         public static bool ContainsWords(this string source, string querry)
         {
             if (source == null) {

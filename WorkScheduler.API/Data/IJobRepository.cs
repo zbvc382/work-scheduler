@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using WorkScheduler.API.Helpers;
 using WorkScheduler.API.Models;
 
 namespace WorkScheduler.API.Data
@@ -11,7 +13,6 @@ namespace WorkScheduler.API.Data
         Task<List<Job>> GetJobs();
         Task<Job> GetJob(int id);
         Task<List<Job>> GetJobsByWeek(DateTime start);
-        Task<List<Job>> SearchAllJobs(string query);
-    
+        Task<PagedJobs<Job>> SearchAllJobs(SearchParams searchParams);
     }
 }
