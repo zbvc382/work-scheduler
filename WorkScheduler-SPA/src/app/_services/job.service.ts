@@ -5,6 +5,7 @@ import { Job } from '../_models/Job';
 import { PaginatedResult } from '../_models/Pagination';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { DateRange } from '../_enums/DateRange.enum';
 
 @Injectable()
 export class JobService implements OnInit {
@@ -22,12 +23,20 @@ export class JobService implements OnInit {
   deleteJob(id: number) {
     return this.httpClient.delete(this.baseUrl + '/' + id);
   }
-  searchJobs(query: string, pageNumber?: string): Observable<PaginatedResult<Job[]>> {
+  searchJobs(query: string, pageNumber?: string, dateRange?: string): Observable<PaginatedResult<Job[]>> {
     const paginatedResult: PaginatedResult<Job[]> = new PaginatedResult<Job[]>();
 
     let params = new HttpParams();
 
-    if (pageNumber !== undefined) {
+    if (pageNumber !== undefined && dateRange !== undefined) {
+      params = params.append('query', query);
+      params = params.append('pageNumber', pageNumber);
+      params = params.append('dateFrom', this.getDateRange(dateRange));
+    } else if (dateRange !== undefined) {
+      console.log(dateRange);
+      params = params.append('query', query);
+      params = params.append('dateFrom', this.getDateRange(dateRange));
+    } else if (pageNumber !== undefined) {
       params = params.append('query', query);
       params = params.append('pageNumber', pageNumber);
     } else {
@@ -43,5 +52,24 @@ export class JobService implements OnInit {
         return paginatedResult;
       })
     );
+  }
+  private getDateRange(dateRangeSelected: string): string {
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+
+    if (DateRange.Week === +dateRangeSelected) {
+      date.setDate(date.getDate() - 7);
+      return date.toDateString();
+    }
+
+    if (DateRange.Month === +dateRangeSelected) {
+      date.setDate(date.getDate() - 28);
+      return date.toDateString();
+    }
+
+    if (DateRange.Year === +dateRangeSelected) {
+      date.setDate(date.getDate() - 365);
+      return date.toDateString();
+    }
   }
 }

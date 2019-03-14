@@ -27,6 +27,7 @@ import { TimeService } from '../_services/time.service';
 import { isObject } from 'util';
 import { DeleteJobDialogComponent } from '../delete-job-dialog/delete-job-dialog.component';
 import { SlotService } from '../_services/slot.service';
+import { DateRange } from '../_enums/DateRange.enum';
 
 @Component({
   selector: 'app-card',
@@ -46,7 +47,7 @@ import { SlotService } from '../_services/slot.service';
     ])
   ]
 })
-export class CardComponent implements OnInit, OnDestroy, OnChanges {
+export class CardComponent implements OnInit, OnDestroy {
   @Output() addJobEmitter = new EventEmitter();
   @Output() calendarEmitter = new EventEmitter<{date: Date}>();
   @Output() dateChange: EventEmitter<MatDatepickerInputEvent<any>>;
@@ -92,8 +93,16 @@ export class CardComponent implements OnInit, OnDestroy, OnChanges {
 
   ngOnDestroy(): void {}
 
-  ngOnChanges() {
-    console.log(this.pageIndex);
+  // ngOnChanges() {
+  //   console.log(this.dateRangeSelected);
+  // }
+
+  onDateRangeSelection() {
+    this.queryJobs();
+
+    if (this.paginator !== undefined) {
+      this.paginator.firstPage();
+    }
   }
 
   onPaginateChange(event) {
@@ -126,12 +135,21 @@ export class CardComponent implements OnInit, OnDestroy, OnChanges {
     if (this.searchValue.trim().length > 0) {
       this.queryJobs();
       this.searching = true;
-      this.paginator.firstPage();
+
+      if (this.paginator !== undefined) {
+        this.paginator.firstPage();
+      }
     }
   }
 
   queryJobs(pageNumber?: string) {
-    this.slotService.getSearchSlots(this.searchValue.trim(), pageNumber).subscribe(data => {
+    let range;
+
+    if (this.dateRangeSelected !== '') {
+      range = this.dateRangeSelected;
+    }
+
+    this.slotService.getSearchSlots(this.searchValue.trim(), pageNumber, range).subscribe(data => {
       if (data !== null) {
         this.queriedJobs = data.result;
         this.totalItems = data.pagination.totalItems;

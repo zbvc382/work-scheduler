@@ -45,24 +45,20 @@ export class SlotService {
     return this.days$.asObservable();
   }
 
-  getSearchSlots(query: string, pageNumber?: string) {
-    this.jobService.searchJobs(query, pageNumber).subscribe(
+  getSearchSlots(query: string, pageNumber?: string, dateRange?: string) {
+    this.jobService.searchJobs(query, pageNumber, dateRange).subscribe(
       (data) => {
         data.result.forEach((job: Job) => {
           job.timeFrom = new Date(job.timeFrom);
           job.timeTo = new Date(job.timeTo);
           job.dateAssigned = new Date(job.dateAssigned);
         });
-        // this.queriedJobs$.next(jobs);
         this.queriedResult$.next(data);
-        console.log(this.queriedResult$.getValue());
       },
       error => {
         console.log('Error: ' + error);
       }
     );
-    // return this.queriedJobs$.asObservable();
-    // console.log(this.queriedResult$.value);
     return this.queriedResult$.asObservable();
   }
 

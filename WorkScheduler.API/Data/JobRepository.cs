@@ -33,18 +33,40 @@ namespace WorkScheduler.API.Data
 
         public async Task<PagedJobs<Job>> SearchAllJobs(SearchParams searchParams)
         {
-            var jobs = FindByCondition(x => x.Address.ContainsWords(searchParams.Query)
-            || x.PostCode.ContainsWords(searchParams.Query)
-            || x.AgencyReference.ContainsWords(searchParams.Query)
-            || x.AgencyName.ContainsWords(searchParams.Query)
-            || x.LandlordName.ContainsWords(searchParams.Query)
-            || x.LandlordPhone.ContainsWords(searchParams.Query)
-            || x.PrivateName.ContainsWords(searchParams.Query)
-            || x.PrivatePhone.ContainsWords(searchParams.Query)
-            || x.ProblemGiven.ContainsWords(searchParams.Query)
-            || x.TenantName.ContainsWords(searchParams.Query)
-            || x.TenantPhone.ContainsWords(searchParams.Query)
-            );
+            IQueryable<Job> jobs;
+
+            if (searchParams.DateFrom != null)
+            {
+                jobs = FindByCondition(x => x.DateAssigned >= searchParams.DateFrom &&
+                (x.Address.ContainsWords(searchParams.Query)
+                || x.PostCode.ContainsWords(searchParams.Query)
+                || x.AgencyReference.ContainsWords(searchParams.Query)
+                || x.AgencyName.ContainsWords(searchParams.Query)
+                || x.LandlordName.ContainsWords(searchParams.Query)
+                || x.LandlordPhone.ContainsWords(searchParams.Query)
+                || x.PrivateName.ContainsWords(searchParams.Query)
+                || x.PrivatePhone.ContainsWords(searchParams.Query)
+                || x.ProblemGiven.ContainsWords(searchParams.Query)
+                || x.TenantName.ContainsWords(searchParams.Query)
+                || x.TenantPhone.ContainsWords(searchParams.Query)
+                )).OrderByDescending(x => x.DateAssigned);
+            }
+
+            else
+            {
+                jobs = FindByCondition(x => x.Address.ContainsWords(searchParams.Query)
+                || x.PostCode.ContainsWords(searchParams.Query)
+                || x.AgencyReference.ContainsWords(searchParams.Query)
+                || x.AgencyName.ContainsWords(searchParams.Query)
+                || x.LandlordName.ContainsWords(searchParams.Query)
+                || x.LandlordPhone.ContainsWords(searchParams.Query)
+                || x.PrivateName.ContainsWords(searchParams.Query)
+                || x.PrivatePhone.ContainsWords(searchParams.Query)
+                || x.ProblemGiven.ContainsWords(searchParams.Query)
+                || x.TenantName.ContainsWords(searchParams.Query)
+                || x.TenantPhone.ContainsWords(searchParams.Query)
+                ).OrderByDescending(x => x.DateAssigned);
+            }
 
             return await PagedJobs<Job>.CreateAsync(jobs, searchParams.PageNumber, searchParams.PageSize);
         }

@@ -16,10 +16,10 @@
       <mat-datepicker [touchUi]="isMobile" #dp></mat-datepicker>
     </mat-form-field>
     <mat-form-field class="date-range-picker" *ngIf="searching">
-      <mat-select placeholder="Date Range" [(value)]="dateRangeSelected">
-        <mat-option value="range1">Last Week</mat-option>
-        <mat-option value="range2">Last Month</mat-option>
-        <mat-option value="range3">Last Year</mat-option>
+      <mat-select placeholder="Date Range" [(value)]="dateRangeSelected" (selectionChange)="onDateRangeSelection()">
+        <mat-option value="0">Last Week</mat-option>
+        <mat-option value="1">Last Month</mat-option>
+        <mat-option value="2">Last Year</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
