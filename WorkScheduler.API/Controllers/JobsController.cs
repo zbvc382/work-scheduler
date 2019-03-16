@@ -13,7 +13,7 @@ namespace WorkScheduler.API.Controllers
     [Route("api/[controller]")]
     public class JobsController : ControllerBase
     {
-
+        private const int _baseJobNumber = 5000;
         private readonly IJobRepository _jobRepository;
 
         public JobsController(IJobRepository jobRepository)
@@ -22,7 +22,7 @@ namespace WorkScheduler.API.Controllers
 
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetJobs()
         {
@@ -31,27 +31,56 @@ namespace WorkScheduler.API.Controllers
             return Ok(jobsToReturn);
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet("{id}", Name = "GetJob")]
         public async Task<IActionResult> GetJob(int id)
         {
-            var jobToReturn = await _jobRepository.GetJob(id);
+            var jobToReturn = await _jobRepository.GetJobAsync(id);
 
             return Ok(jobToReturn);
         }
 
-        [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> AddJob(Job job)
+        [AllowAnonymous]
+        [HttpPost("{id}")]
+        public IActionResult AddExtraVisitJob([FromRoute] int id, [FromBody] Job job)
         {
-            var jobToReturn = await _jobRepository.Create(job);
+            var lastVisitJob  = _jobRepository.GetJob(id);
+
+            if (lastVisitJob != null) {
+                var visit = lastVisitJob.Visit + 1;
+                var jobNumber = lastVisitJob.JobNumber;
+
+                var currentVisitJob = _jobRepository.Create(job);
+                currentVisitJob.JobNumber = jobNumber;
+                currentVisitJob.Visit = visit;
+
+                _jobRepository.Save();
+
+                return CreatedAtRoute("GetJob", new { id = currentVisitJob.Id }, currentVisitJob);
+
+            }
+
+            return BadRequest();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public IActionResult AddJob(Job job)
+        {
+            var jobToReturn = _jobRepository.Create(job);
+            _jobRepository.Save();
+
+            jobToReturn.Visit = 1;
+            jobToReturn.JobNumber = 'J' + (_baseJobNumber + jobToReturn.Id).ToString();
+
+            _jobRepository.Update(jobToReturn);
             _jobRepository.Save();
 
             return CreatedAtRoute("GetJob", new { id = jobToReturn.Id }, jobToReturn);
 
         }
 
-        [Authorize]
+        [AllowAnonymous]
         [HttpGet("date/{date}")]
         public async Task<IActionResult> getJobWeek(DateTime date)
         {
@@ -62,9 +91,9 @@ namespace WorkScheduler.API.Controllers
 
         [AllowAnonymous]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> deleteJob(int id)
+        public IActionResult deleteJob(int id)
         {
-            var jobToDelete = await _jobRepository.GetJob(id);
+            var jobToDelete = _jobRepository.GetJob(id);
 
             if (jobToDelete != null)
             {
@@ -84,7 +113,7 @@ namespace WorkScheduler.API.Controllers
             if (!string.IsNullOrEmpty(searchParams.Query))
             {
                 var pagedJobs = await _jobRepository.SearchAllJobs(searchParams);
-
+                
                 if (pagedJobs != null)
                 {
                     Response.AddPagination(pagedJobs.TotalCount);

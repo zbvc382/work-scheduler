@@ -152,6 +152,8 @@ namespace WorkScheduler.API.Migrations
 
                     b.Property<DateTime>("DateAssigned");
 
+                    b.Property<string>("JobNumber");
+
                     b.Property<bool>("Key");
 
                     b.Property<string>("KeyAddress");
@@ -177,6 +179,8 @@ namespace WorkScheduler.API.Migrations
                     b.Property<DateTime>("TimeFrom");
 
                     b.Property<DateTime>("TimeTo");
+
+                    b.Property<int>("Visit");
 
                     b.Property<int?>("slotIndex");
 

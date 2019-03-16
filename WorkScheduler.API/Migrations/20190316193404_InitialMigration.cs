@@ -65,6 +65,8 @@ namespace WorkScheduler.API.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    JobNumber = table.Column<string>(nullable: true),
+                    Visit = table.Column<int>(nullable: false),
                     PayerType = table.Column<string>(nullable: true),
                     ApplianceType = table.Column<string>(nullable: true),
                     ProblemGiven = table.Column<string>(nullable: true),
@@ -84,6 +86,7 @@ namespace WorkScheduler.API.Migrations
                     TenantPhone = table.Column<string>(nullable: true),
                     PrivateName = table.Column<string>(nullable: true),
                     PrivatePhone = table.Column<string>(nullable: true),
+                    AgencyName = table.Column<string>(nullable: true),
                     AgencyId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>

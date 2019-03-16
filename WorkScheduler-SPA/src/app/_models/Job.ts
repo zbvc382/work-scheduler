@@ -1,6 +1,8 @@
 export interface Job {
   [x: string]: any;
     id: number;
+    jobNumber: string;
+    visit: number;
     payerType: string;
     applianceType?: string;
     problemGiven?: string;

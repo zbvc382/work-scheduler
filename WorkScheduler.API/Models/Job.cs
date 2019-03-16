@@ -7,6 +7,8 @@ namespace WorkScheduler.API.Models
     public class Job
     {
         public int Id { get; set; }
+        public string JobNumber { get; set; }
+        public int? Visit { get; set; }
         public string PayerType { get; set; }
         public string ApplianceType { get; set; }
         public string ProblemGiven { get; set; }

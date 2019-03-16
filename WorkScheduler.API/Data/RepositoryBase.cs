@@ -17,9 +17,16 @@ namespace WorkScheduler.API.Data
             this.DataContext = dataContext;
 
         }
-        public async Task<T> Create(T entity)
+        public async Task<T> CreateAsync(T entity)
         {
             await DataContext.Set<T>().AddAsync(entity);
+
+            return entity;
+        }
+
+        public T Create(T entity)
+        {
+            DataContext.Set<T>().Add(entity);
 
             return entity;
         }
@@ -39,9 +46,14 @@ namespace WorkScheduler.API.Data
             return this.DataContext.Set<T>().Where(expression).AsQueryable();
         }
 
+        public async Task SaveAsync()
+        {
+            await this.DataContext.SaveChangesAsync();
+        }
+
         public void Save()
         {
-            this.DataContext.SaveChangesAsync();
+            this.DataContext.SaveChanges();
         }
 
         public void Update(T entity)

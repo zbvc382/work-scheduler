@@ -11,7 +11,8 @@ namespace WorkScheduler.API.Data
     public interface IJobRepository : IRepositoryBase<Job>
     {
         Task<List<Job>> GetJobs();
-        Task<Job> GetJob(int id);
+        Task<Job> GetJobAsync(int id);
+        Job GetJob(int id);
         Task<List<Job>> GetJobsByWeek(DateTime start);
         Task<PagedJobs<Job>> SearchAllJobs(SearchParams searchParams);
     }

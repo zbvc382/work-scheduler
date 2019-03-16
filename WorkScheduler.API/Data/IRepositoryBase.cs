@@ -10,9 +10,11 @@ namespace WorkScheduler.API.Data
     {
         IQueryable<T> FindAll();
         IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
-        Task<T> Create(T entity);
+        Task<T> CreateAsync(T entity);
+        T Create(T entity);
         void Update(T entity);
         void Delete(T entity);
         void Save();
+        Task SaveAsync();
     }
 }

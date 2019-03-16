@@ -9,8 +9,8 @@ using WorkScheduler.API.Data;
 namespace WorkScheduler.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190308230256_ChangeJobModelProperyName")]
-    partial class ChangeJobModelProperyName
+    [Migration("20190316193404_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -154,6 +154,8 @@ namespace WorkScheduler.API.Migrations
 
                     b.Property<DateTime>("DateAssigned");
 
+                    b.Property<string>("JobNumber");
+
                     b.Property<bool>("Key");
 
                     b.Property<string>("KeyAddress");
@@ -179,6 +181,8 @@ namespace WorkScheduler.API.Migrations
                     b.Property<DateTime>("TimeFrom");
 
                     b.Property<DateTime>("TimeTo");
+
+                    b.Property<int>("Visit");
 
                     b.Property<int?>("slotIndex");
 

@@ -18,10 +18,14 @@ namespace WorkScheduler.API.Data
             return await FindAll().ToListAsync();
         }
 
-        public async Task<Job> GetJob(int id)
+        public async Task<Job> GetJobAsync(int id)
         {
-            return await FindAll()
-                .FirstOrDefaultAsync(j => j.Id == id);
+            return await FindAll().FirstOrDefaultAsync(j => j.Id == id);
+        }
+
+        public Job GetJob(int id)
+        {
+            return FindAll().FirstOrDefault(j => j.Id == id);
         }
 
         public async Task<List<Job>> GetJobsByWeek(DateTime start)

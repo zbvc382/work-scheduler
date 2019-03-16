@@ -1,15 +1,17 @@
-.example-element-detail {
+/* .example-element-detail {
   overflow: hidden;
   display: flex;
-}
+} */
+
+
 
 .filled-mat-card {
+  border-radius: 0;
   margin: 2%;
-  margin-top: 1%;
-  padding-top: 2%;
+  padding-top: 1%;
+  padding-bottom: 0.5%;
   padding-right: 2%;
   padding-left: 2%;
-  border-radius: 0;
 }
 
 .main-toolbar {
@@ -28,15 +30,17 @@ a {
   color: black;
 }
 
-mat-divider {
-  margin-top: 10px;
-}
 
-.expansion-container {
+/* .expansion-container {
   width: 100%;
-}
+} */
 
-.row > div {
+/* .row > div {
+  display: inline-flex;
+  vertical-align: middle;
+} */
+
+.card-details .row > div {
   display: inline-flex;
   vertical-align: middle;
 }
@@ -146,9 +150,19 @@ mat-divider {
 }
 
 @media screen and (min-width: 1280px) {
-  .expansion-container .row {
-    margin-top: 10px;
+  .card-options {
+    flex: none;
+    max-width: 5%;
   }
+  
+  .card-details {
+    flex: none;
+    max-width: 95%;
+  }
+
+  /* .expansion-container .row {
+    margin-top: 10px;
+  } */
 
   .matchFound {
     font-size: 25px;
@@ -167,15 +181,8 @@ mat-divider {
     margin-right: 8px;
     color: #484848;
   }
-  .row > div {
-    margin-bottom: 5px;
-  }
-  #postcode-col {
-    min-width: 130px;
-    max-width: 130px;
-  }
 
-  #postcode-col-search {
+  #postcode-col {
     min-width: 150px;
     max-width: 150px;
   }
@@ -185,40 +192,79 @@ mat-divider {
     max-width: 220px;
   }
 
-  #date-col-search {
+  #contact-phone-col {
     min-width: 180px;
     max-width: 180px;
   }
 
-  #job-number-col-search {
-    min-width: 150px;
-    max-width: 150px;
-  }
-
-  #status-col-search {
-    min-width: 150px;
-    max-width: 150px;
-  }
-
-  #contact-col {
-    min-width: 180px;
-    max-width: 180px;
+  #payer-type-col {
+    min-width: 130px;
+    max-width: 130px;
   }
 
   #address-col {
+    min-width: 570px;
+    max-width: 570px;
+  }
+
+  #job-number-col {
+    min-width: 150px;
+    max-width: 150px;
+  }
+
+  #visit-col {
+    min-width: 220px;
+    max-width: 220px;
+  }
+
+  #key-col {
+    min-width: 180px;
+    max-width: 180px;
+  }
+
+  #chips-col {
     min-width: 600px;
     max-width: 600px;
   }
 
-  #phone-col {
+
+
+
+
+
+  /* #postcode-col-search {
+    min-width: 150px;
+    max-width: 150px;
+  } */
+
+
+  /* #date-col-search {
     min-width: 180px;
     max-width: 180px;
-  }
+  } */
 
-  #job-number-col-search {
+  /* #job-number-col-search {
+    min-width: 150px;
+    max-width: 150px;
+  } */
+
+  /* #status-col-search {
+    min-width: 150px;
+    max-width: 150px;
+  } */
+
+
+  /* #phone-col {
+    min-width: 180px;
+    max-width: 180px;
+  } */
+
+
+
+  /* #job-number-col-search {
     min-width: 130px;
     max-width: 130px;
-  }
+  } */
 
   .status-col-icon {
     transform: scale(0.8);
@@ -321,4 +367,12 @@ mat-divider {
   bottom: 0;
   width: 96%;
   margin: 2%;
+}
+
+.mat-standard-chip {
+  min-height: 30px;
+}
+
+.mat-chip {
+  font-weight: 10;
 }
