@@ -28,6 +28,7 @@ import { isObject } from 'util';
 import { DeleteJobDialogComponent } from '../delete-job-dialog/delete-job-dialog.component';
 import { SlotService } from '../_services/slot.service';
 import { DateRange } from '../_enums/DateRange.enum';
+import { JobToCreate } from '../_models/JobToCreate';
 
 @Component({
   selector: 'app-card',
@@ -185,17 +186,19 @@ export class CardComponent implements OnInit, OnDestroy {
   }
 
   addJob(data, date: Date, index: number) {
-    const job: Job = data;
+    let job: JobToCreate;
 
-    if (isObject(data.agency)) {
-      job.agencyName = data.agency.name;
-      job.agencyId = data.agency.id;
-    } else {
-      job.agencyName = data.agency;
-      job.agencyId = null;
+    if (!isObject(data.agency)) {
+      if (data.agency != null) {
+        const tempName = data.agency;
+        const tempId = 0;
+        delete data.agency;
+        job = data;
+        job.agency = {id: tempId, name: tempName};
+      }
     }
 
-    delete job.agency;
+    job = data;
     job.dateAssigned = date;
 
     if (index != null) {

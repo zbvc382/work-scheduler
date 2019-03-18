@@ -1,21 +1,18 @@
 import { Agency } from './Agency';
 
-export interface Job {
-    id: number;
-    jobNumber: string;
-    visit: number;
-    visitToDisplay?: string;
+export interface JobToCreate {
     payerType: string;
     applianceType?: string;
     problemGiven?: string;
     dateAssigned: Date;
     timeFrom: Date;
     timeTo: Date;
+    address: string;
+    postCode: string;
     slotReplaced: boolean;
     slotIndex?: number;
     key?: boolean;
     keyAddress?: string;
-    address?: string;
     postcode?: string;
     agencyReference?: string;
     landlordName?: string;

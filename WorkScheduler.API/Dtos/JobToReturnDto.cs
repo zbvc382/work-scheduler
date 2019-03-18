@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using WorkScheduler.API.Models;
 
-namespace WorkScheduler.API.Models
+namespace WorkScheduler.API.Dtos
 {
-    public class Job
+    public class JobToReturnDto
     {
         public int Id { get; set; }
         public string JobNumber { get; set; }
@@ -30,9 +29,8 @@ namespace WorkScheduler.API.Models
         public string TenantPhone { get; set; }
         public string PrivateName { get; set; }
         public string PrivatePhone { get; set; }
-        public int? AgencyId { get; set; }
-        public Agency Agency { get; set; }
+        public AgencyToReturnDto Agency { get; set; }
 
-        public virtual ICollection<JobTag> JobTags { get; set; }
+        public virtual ICollection<TagToReturnDto> Tags { get; set; }
     }
 }

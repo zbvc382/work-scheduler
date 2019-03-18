@@ -6,6 +6,7 @@ import { PaginatedResult } from '../_models/Pagination';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { DateRange } from '../_enums/DateRange.enum';
+import { JobToCreate } from '../_models/JobToCreate';
 
 @Injectable()
 export class JobService implements OnInit {
@@ -17,7 +18,8 @@ export class JobService implements OnInit {
   getJobs(date: Date) {
     return this.httpClient.get<Job[]>(this.baseUrl + '/date/' + date);
   }
-  createJob(job: Job) {
+  createJob(job: JobToCreate) {
+    console.log(job);
     return this.httpClient.post(this.baseUrl, job);
   }
   deleteJob(id: number) {

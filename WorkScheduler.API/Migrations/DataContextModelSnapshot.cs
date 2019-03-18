@@ -144,8 +144,6 @@ namespace WorkScheduler.API.Migrations
 
                     b.Property<int?>("AgencyId");
 
-                    b.Property<string>("AgencyName");
-
                     b.Property<string>("AgencyReference");
 
                     b.Property<string>("ApplianceType");
@@ -182,13 +180,15 @@ namespace WorkScheduler.API.Migrations
 
                     b.Property<DateTime>("TimeTo");
 
-                    b.Property<int?>("Visit");
+                    b.Property<int>("Visit");
 
                     b.Property<int?>("slotIndex");
 
                     b.Property<bool>("slotReplaced");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AgencyId");
 
                     b.ToTable("Jobs");
                 });
@@ -311,6 +311,13 @@ namespace WorkScheduler.API.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WorkScheduler.API.Models.Job", b =>
+                {
+                    b.HasOne("WorkScheduler.API.Models.Agency", "Agency")
+                        .WithMany("Jobs")
+                        .HasForeignKey("AgencyId");
                 });
 
             modelBuilder.Entity("WorkScheduler.API.Models.JobTag", b =>

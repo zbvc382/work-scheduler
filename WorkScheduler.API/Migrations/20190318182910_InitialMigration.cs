@@ -60,13 +60,26 @@ namespace WorkScheduler.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Tags",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tags", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Jobs",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     JobNumber = table.Column<string>(nullable: true),
-                    Visit = table.Column<int>(nullable: true),
+                    Visit = table.Column<int>(nullable: false),
                     PayerType = table.Column<string>(nullable: true),
                     ApplianceType = table.Column<string>(nullable: true),
                     ProblemGiven = table.Column<string>(nullable: true),
@@ -87,25 +100,17 @@ namespace WorkScheduler.API.Migrations
                     TenantPhone = table.Column<string>(nullable: true),
                     PrivateName = table.Column<string>(nullable: true),
                     PrivatePhone = table.Column<string>(nullable: true),
-                    AgencyName = table.Column<string>(nullable: true),
                     AgencyId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Jobs", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tags",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tags", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Jobs_Agencies_AgencyId",
+                        column: x => x.AgencyId,
+                        principalTable: "Agencies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -276,6 +281,11 @@ namespace WorkScheduler.API.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Jobs_AgencyId",
+                table: "Jobs",
+                column: "AgencyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_JobTags_TagId",
                 table: "JobTags",
                 column: "TagId");
@@ -283,9 +293,6 @@ namespace WorkScheduler.API.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Agencies");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -315,6 +322,9 @@ namespace WorkScheduler.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tags");
+
+            migrationBuilder.DropTable(
+                name: "Agencies");
         }
     }
 }

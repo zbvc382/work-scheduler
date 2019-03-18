@@ -1,9 +1,12 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WorkScheduler.API.Data;
+using WorkScheduler.API.Dtos;
 using WorkScheduler.API.Helpers;
 using WorkScheduler.API.Models;
 
@@ -16,10 +19,15 @@ namespace WorkScheduler.API.Controllers
         private const int _baseJobNumber = 5000;
         private readonly IJobRepository _jobRepository;
         private readonly ITagRepository _tagRepository;
+        private readonly IMapper _mapper;
 
-        public JobsController(IJobRepository jobRepository, ITagRepository tagRepository)
+        public JobsController(IJobRepository jobRepository,
+                              ITagRepository tagRepository,
+                              IAgencyRpository agencyRpository,
+                              IMapper mapper)
         {
             this._tagRepository = tagRepository;
+            this._mapper = mapper;
             this._jobRepository = jobRepository;
 
         }
@@ -28,7 +36,8 @@ namespace WorkScheduler.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetJobs()
         {
-            var jobsToReturn = await _jobRepository.GetJobs();
+            var jobs = await _jobRepository.GetJobs();
+            var jobsToReturn = _mapper.Map<List<JobToReturnDto>>(jobs);
 
             return Ok(jobsToReturn);
         }
@@ -37,15 +46,19 @@ namespace WorkScheduler.API.Controllers
         [HttpGet("{id}", Name = "GetJob")]
         public async Task<IActionResult> GetJob(int id)
         {
-            var jobToReturn = await _jobRepository.GetJobAsync(id);
+            var job = await _jobRepository.GetJobAsync(id);
+
+            var jobToReturn = _mapper.Map<JobToReturnDto>(job);
 
             return Ok(jobToReturn);
         }
 
         [AllowAnonymous]
         [HttpPost("{id}")]
-        public IActionResult AddExtraVisitJob([FromRoute] int id, [FromBody] Job job)
+        public async Task<IActionResult> AddExtraVisitJob([FromRoute] int id, [FromBody] JobToCreateDto jobToCreateDto)
         {
+            var jobToCreate = _mapper.Map<Job>(jobToCreateDto);
+
             var lastVisitJob = _jobRepository.GetJob(id);
 
             if (lastVisitJob != null)
@@ -53,14 +66,17 @@ namespace WorkScheduler.API.Controllers
                 var visit = lastVisitJob.Visit + 1;
                 var jobNumber = lastVisitJob.JobNumber;
 
-                var currentVisitJob = _jobRepository.Create(job);
+                var currentVisitJob = await _jobRepository.AddJob(jobToCreate);
                 currentVisitJob.JobNumber = jobNumber;
                 currentVisitJob.Visit = visit;
 
-                _jobRepository.Save();
+                if (await _jobRepository.SaveAsync())
+                {
+                    var jobToReturn = _mapper.Map<JobToReturnDto>(currentVisitJob);
+                    return CreatedAtRoute("GetJob", new { id = jobToReturn.Id }, jobToReturn);
+                }
 
-                return CreatedAtRoute("GetJob", new { id = currentVisitJob.Id }, currentVisitJob);
-
+                throw new Exception($"Adding job failed on save");
             }
 
             return BadRequest();
@@ -68,13 +84,15 @@ namespace WorkScheduler.API.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult AddJob(Job job)
+        public async Task<IActionResult> AddJob(JobToCreateDto jobToCreateDto)
         {
-            var jobToReturn = _jobRepository.Create(job);
+            var jobToCreate = _mapper.Map<Job>(jobToCreateDto);
+
+            var jobToReturn = await _jobRepository.AddJob(jobToCreate);
             _jobRepository.Save();
 
             jobToReturn.Visit = 1;
-            jobToReturn.JobNumber = 'J' + (_baseJobNumber + jobToReturn.Id).ToString();
+            jobToReturn.JobNumber = "JB" + (_baseJobNumber + jobToReturn.Id).ToString();
 
             _jobRepository.Update(jobToReturn);
             _jobRepository.Save();
@@ -100,14 +118,16 @@ namespace WorkScheduler.API.Controllers
 
             foreach (var id in updateJob.TagIds)
             {
-                var tagToAdd =  _tagRepository.GetTag(id);
+                var tagToAdd = _tagRepository.GetTag(id);
 
-                if (tagToAdd != null) {
+                if (tagToAdd != null)
+                {
                     _jobRepository.AddTag(tagToAdd, jobToUpdate);
                 }
             }
 
-            if (await _jobRepository.SaveAsync()) {
+            if (await _jobRepository.SaveAsync())
+            {
                 return NoContent();
             }
 

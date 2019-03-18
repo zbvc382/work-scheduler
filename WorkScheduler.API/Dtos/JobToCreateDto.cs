@@ -1,15 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using WorkScheduler.API.Models;
 
-namespace WorkScheduler.API.Models
+namespace WorkScheduler.API.Dtos
 {
-    public class Job
+    public class JobToCreateDto
     {
-        public int Id { get; set; }
-        public string JobNumber { get; set; }
-        public int Visit { get; set; }
         public string PayerType { get; set; }
         public string ApplianceType { get; set; }
         public string ProblemGiven { get; set; }
@@ -18,7 +13,6 @@ namespace WorkScheduler.API.Models
         public DateTime TimeTo { get; set; }
         public string Address { get; set; }
         public string PostCode { get; set; }
-        public string Report { get; set; }
         public bool slotReplaced { get; set; }
         public int? slotIndex { get; set; }
         public bool Key { get; set; }
@@ -30,9 +24,6 @@ namespace WorkScheduler.API.Models
         public string TenantPhone { get; set; }
         public string PrivateName { get; set; }
         public string PrivatePhone { get; set; }
-        public int? AgencyId { get; set; }
         public Agency Agency { get; set; }
-
-        public virtual ICollection<JobTag> JobTags { get; set; }
     }
 }

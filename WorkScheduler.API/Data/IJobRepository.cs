@@ -10,6 +10,7 @@ namespace WorkScheduler.API.Data
 {
     public interface IJobRepository : IRepositoryBase<Job>
     {
+        Task<Job> AddJob(Job job);
         Task<List<Job>> GetJobs();
         Task<Job> GetJobAsync(int id);
         Job GetJob(int id);
