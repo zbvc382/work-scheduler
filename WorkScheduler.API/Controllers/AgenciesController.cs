@@ -14,7 +14,6 @@ namespace WorkScheduler.API.Controllers
         public AgenciesController(IAgencyRpository agencyRpository)
         {
             this._agencyRpository = agencyRpository;
-
         }
 
         [AllowAnonymous]

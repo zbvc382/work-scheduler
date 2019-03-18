@@ -1,20 +1,5 @@
-import {
-  Component,
-  OnInit,
-  Input,
-  OnDestroy,
-  Output,
-  EventEmitter,
-  OnChanges,
-  ViewChild
-} from '@angular/core';
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger
-} from '@angular/animations';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, ViewChild } from '@angular/core';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { BehaviorSubject } from 'rxjs';
 import { Day } from '../_models/Day';
 import { FormControl } from '@angular/forms';
@@ -27,8 +12,8 @@ import { TimeService } from '../_services/time.service';
 import { isObject } from 'util';
 import { DeleteJobDialogComponent } from '../delete-job-dialog/delete-job-dialog.component';
 import { SlotService } from '../_services/slot.service';
-import { DateRange } from '../_enums/DateRange.enum';
 import { JobToCreate } from '../_models/JobToCreate';
+import { EditJobDialogComponent } from '../edit-job-dialog/edit-job-dialog.component';
 
 @Component({
   selector: 'app-card',
@@ -93,10 +78,6 @@ export class CardComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {}
-
-  // ngOnChanges() {
-  //   console.log(this.dateRangeSelected);
-  // }
 
   onDateRangeSelection() {
     this.queryJobs();
@@ -241,9 +222,6 @@ export class CardComponent implements OnInit, OnDestroy {
     dialogConfig.disableClose = true;
     dialogConfig.autoFocus = false;
 
-    console.log(defaultFrom);
-    console.log(defaultTo);
-
     dialogConfig.data = {
       payerTypes: this.payerTypes,
       fromDefault: '',
@@ -267,6 +245,21 @@ export class CardComponent implements OnInit, OnDestroy {
         this.addJob(data, date, index);
       }
     });
+  }
+
+  onEditJobDialog() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.autoFocus = false;
+
+    dialogConfig.height = '600px';
+    dialogConfig.width = '800px';
+
+    dialogConfig.data = {
+
+    };
+
+    const dialogRef = this.dialog.open(EditJobDialogComponent, dialogConfig);
   }
 
   onDeleteJobDialog(jobId: number, dayId: number) {

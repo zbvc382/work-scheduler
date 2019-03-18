@@ -1,4 +1,4 @@
-import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
@@ -31,6 +31,7 @@ import { AgencyService } from './_services/agency.service';
 import { TimeService } from './_services/time.service';
 import { DeleteJobDialogComponent } from './delete-job-dialog/delete-job-dialog.component';
 import { Safe } from './_pipes/safe.pipe';
+import { EditJobDialogComponent } from './edit-job-dialog/edit-job-dialog.component';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -48,7 +49,8 @@ export function tokenGetter() {
       JobDialogComponent,
       DeleteJobDialogComponent,
       TimePickerComponent,
-      Safe
+      Safe,
+      EditJobDialogComponent
    ],
    imports: [
       BrowserModule,
@@ -86,6 +88,6 @@ export function tokenGetter() {
    bootstrap: [
       AppComponent
    ],
-   entryComponents: [JobDialogComponent, DeleteJobDialogComponent]
+   entryComponents: [JobDialogComponent, DeleteJobDialogComponent, EditJobDialogComponent]
 })
 export class AppModule { }
