@@ -9,7 +9,7 @@ using WorkScheduler.API.Data;
 namespace WorkScheduler.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190316193404_InitialMigration")]
+    [Migration("20190317192936_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -174,6 +174,8 @@ namespace WorkScheduler.API.Migrations
 
                     b.Property<string>("ProblemGiven");
 
+                    b.Property<string>("Report");
+
                     b.Property<string>("TenantName");
 
                     b.Property<string>("TenantPhone");
@@ -182,7 +184,7 @@ namespace WorkScheduler.API.Migrations
 
                     b.Property<DateTime>("TimeTo");
 
-                    b.Property<int>("Visit");
+                    b.Property<int?>("Visit");
 
                     b.Property<int?>("slotIndex");
 
@@ -191,6 +193,31 @@ namespace WorkScheduler.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Jobs");
+                });
+
+            modelBuilder.Entity("WorkScheduler.API.Models.JobTag", b =>
+                {
+                    b.Property<int>("JobId");
+
+                    b.Property<int>("TagId");
+
+                    b.HasKey("JobId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("JobTags");
+                });
+
+            modelBuilder.Entity("WorkScheduler.API.Models.Tag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("WorkScheduler.API.Models.User", b =>
@@ -285,6 +312,19 @@ namespace WorkScheduler.API.Migrations
                     b.HasOne("WorkScheduler.API.Models.User")
                         .WithMany()
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WorkScheduler.API.Models.JobTag", b =>
+                {
+                    b.HasOne("WorkScheduler.API.Models.Job", "Job")
+                        .WithMany("JobTags")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("WorkScheduler.API.Models.Tag", "Tag")
+                        .WithMany("JobTags")
+                        .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

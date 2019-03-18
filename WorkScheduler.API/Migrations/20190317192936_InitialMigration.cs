@@ -66,7 +66,7 @@ namespace WorkScheduler.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     JobNumber = table.Column<string>(nullable: true),
-                    Visit = table.Column<int>(nullable: false),
+                    Visit = table.Column<int>(nullable: true),
                     PayerType = table.Column<string>(nullable: true),
                     ApplianceType = table.Column<string>(nullable: true),
                     ProblemGiven = table.Column<string>(nullable: true),
@@ -75,6 +75,7 @@ namespace WorkScheduler.API.Migrations
                     TimeTo = table.Column<DateTime>(nullable: false),
                     Address = table.Column<string>(nullable: true),
                     PostCode = table.Column<string>(nullable: true),
+                    Report = table.Column<string>(nullable: true),
                     slotReplaced = table.Column<bool>(nullable: false),
                     slotIndex = table.Column<int>(nullable: true),
                     Key = table.Column<bool>(nullable: false),
@@ -92,6 +93,19 @@ namespace WorkScheduler.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Jobs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tags",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tags", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -200,6 +214,30 @@ namespace WorkScheduler.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "JobTags",
+                columns: table => new
+                {
+                    JobId = table.Column<int>(nullable: false),
+                    TagId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JobTags", x => new { x.JobId, x.TagId });
+                    table.ForeignKey(
+                        name: "FK_JobTags_Jobs_JobId",
+                        column: x => x.JobId,
+                        principalTable: "Jobs",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_JobTags_Tags_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tags",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -236,6 +274,11 @@ namespace WorkScheduler.API.Migrations
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JobTags_TagId",
+                table: "JobTags",
+                column: "TagId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -259,13 +302,19 @@ namespace WorkScheduler.API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Jobs");
+                name: "JobTags");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Jobs");
+
+            migrationBuilder.DropTable(
+                name: "Tags");
         }
     }
 }

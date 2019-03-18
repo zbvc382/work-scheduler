@@ -6,6 +6,7 @@ import { Job } from '../_models/Job';
 import { Day } from '../_models/Day';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { PaginatedResult } from '../_models/Pagination';
+import { Visit } from '../_enums/Visit.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,7 @@ export class SlotService {
           job.timeFrom = new Date(job.timeFrom);
           job.timeTo = new Date(job.timeTo);
           job.dateAssigned = new Date(job.dateAssigned);
+          job.visitToDisplay = Visit[job.visit] + ' Visit';
         });
         this.jobs = jobs;
         this.setSlots(date);

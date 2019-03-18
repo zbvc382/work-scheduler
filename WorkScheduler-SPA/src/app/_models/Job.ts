@@ -3,6 +3,7 @@ export interface Job {
     id: number;
     jobNumber: string;
     visit: number;
+    visitToDisplay?: string;
     payerType: string;
     applianceType?: string;
     problemGiven?: string;

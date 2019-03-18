@@ -15,7 +15,7 @@ namespace WorkScheduler.API.Data
 
         public async Task<List<Job>> GetJobs()
         {
-            return await FindAll().ToListAsync();
+            return await FindAll().Include(j => j.JobTags).ToListAsync();
         }
 
         public async Task<Job> GetJobAsync(int id)
@@ -25,7 +25,7 @@ namespace WorkScheduler.API.Data
 
         public Job GetJob(int id)
         {
-            return FindAll().FirstOrDefault(j => j.Id == id);
+            return FindAll().Include(j => j.JobTags).FirstOrDefault(j => j.Id == id);
         }
 
         public async Task<List<Job>> GetJobsByWeek(DateTime start)
@@ -73,6 +73,15 @@ namespace WorkScheduler.API.Data
             }
 
             return await PagedJobs<Job>.CreateAsync(jobs, searchParams.PageNumber, searchParams.PageSize);
+        }
+
+        public void AddTag(Tag tag, Job job) {
+            job.JobTags.Add(new JobTag
+            {
+                Job = job,
+                Tag = tag
+            }
+            );
         }
     }
 }

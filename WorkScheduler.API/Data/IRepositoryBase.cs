@@ -14,7 +14,7 @@ namespace WorkScheduler.API.Data
         T Create(T entity);
         void Update(T entity);
         void Delete(T entity);
-        void Save();
-        Task SaveAsync();
+        bool Save();
+        Task<bool> SaveAsync();
     }
 }

@@ -15,9 +15,11 @@ namespace WorkScheduler.API.Controllers
     {
         private const int _baseJobNumber = 5000;
         private readonly IJobRepository _jobRepository;
+        private readonly ITagRepository _tagRepository;
 
-        public JobsController(IJobRepository jobRepository)
+        public JobsController(IJobRepository jobRepository, ITagRepository tagRepository)
         {
+            this._tagRepository = tagRepository;
             this._jobRepository = jobRepository;
 
         }
@@ -44,9 +46,10 @@ namespace WorkScheduler.API.Controllers
         [HttpPost("{id}")]
         public IActionResult AddExtraVisitJob([FromRoute] int id, [FromBody] Job job)
         {
-            var lastVisitJob  = _jobRepository.GetJob(id);
+            var lastVisitJob = _jobRepository.GetJob(id);
 
-            if (lastVisitJob != null) {
+            if (lastVisitJob != null)
+            {
                 var visit = lastVisitJob.Visit + 1;
                 var jobNumber = lastVisitJob.JobNumber;
 
@@ -90,6 +93,28 @@ namespace WorkScheduler.API.Controllers
         }
 
         [AllowAnonymous]
+        [HttpPut]
+        public async Task<IActionResult> updateJob(UpdateJob updateJob)
+        {
+            var jobToUpdate = _jobRepository.GetJob(updateJob.Id);
+
+            foreach (var id in updateJob.TagIds)
+            {
+                var tagToAdd =  _tagRepository.GetTag(id);
+
+                if (tagToAdd != null) {
+                    _jobRepository.AddTag(tagToAdd, jobToUpdate);
+                }
+            }
+
+            if (await _jobRepository.SaveAsync()) {
+                return NoContent();
+            }
+
+            throw new Exception($"Updating job id:{jobToUpdate.Id} failed on save");
+        }
+
+        [AllowAnonymous]
         [HttpDelete("{id}")]
         public IActionResult deleteJob(int id)
         {
@@ -108,12 +133,12 @@ namespace WorkScheduler.API.Controllers
 
         [AllowAnonymous]
         [HttpGet("search")]
-        public async  Task<IActionResult> searchJobs([FromQuery] SearchParams searchParams)
+        public async Task<IActionResult> searchJobs([FromQuery] SearchParams searchParams)
         {
             if (!string.IsNullOrEmpty(searchParams.Query))
             {
                 var pagedJobs = await _jobRepository.SearchAllJobs(searchParams);
-                
+
                 if (pagedJobs != null)
                 {
                     Response.AddPagination(pagedJobs.TotalCount);

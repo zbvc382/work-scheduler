@@ -153,11 +153,11 @@
             <div class="row">
                 <div class="col-sm-2" id="job-number-col">
                   <mat-icon class="info-icon">work</mat-icon>
-                  50001
+                  {{slot.job.jobNumber}}
                 </div>
                 <div class="col-sm-2" id="visit-col">
                   <mat-icon class="info-icon">drive_eta</mat-icon>
-                  1st Visit
+                  {{slot.job.visitToDisplay}}
                 </div>
                 <div class="col-sm-2" id="key-col">
                   <mat-icon class="info-icon">vpn_key</mat-icon>

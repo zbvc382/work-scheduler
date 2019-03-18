@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,6 +18,7 @@ namespace WorkScheduler.API.Models
         public DateTime TimeTo { get; set; }
         public string Address { get; set; }
         public string PostCode { get; set; }
+        public string Report { get; set; }
         public bool slotReplaced { get; set; }
         public int? slotIndex { get; set; }
         public bool Key { get; set; }
@@ -30,5 +32,7 @@ namespace WorkScheduler.API.Models
         public string PrivatePhone { get; set; }
         public string AgencyName { get; set; }
         public int? AgencyId { get; set; }
+
+        public virtual ICollection<JobTag> JobTags { get; set; }
     }
 }

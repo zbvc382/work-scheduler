@@ -46,14 +46,14 @@ namespace WorkScheduler.API.Data
             return this.DataContext.Set<T>().Where(expression).AsQueryable();
         }
 
-        public async Task SaveAsync()
+        public async Task<bool> SaveAsync()
         {
-            await this.DataContext.SaveChangesAsync();
+            return await this.DataContext.SaveChangesAsync() > 0;
         }
 
-        public void Save()
+        public bool Save()
         {
-            this.DataContext.SaveChanges();
+            return this.DataContext.SaveChanges() > 0;
         }
 
         public void Update(T entity)
