@@ -52,6 +52,7 @@ namespace WorkScheduler.API.Data
                 (x.Address.ContainsWords(searchParams.Query)
                 || x.PostCode.ContainsWords(searchParams.Query)
                 || x.AgencyReference.ContainsWords(searchParams.Query)
+                || x.Agency.Name.ContainsWords(searchParams.Query)
                 || x.LandlordName.ContainsWords(searchParams.Query)
                 || x.LandlordPhone.ContainsWords(searchParams.Query)
                 || x.PrivateName.ContainsWords(searchParams.Query)
@@ -66,6 +67,7 @@ namespace WorkScheduler.API.Data
             {
                 jobs = FindByCondition(x => x.Address.ContainsWords(searchParams.Query)
                 || x.PostCode.ContainsWords(searchParams.Query)
+                || x.Agency.Name.ContainsWords(searchParams.Query)
                 || x.AgencyReference.ContainsWords(searchParams.Query)
                 || x.LandlordName.ContainsWords(searchParams.Query)
                 || x.LandlordPhone.ContainsWords(searchParams.Query)
