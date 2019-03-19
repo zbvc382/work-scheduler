@@ -211,6 +211,8 @@ namespace WorkScheduler.API.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Color");
+
                     b.Property<string>("Name");
 
                     b.HasKey("Id");

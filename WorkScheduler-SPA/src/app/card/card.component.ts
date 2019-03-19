@@ -1,10 +1,7 @@
-import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, ViewChild } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
 import { BehaviorSubject } from 'rxjs';
 import { Day } from '../_models/Day';
 import { FormControl } from '@angular/forms';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { MatDialog, MatDialogConfig, MatSnackBar, MatDatepickerInputEvent, MatPaginator } from '@angular/material';
 import { JobDialogComponent } from '../job-dialog/job-dialog.component';
 import { Job } from '../_models/Job';
 import { JobService } from '../_services/job.service';
@@ -14,6 +11,31 @@ import { DeleteJobDialogComponent } from '../delete-job-dialog/delete-job-dialog
 import { SlotService } from '../_services/slot.service';
 import { JobToCreate } from '../_models/JobToCreate';
 import { EditJobDialogComponent } from '../edit-job-dialog/edit-job-dialog.component';
+import { TagService } from '../_services/tag.service';
+import { Tag } from '../_models/Tag';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnDestroy,
+  Output,
+  EventEmitter,
+  ViewChild
+} from '@angular/core';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger
+} from '@angular/animations';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatSnackBar,
+  MatDatepickerInputEvent,
+  MatPaginator
+} from '@angular/material';
 
 @Component({
   selector: 'app-card',
@@ -35,12 +57,13 @@ import { EditJobDialogComponent } from '../edit-job-dialog/edit-job-dialog.compo
 })
 export class CardComponent implements OnInit, OnDestroy {
   @Output() addJobEmitter = new EventEmitter();
-  @Output() calendarEmitter = new EventEmitter<{date: Date}>();
+  @Output() calendarEmitter = new EventEmitter<{ date: Date }>();
   @Output() dateChange: EventEmitter<MatDatepickerInputEvent<any>>;
   @Input() hidePageSize: boolean;
   date = new FormControl(new Date());
   expanded: boolean[] = [false];
   days: Day[];
+  defaultTags: Tag[];
   searchValue = '';
   blur = false;
   searchResultLength = 0;
@@ -68,13 +91,15 @@ export class CardComponent implements OnInit, OnDestroy {
     private jobService: JobService,
     private timeService: TimeService,
     private snackBar: MatSnackBar,
-    private slotService: SlotService
+    private slotService: SlotService,
+    private tagService: TagService
   ) {}
 
   ngOnInit() {
     this.$data.subscribe(j => {
       this.days = this.data;
     });
+    this.loadTags();
   }
 
   ngOnDestroy(): void {}
@@ -110,7 +135,7 @@ export class CardComponent implements OnInit, OnDestroy {
   }
 
   onCalendarSelect() {
-    this.calendarEmitter.emit({date: this.date.value});
+    this.calendarEmitter.emit({ date: this.date.value });
   }
 
   onSearchEnter() {
@@ -131,12 +156,14 @@ export class CardComponent implements OnInit, OnDestroy {
       range = this.dateRangeSelected;
     }
 
-    this.slotService.getSearchSlots(this.searchValue.trim(), pageNumber, range).subscribe(data => {
-      if (data !== null) {
-        this.queriedJobs = data.result;
-        this.totalItems = data.pagination.totalItems;
-      }
-    });
+    this.slotService
+      .getSearchSlots(this.searchValue.trim(), pageNumber, range)
+      .subscribe(data => {
+        if (data !== null) {
+          this.queriedJobs = data.result;
+          this.totalItems = data.pagination.totalItems;
+        }
+      });
   }
 
   onSearchClear() {
@@ -162,7 +189,7 @@ export class CardComponent implements OnInit, OnDestroy {
   openSnackbar(message: string, className: string) {
     this.snackBar.open(message, '', {
       duration: 4000,
-      panelClass: [className],
+      panelClass: [className]
     });
   }
 
@@ -175,7 +202,7 @@ export class CardComponent implements OnInit, OnDestroy {
         const tempId = 0;
         delete data.agency;
         job = data;
-        job.agency = {id: tempId, name: tempName};
+        job.agency = { id: tempId, name: tempName };
       }
     }
 
@@ -200,7 +227,7 @@ export class CardComponent implements OnInit, OnDestroy {
     this.jobService.createJob(job).subscribe(
       () => {
         this.addJobEmitter.emit(null);
-        this.openSnackbar('Job added.', 'success-snackbar' );
+        this.openSnackbar('Job added.', 'success-snackbar');
       },
       error => {
         console.log(error);
@@ -238,17 +265,47 @@ export class CardComponent implements OnInit, OnDestroy {
       };
     }
 
-    const dialogRef = this.dialog.open(JobDialogComponent, dialogConfig);
+    let dialogRef = this.dialog.open(JobDialogComponent, dialogConfig);
 
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
         this.addJob(data, date, index);
       }
     });
+    dialogRef = null;
   }
 
-  onEditJobDialog() {
+  loadTags() {
+    this.tagService.getTags().subscribe(
+      (tags: Tag[]) => {
+        this.defaultTags = tags;
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  onEditJobDialog(report: string, tags: Tag[], id: number, dayId: number) {
     const dialogConfig = new MatDialogConfig();
+    const modifiedDefaultTags = this.defaultTags;
+
+    const tagsArray: Tag[] = [];
+
+    if (tags.length > 0) {
+      for (const iterator of tags) {
+        tagsArray.push({
+          id: iterator.id,
+          name: iterator.name,
+          color: iterator.color,
+          selected: true
+        });
+      }
+    }
+
+    modifiedDefaultTags.forEach(element => {
+      element.selected = false;
+    });
 
     dialogConfig.autoFocus = false;
 
@@ -256,10 +313,35 @@ export class CardComponent implements OnInit, OnDestroy {
     dialogConfig.width = '800px';
 
     dialogConfig.data = {
-
+      defaultTags: modifiedDefaultTags,
+      jobReport: report,
+      jobTags: tagsArray,
+      jobId: id
     };
 
     const dialogRef = this.dialog.open(EditJobDialogComponent, dialogConfig);
+
+    dialogRef.afterClosed().subscribe(
+      data => {
+        if (data) {
+          this.jobService.updateJob(data[0]).subscribe(() => {
+            let index: number;
+
+            for (let i = 0; i < this.days[dayId].slots.length; i++) {
+              if (this.days[dayId].slots[i].job != null) {
+                if (this.days[dayId].slots[i].job.id === id) {
+                  index = i;
+                }
+              }
+            }
+            this.days[dayId].slots[index].job.tags = data[1];
+          });
+        }
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   onDeleteJobDialog(jobId: number, dayId: number) {
@@ -283,7 +365,7 @@ export class CardComponent implements OnInit, OnDestroy {
               }
             }
             this.days[dayId].slots.splice(index, 1);
-            this.openSnackbar('Job deleted.', 'success-snackbar' );
+            this.openSnackbar('Job deleted.', 'success-snackbar');
           },
           error => {
             console.log('Could not delete job');

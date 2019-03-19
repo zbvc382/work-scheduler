@@ -1,7 +1,19 @@
 mat-form-field {
-    width: 100%;
+  width: 100%;
 }
 .tag-container {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
+}
+
+.mat-standard-chip {
+  min-height: 30px;
+}
+
+.mat-chip {
+  font-weight: 10;
+}
+
+.mat-dialog-content {
+  min-height: 500px;
 }

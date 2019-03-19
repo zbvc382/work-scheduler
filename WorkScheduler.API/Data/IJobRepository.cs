@@ -17,5 +17,6 @@ namespace WorkScheduler.API.Data
         Task<List<Job>> GetJobsByWeek(DateTime start);
         Task<PagedJobs<Job>> SearchAllJobs(SearchParams searchParams);
         void AddTag(Tag tag, Job job);
+        void UpdateTags(UpdateJob updateJob);
     }
 }

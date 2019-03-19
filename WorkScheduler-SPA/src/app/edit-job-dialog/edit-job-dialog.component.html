@@ -1,13 +1,25 @@
 <mat-dialog-content>
   <mat-form-field>
-    <input matInput [(ngModel)]="report" placeholder="Report"/>
+    <input matInput [(ngModel)]="jobReport" placeholder="Report" />
   </mat-form-field>
   <div class="row">
-      <mat-chip-list>
-          <mat-chip>Papadum</mat-chip>
-          <mat-chip>Naan</mat-chip>
-          <mat-chip>Dal</mat-chip>
-        </mat-chip-list>
+    <mat-chip-list [multiple]="true" [selectable]="true">
+      <mat-chip
+        *ngFor="let tag of defaultTags"
+        [style.background]="tag.selected ? tag.color : '#e0e0e0'"
+        [style.color]="tag.selected ? 'white' : 'black'"
+        [selected]="true"
+        (click)="onSelect(tag)"
+        onclick="this.blur()">{{ tag.name }}
+      </mat-chip>
+    </mat-chip-list>
   </div>
 </mat-dialog-content>
-
+<mat-dialog-actions>
+    <div fxFlex fxLayout fxLayoutAlign="start">
+        <button class="mat-raised-button" (click)="close()">Close</button>
+      </div>
+    <div fxFlex fxLayout fxLayoutAlign="end">
+        <button class="mat-raised-button mat-primary" (click)="save()">Save</button>
+    </div>
+</mat-dialog-actions>

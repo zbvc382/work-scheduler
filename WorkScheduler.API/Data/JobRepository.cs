@@ -26,19 +26,19 @@ namespace WorkScheduler.API.Data
 
         public async Task<Job> GetJobAsync(int id)
         {
-            return await FindAll().Include(j => j.JobTags).Include(j => j.Agency).FirstOrDefaultAsync(j => j.Id == id);
+            return await FindAll().Include(j => j.JobTags).ThenInclude(t => t.Tag).Include(j => j.Agency).FirstOrDefaultAsync(j => j.Id == id);
         }
 
         public Job GetJob(int id)
         {
-            return FindAll().Include(j => j.JobTags).Include(j => j.Agency).FirstOrDefault(j => j.Id == id);
+            return FindAll().Include(j => j.JobTags).ThenInclude(t => t.Tag).Include(j => j.Agency).FirstOrDefault(j => j.Id == id);
         }
 
         public async Task<List<Job>> GetJobsByWeek(DateTime start)
         {
             var end = BusinessDays.getEndDate(start);
             return await FindByCondition(x => x.DateAssigned >= start && x.DateAssigned < end)
-                                        .Include(j => j.JobTags).Include(j => j.Agency)
+                                        .Include(j => j.JobTags).ThenInclude(t => t.Tag).Include(j => j.Agency)
                                         .ToListAsync();
         }
 
@@ -82,13 +82,49 @@ namespace WorkScheduler.API.Data
             return await PagedJobs<Job>.CreateAsync(jobs, searchParams.PageNumber, searchParams.PageSize);
         }
 
-        public void AddTag(Tag tag, Job job) {
-            job.JobTags.Add(new JobTag
+        public void AddTag(Tag tag, Job job)
+        {
+            var exisits = DataContext.JobTags.Any(x => x.JobId == job.Id && x.TagId == tag.Id);
+
+            if (!exisits)
             {
-                Job = job,
-                Tag = tag
+                job.JobTags.Add(new JobTag { Job = job, Tag = tag});
             }
-            );
+        }
+
+        public void UpdateTags(UpdateJob updateJob) {
+            var job = this.DataContext.Jobs.Include(x => x.JobTags).ThenInclude(x => x.Tag).Single(x => x.Id == updateJob.Id);
+            var unselectedTags = updateJob.UnselectedTags;
+            var selectedTags = updateJob.SelectedTags;
+
+            foreach (var item in unselectedTags)
+            {
+                var exists = job.JobTags.Any(x => x.TagId == item);
+
+                if (exists) {
+                    var jobTag = job.JobTags.Single(x => x.TagId == item);
+                    
+                    job.JobTags.Remove(jobTag);
+                }
+            }
+            
+            foreach (var item in selectedTags)
+            {
+                var exists = job.JobTags.Any(x => x.TagId == item);
+
+                if (!exists) {
+                    var newTag = this.DataContext.Tags.Single(x => x.Id == item);
+        
+                    job.JobTags.Add(new JobTag
+                    {
+                        Job = job,
+                        Tag = newTag
+                    });
+                
+                }
+            }
+            this.DataContext.SaveChanges();
+            
         }
 
         public async Task<Job> AddJob(Job job)
@@ -98,7 +134,7 @@ namespace WorkScheduler.API.Data
             {
                 if (job.Agency.Id == 0)
                 {
-                    var agency = new Agency() { Name = job.Agency.Name };
+                    var agency = new Agency { Name = job.Agency.Name };
                     await _agencyRpository.CreateAsync(agency);
                     job.Agency = agency;
                 }

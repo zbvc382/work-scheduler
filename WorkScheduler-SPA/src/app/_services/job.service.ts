@@ -19,12 +19,16 @@ export class JobService implements OnInit {
     return this.httpClient.get<Job[]>(this.baseUrl + '/date/' + date);
   }
   createJob(job: JobToCreate) {
-    console.log(job);
     return this.httpClient.post(this.baseUrl, job);
   }
   deleteJob(id: number) {
     return this.httpClient.delete(this.baseUrl + '/' + id);
   }
+
+  updateJob(updateObject: any) {
+    return this.httpClient.put(this.baseUrl, updateObject);
+  }
+
   searchJobs(query: string, pageNumber?: string, dateRange?: string): Observable<PaginatedResult<Job[]>> {
     const paginatedResult: PaginatedResult<Job[]> = new PaginatedResult<Job[]>();
 
@@ -35,7 +39,6 @@ export class JobService implements OnInit {
       params = params.append('pageNumber', pageNumber);
       params = params.append('dateFrom', this.getDateRange(dateRange));
     } else if (dateRange !== undefined) {
-      console.log(dateRange);
       params = params.append('query', query);
       params = params.append('dateFrom', this.getDateRange(dateRange));
     } else if (pageNumber !== undefined) {

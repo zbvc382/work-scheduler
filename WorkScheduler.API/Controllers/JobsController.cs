@@ -43,6 +43,16 @@ namespace WorkScheduler.API.Controllers
         }
 
         [AllowAnonymous]
+        [HttpGet("date/{date}")]
+        public async Task<IActionResult> getJobWeek(DateTime date)
+        {
+            var jobs = await _jobRepository.GetJobsByWeek(date);
+            var jobsToReturn = _mapper.Map<List<JobToReturnDto>>(jobs);
+
+            return Ok(jobsToReturn);
+        }
+
+        [AllowAnonymous]
         [HttpGet("{id}", Name = "GetJob")]
         public async Task<IActionResult> GetJob(int id)
         {
@@ -102,36 +112,35 @@ namespace WorkScheduler.API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("date/{date}")]
-        public async Task<IActionResult> getJobWeek(DateTime date)
-        {
-            var jobsToReturn = await _jobRepository.GetJobsByWeek(date);
-
-            return Ok(jobsToReturn);
-        }
-
-        [AllowAnonymous]
         [HttpPut]
-        public async Task<IActionResult> updateJob(UpdateJob updateJob)
+        public IActionResult updateJob(UpdateJob updateJob)
         {
+            _jobRepository.UpdateTags(updateJob);
             var jobToUpdate = _jobRepository.GetJob(updateJob.Id);
 
-            foreach (var id in updateJob.TagIds)
-            {
-                var tagToAdd = _tagRepository.GetTag(id);
+           
 
-                if (tagToAdd != null)
-                {
-                    _jobRepository.AddTag(tagToAdd, jobToUpdate);
-                }
-            }
 
-            if (await _jobRepository.SaveAsync())
-            {
-                return NoContent();
-            }
+            // foreach (var id in updateJob.TagIds)
+            // {
+            //     var tagToAdd = _tagRepository.GetTag(id);
 
-            throw new Exception($"Updating job id:{jobToUpdate.Id} failed on save");
+            //     if (tagToAdd != null)
+            //     {
+            //         _jobRepository.AddTag(tagToAdd, jobToUpdate);
+            //     }
+            // }
+
+            // await _jobRepository.SaveAsync();
+
+            
+          
+            return NoContent();
+            
+
+
+
+        
         }
 
         [AllowAnonymous]

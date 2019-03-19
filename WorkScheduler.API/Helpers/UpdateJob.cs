@@ -6,6 +6,7 @@ namespace WorkScheduler.API.Helpers
     {
         public int Id { get; set; }
         public string Report { get; set; }
-        public IList<int> TagIds { get; set; }
+        public IList<int> SelectedTags { get; set; }
+        public IList<int> UnselectedTags { get; set; }
     }
 }

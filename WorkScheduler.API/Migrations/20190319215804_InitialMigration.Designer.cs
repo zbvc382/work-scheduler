@@ -9,7 +9,7 @@ using WorkScheduler.API.Data;
 namespace WorkScheduler.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190318182910_InitialMigration")]
+    [Migration("20190319215804_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -212,6 +212,8 @@ namespace WorkScheduler.API.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Color");
 
                     b.Property<string>("Name");
 

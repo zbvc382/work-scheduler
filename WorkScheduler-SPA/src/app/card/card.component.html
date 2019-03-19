@@ -119,7 +119,7 @@
     <mat-chip-list>
         <mat-chip color="primary" selected>Cancelled</mat-chip>
         <mat-chip color="accent" selected>Invoice</mat-chip>
-        <mat-chip color="primary" selected>Order Spare Part</mat-chip>
+        <mat-chip color="warn" selected>Order Spare Part</mat-chip>
       </mat-chip-list>
       </div>
 </mat-card-header>
@@ -170,23 +170,23 @@
               </div>
           </div>
           <div class="col-2 card-options">
-            <div class="row">
-              <button onclick="this.blur()" mat-button class="options-button" (click)="onEditJobDialog()">
-                <mat-icon class="status-icon">edit</mat-icon>
-              </button>
-            </div>
-            <div class="row">
-              <button onclick="this.blur()" mat-button class="options-button" (click)="onDeleteJobDialog(slot.job.id, day.id)">
-                <mat-icon class="delete-icon">delete_forever</mat-icon>
-              </button>
-            </div>
-            <div class="row">
-              <button mat-button *ngIf="expanded[0]; else expandMore" class="options-button" (click)="onExpansion()">
-                <mat-icon class="expand-icon">expand_less</mat-icon>
-              </button>
-              <ng-template #expandMore>
-                <button mat-button class="options-button" (click)="onExpansion()">
-                  <mat-icon class="expand-icon">expand_more</mat-icon>
+              <div class="row">
+                  <button onclick="this.blur()" mat-button class="options-button" (click)="onEditJobDialog(slot.job.report, slot.job.tags, slot.job.id, day.id)">
+                    <mat-icon class="status-icon">edit</mat-icon>
+                  </button>
+                </div>
+                <div class="row">
+                  <button onclick="this.blur()" mat-button class="options-button" (click)="onDeleteJobDialog(slot.job.id, day.id)">
+                    <mat-icon class="delete-icon">delete_forever</mat-icon>
+                  </button>
+                </div>
+                <div class="row">
+                  <button mat-button *ngIf="expanded[0]; else expandMore" class="options-button" (click)="onExpansion()">
+                    <mat-icon class="expand-icon">expand_less</mat-icon>
+                  </button>
+                  <ng-template #expandMore>
+                    <button mat-button class="options-button" (click)="onExpansion()">
+                      <mat-icon class="expand-icon">expand_more</mat-icon>
                 </button>
               </ng-template>
             </div>

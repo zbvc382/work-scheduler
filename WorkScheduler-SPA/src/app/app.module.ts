@@ -32,6 +32,7 @@ import { TimeService } from './_services/time.service';
 import { DeleteJobDialogComponent } from './delete-job-dialog/delete-job-dialog.component';
 import { Safe } from './_pipes/safe.pipe';
 import { EditJobDialogComponent } from './edit-job-dialog/edit-job-dialog.component';
+import { TagService } from './_services/tag.service';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -83,7 +84,8 @@ export function tokenGetter() {
       MomentDateModule,
       AgencyService,
       TimeService,
-      Safe
+      Safe,
+      TagService
    ],
    bootstrap: [
       AppComponent
