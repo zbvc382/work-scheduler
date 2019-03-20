@@ -21,17 +21,29 @@ namespace WorkScheduler.API.Data
 
         public async Task<List<Job>> GetJobs()
         {
-            return await FindAll().Include(j => j.JobTags).ThenInclude(t => t.Tag).Include(j => j.Agency).ToListAsync();
+            return await FindAll().Include(j => j.JobTags)
+                                  .ThenInclude(t => t.Tag)
+                                  .Include(j => j.Agency)
+                                  .Include(j => j.Photos)
+                                  .ToListAsync();
         }
 
         public async Task<Job> GetJobAsync(int id)
         {
-            return await FindAll().Include(j => j.JobTags).ThenInclude(t => t.Tag).Include(j => j.Agency).FirstOrDefaultAsync(j => j.Id == id);
+            return await FindAll().Include(j => j.JobTags)
+                                  .ThenInclude(t => t.Tag)
+                                  .Include(j => j.Agency)
+                                  .Include(j => j.Photos)
+                                  .FirstOrDefaultAsync(j => j.Id == id);
         }
 
         public Job GetJob(int id)
         {
-            return FindAll().Include(j => j.JobTags).ThenInclude(t => t.Tag).Include(j => j.Agency).FirstOrDefault(j => j.Id == id);
+            return FindAll().Include(j => j.JobTags)
+                            .ThenInclude(t => t.Tag)
+                            .Include(j => j.Agency)
+                            .Include(j => j.Photos)
+                            .FirstOrDefault(j => j.Id == id);
         }
 
         public async Task<List<Job>> GetJobsByWeek(DateTime start)

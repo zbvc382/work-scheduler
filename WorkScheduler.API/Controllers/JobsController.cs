@@ -12,6 +12,7 @@ using WorkScheduler.API.Models;
 
 namespace WorkScheduler.API.Controllers
 {
+    [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
     public class JobsController : ControllerBase
@@ -32,7 +33,6 @@ namespace WorkScheduler.API.Controllers
 
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> GetJobs()
         {
@@ -42,9 +42,8 @@ namespace WorkScheduler.API.Controllers
             return Ok(jobsToReturn);
         }
 
-        [AllowAnonymous]
         [HttpGet("date/{date}")]
-        public async Task<IActionResult> getJobWeek(DateTime date)
+        public async Task<IActionResult> GetJobWeek(DateTime date)
         {
             var jobs = await _jobRepository.GetJobsByWeek(date);
             var jobsToReturn = _mapper.Map<List<JobToReturnDto>>(jobs);
@@ -52,7 +51,6 @@ namespace WorkScheduler.API.Controllers
             return Ok(jobsToReturn);
         }
 
-        [AllowAnonymous]
         [HttpGet("{id}", Name = "GetJob")]
         public async Task<IActionResult> GetJob(int id)
         {
@@ -63,7 +61,6 @@ namespace WorkScheduler.API.Controllers
             return Ok(jobToReturn);
         }
 
-        [AllowAnonymous]
         [HttpPost("{id}")]
         public async Task<IActionResult> AddExtraVisitJob([FromRoute] int id, [FromBody] JobToCreateDto jobToCreateDto)
         {
@@ -92,7 +89,6 @@ namespace WorkScheduler.API.Controllers
             return BadRequest();
         }
 
-        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> AddJob(JobToCreateDto jobToCreateDto)
         {
@@ -111,39 +107,16 @@ namespace WorkScheduler.API.Controllers
 
         }
 
-        [AllowAnonymous]
+        // TODO: Finish method
         [HttpPut]
-        public IActionResult updateJob(UpdateJob updateJob)
+        public IActionResult UpdateJob(UpdateJob updateJob)
         {
             _jobRepository.UpdateTags(updateJob);
             var jobToUpdate = _jobRepository.GetJob(updateJob.Id);
 
-           
-
-
-            // foreach (var id in updateJob.TagIds)
-            // {
-            //     var tagToAdd = _tagRepository.GetTag(id);
-
-            //     if (tagToAdd != null)
-            //     {
-            //         _jobRepository.AddTag(tagToAdd, jobToUpdate);
-            //     }
-            // }
-
-            // await _jobRepository.SaveAsync();
-
-            
-          
             return NoContent();
-            
-
-
-
-        
         }
 
-        [AllowAnonymous]
         [HttpDelete("{id}")]
         public IActionResult deleteJob(int id)
         {
@@ -160,7 +133,6 @@ namespace WorkScheduler.API.Controllers
             return BadRequest();
         }
 
-        [AllowAnonymous]
         [HttpGet("search")]
         public async Task<IActionResult> searchJobs([FromQuery] SearchParams searchParams)
         {

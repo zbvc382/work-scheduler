@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using WorkScheduler.API.Data;
+using WorkScheduler.API.Helpers;
 using WorkScheduler.API.Models;
 
 namespace WorkScheduler.API
@@ -65,9 +66,11 @@ namespace WorkScheduler.API
                 };
             });
 
+            services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
             services.AddScoped<IJobRepository, JobRepository>();
             services.AddScoped<IAgencyRpository, AgencyRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<IPhotoRepository, PhotoRepository>();
             services.AddAutoMapper();
             services.AddTransient<Seed>();
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
@@ -89,7 +92,7 @@ namespace WorkScheduler.API
             }
 
             // app.UseHttpsRedirection();
-            // seed.SeedUsers();
+            seed.SeedUsers();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
             app.UseMvc();

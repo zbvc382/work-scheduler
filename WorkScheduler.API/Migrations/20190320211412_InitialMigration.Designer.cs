@@ -9,7 +9,7 @@ using WorkScheduler.API.Data;
 namespace WorkScheduler.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190319215804_InitialMigration")]
+    [Migration("20190320211412_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -208,6 +208,24 @@ namespace WorkScheduler.API.Migrations
                     b.ToTable("JobTags");
                 });
 
+            modelBuilder.Entity("WorkScheduler.API.Models.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("JobId");
+
+                    b.Property<string>("PublicId");
+
+                    b.Property<string>("Url");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("Photos");
+                });
+
             modelBuilder.Entity("WorkScheduler.API.Models.Tag", b =>
                 {
                     b.Property<int>("Id")
@@ -334,6 +352,14 @@ namespace WorkScheduler.API.Migrations
                     b.HasOne("WorkScheduler.API.Models.Tag", "Tag")
                         .WithMany("JobTags")
                         .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("WorkScheduler.API.Models.Photo", b =>
+                {
+                    b.HasOne("WorkScheduler.API.Models.Job", "Job")
+                        .WithMany("Photos")
+                        .HasForeignKey("JobId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

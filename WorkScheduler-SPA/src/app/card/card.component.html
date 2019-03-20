@@ -16,7 +16,11 @@
       <mat-datepicker [touchUi]="isMobile" #dp></mat-datepicker>
     </mat-form-field>
     <mat-form-field class="date-range-picker" *ngIf="searching">
-      <mat-select placeholder="Date Range" [(value)]="dateRangeSelected" (selectionChange)="onDateRangeSelection()">
+      <mat-select
+        placeholder="Date Range"
+        [(value)]="dateRangeSelected"
+        (selectionChange)="onDateRangeSelection()"
+      >
         <mat-option value="0">Last Week</mat-option>
         <mat-option value="1">Last Month</mat-option>
         <mat-option value="2">Last Year</mat-option>
@@ -36,14 +40,17 @@
           matInput
           placeholder="Search Jobs"
         />
-        <mat-icon *ngIf="!searchClear" matSuffix>search</mat-icon>
+        <mat-icon *ngIf="!searchClear" matSuffix>
+          search
+        </mat-icon>
         <mat-icon
           *ngIf="searchClear"
           id="clearIcon"
           (click)="onSearchClear()"
           matSuffix
-          >clear</mat-icon
         >
+          clear
+        </mat-icon>
       </mat-form-field>
     </div>
   </div>
@@ -57,22 +64,24 @@
       <p class="matchFound" *ngIf="totalItems === 1">
         Found {{ totalItems }} match
       </p>
-      <p class="matchNotFound" *ngIf="totalItems === 0"> No matches found</p>
+      <p class="matchNotFound" *ngIf="totalItems === 0">
+        No matches found
+      </p>
     </div>
   </div>
   <ng-container *ngIf="!searching; else searchSlot">
-    <div class="slot-card" [style.filter]="blur ? ('blur(2px)' | safe) : ('blur(0px)' | safe)" *ngFor="let day of days">
+    <div
+      class="slot-card"
+      [style.filter]="blur ? ('blur(2px)' | safe) : ('blur(0px)' | safe)"
+      *ngFor="let day of days"
+    >
       <div class="weekday-display">
         <div fxFlex fxLayout fxLayoutGap="5px" fxLayoutAlign="start">
           <button mat-raised-button (click)="openDialog(day.date)">
-            <mat-icon>
-              add
-            </mat-icon>
+            <mat-icon>add</mat-icon>
           </button>
           <button mat-raised-button fxHide.xs>
-            <mat-icon>
-              print
-            </mat-icon>
+            <mat-icon>print</mat-icon>
           </button>
         </div>
         <div fxFlex fxLayout fxLayoutAlign="end" id="week">
@@ -80,8 +89,11 @@
         </div>
       </div>
       <div *ngFor="let slot of day.slots">
-        <mat-card class="filled-mat-card" *ngIf="slot.job !== null; else emptySlot">
-        <!-- <mat-card-header>
+        <mat-card
+          class="filled-mat-card"
+          *ngIf="slot.job !== null; else emptySlot"
+        >
+          <!-- <mat-card-header>
             <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
                 <button mat-button class="options-button">
                   <mat-icon class="status-icon">brightness_1</mat-icon>
@@ -114,50 +126,54 @@
               </div>
         </mat-card-header> -->
 
-<mat-card-header>
-    <div fxFlex fxLayout fxLayoutAlign="end">
-    <mat-chip-list>
-        <mat-chip color="primary" selected>Cancelled</mat-chip>
-        <mat-chip color="accent" selected>Invoice</mat-chip>
-        <mat-chip color="warn" selected>Order Spare Part</mat-chip>
-      </mat-chip-list>
-      </div>
-</mat-card-header>
-&nbsp;
-        <div class="row">
-          <div class="col-10 card-details">
-            <div class="row">
-              <div class="col-sm-2" id="postcode-col">
-                <mat-icon class="info-icon">explore</mat-icon>
-                {{slot.job.postCode}}
-              </div>
-              <div class="col-sm-2" id="time-col">
-                <mat-icon class="info-icon">access_time</mat-icon>
-                {{ slot.job.timeFrom | date: 'shortTime' }} -
-                {{ slot.job.timeTo | date: 'shortTime' }}
-              </div>
-              <div class="col-sm-2" id="contact-phone-col">
-                <mat-icon class="info-icon">local_phone</mat-icon>
-                <a href="tel:">07894875433</a>
-              </div>
-              <div class="col-sm-2" id="payer-type-col">
+          <mat-card-header>
+            <div fxFlex fxLayout fxLayoutAlign="end">
+              <mat-chip-list>
+                <mat-chip
+                  disabled
+                  *ngFor="let tag of slot.job.tags"
+                  [style.background]="tag.color"
+                >
+                  {{ tag.name }}
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+          </mat-card-header>
+          &nbsp;
+          <div class="row">
+            <div class="col-10 card-details">
+              <div class="row">
+                <div class="col-sm-2" id="postcode-col">
+                  <mat-icon class="info-icon">explore</mat-icon>
+                  {{ slot.job.postCode }}
+                </div>
+                <div class="col-sm-2" id="time-col">
+                  <mat-icon class="info-icon">access_time</mat-icon>
+                  {{ slot.job.timeFrom | date: 'shortTime' }} -
+                  {{ slot.job.timeTo | date: 'shortTime' }}
+                </div>
+                <div class="col-sm-2" id="contact-phone-col">
+                  <mat-icon class="info-icon">local_phone</mat-icon>
+                  <a href="tel:">07894875433</a>
+                </div>
+                <div class="col-sm-2" id="payer-type-col">
                   <mat-icon class="info-icon">home</mat-icon>
                   {{ slot.job.payerType }}
                 </div>
-              <div class="col-sm-2" id="address-col">
-                <mat-icon class="info-icon">home</mat-icon>
-                {{ slot.job.address }}
+                <div class="col-sm-2" id="address-col">
+                  <mat-icon class="info-icon">home</mat-icon>
+                  {{ slot.job.address }}
+                </div>
               </div>
-            </div>
-            <hr>
-            <div class="row">
+              <hr />
+              <div class="row">
                 <div class="col-sm-2" id="job-number-col">
                   <mat-icon class="info-icon">work</mat-icon>
-                  {{slot.job.jobNumber}}
+                  {{ slot.job.jobNumber }}
                 </div>
                 <div class="col-sm-2" id="visit-col">
                   <mat-icon class="info-icon">drive_eta</mat-icon>
-                  {{slot.job.visitToDisplay}}
+                  {{ slot.job.visitToDisplay }}
                 </div>
                 <div class="col-sm-2" id="key-col">
                   <mat-icon class="info-icon">vpn_key</mat-icon>
@@ -168,35 +184,58 @@
                   Empty
                 </div>
               </div>
-          </div>
-          <div class="col-2 card-options">
+            </div>
+            <div class="col-2 card-options">
               <div class="row">
-                  <button onclick="this.blur()" mat-button class="options-button" (click)="onEditJobDialog(slot.job.report, slot.job.tags, slot.job.id, day.id)">
-                    <mat-icon class="status-icon">edit</mat-icon>
-                  </button>
-                </div>
-                <div class="row">
-                  <button onclick="this.blur()" mat-button class="options-button" (click)="onDeleteJobDialog(slot.job.id, day.id)">
-                    <mat-icon class="delete-icon">delete_forever</mat-icon>
-                  </button>
-                </div>
-                <div class="row">
-                  <button mat-button *ngIf="expanded[0]; else expandMore" class="options-button" (click)="onExpansion()">
-                    <mat-icon class="expand-icon">expand_less</mat-icon>
-                  </button>
-                  <ng-template #expandMore>
-                    <button mat-button class="options-button" (click)="onExpansion()">
-                      <mat-icon class="expand-icon">expand_more</mat-icon>
+                <button
+                  onclick="this.blur()"
+                  mat-button
+                  class="options-button"
+                  (click)="
+                    onEditJobDialog(
+                      slot.job.report,
+                      slot.job.tags,
+                      slot.job.id,
+                      day.id
+                    )
+                  "
+                >
+                  <mat-icon class="status-icon">edit</mat-icon>
                 </button>
-              </ng-template>
+              </div>
+              <div class="row">
+                <button
+                  onclick="this.blur()"
+                  mat-button
+                  class="options-button"
+                  (click)="onDeleteJobDialog(slot.job.id, day.id)"
+                >
+                  <mat-icon class="delete-icon">delete_forever</mat-icon>
+                </button>
+              </div>
+              <div class="row">
+                <button
+                  mat-button
+                  *ngIf="expanded[0]; else expandMore"
+                  class="options-button"
+                  (click)="onExpansion()"
+                >
+                  <mat-icon class="expand-icon">expand_less</mat-icon>
+                </button>
+                <ng-template #expandMore>
+                  <button
+                    mat-button
+                    class="options-button"
+                    (click)="onExpansion()"
+                  >
+                    <mat-icon class="expand-icon">expand_more</mat-icon>
+                  </button>
+                </ng-template>
+              </div>
             </div>
           </div>
-        </div>
 
-
-
-
-              <!-- <div class="col-sm-2" id="postcode-col">
+          <!-- <div class="col-sm-2" id="postcode-col">
                 <mat-icon class="info-icon">explore</mat-icon>
                 E16 3NP
               </div>
@@ -277,8 +316,7 @@
                 </button>
               </div>
             </div>
-          </div>
-    -->
+          </div> -->
 
           <!-- <mat-card-content>
             <div
@@ -321,9 +359,7 @@
                   )
                 "
               >
-                <mat-icon id="add-circle-icon">
-                  add
-                </mat-icon>
+                <mat-icon id="add-circle-icon">add</mat-icon>
               </button>
             </div>
             <div fxHide.gt-xs fxLayout="row" fxLayoutAlign="center center">
@@ -340,9 +376,7 @@
                   )
                 "
               >
-                <mat-icon id="add-circle-icon">
-                  add
-                </mat-icon>
+                <mat-icon id="add-circle-icon">add</mat-icon>
               </button>
             </div>
           </mat-card>
@@ -422,15 +456,9 @@
           >
             <div class="expansion-container">
               <div class="row">
-                <div class="col-sm">
-                  Contact: Josh Holmes
-                </div>
-                <div class="col-sm">
-                  Address: 21 Hartington Road
-                </div>
-                <div class="col-sm">
-                  Phone: 07894875433
-                </div>
+                <div class="col-sm">Contact: Josh Holmes</div>
+                <div class="col-sm">Address: 21 Hartington Road</div>
+                <div class="col-sm">Phone: 07894875433</div>
               </div>
             </div>
           </div>

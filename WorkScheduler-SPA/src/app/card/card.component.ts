@@ -65,11 +65,14 @@ export class CardComponent implements OnInit, OnDestroy {
   days: Day[];
   defaultTags: Tag[];
   searchValue = '';
+  selectable = false;
   blur = false;
   searchResultLength = 0;
   dateRangeSelected = '';
   queriedJobs: Job[];
   totalItems = 0;
+  // @Input() disableRipple: boolean;
+  // @Input() disabled: boolean;
   pageIndex = 0;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   searching = false;

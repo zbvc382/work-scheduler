@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WorkScheduler.API.Models;
@@ -28,5 +29,6 @@ namespace WorkScheduler.API.Data
         public DbSet<Job> Jobs { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<JobTag> JobTags { get; set; }
+        public DbSet<Photo> Photos { get; set; }
     }
 }

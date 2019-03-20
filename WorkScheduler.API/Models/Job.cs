@@ -33,6 +33,7 @@ namespace WorkScheduler.API.Models
         public int? AgencyId { get; set; }
         public Agency Agency { get; set; }
 
+        public virtual ICollection<Photo> Photos { get; set; }
         public virtual ICollection<JobTag> JobTags { get; set; }
     }
 }

@@ -9,6 +9,8 @@ namespace WorkScheduler.API.Helpers
     {
         public AutoMapperProfiles()
         {
+            CreateMap<PhotoForCreationDto, Photo>();
+            CreateMap<Photo, PhotoForReturnDto>();
             CreateMap<JobToCreateDto, Job>();
             CreateMap<Agency, AgencyToReturnDto>();
             CreateMap<Tag, TagToReturnDto>();
