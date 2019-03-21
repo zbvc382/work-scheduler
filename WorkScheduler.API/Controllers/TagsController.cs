@@ -27,7 +27,7 @@ namespace WorkScheduler.API.Controllers
         [HttpGet]
         public async Task<IActionResult> getTags() {
             var tags = await _dataContext.Tags.ToListAsync();
-            var tagsToReturn = _mapper.Map<List<TagToReturnDto>>(tags);
+            var tagsToReturn = _mapper.Map<List<TagForReturnDto>>(tags);
 
             return Ok(tagsToReturn);
         }

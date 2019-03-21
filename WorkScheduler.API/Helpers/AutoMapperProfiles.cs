@@ -11,10 +11,10 @@ namespace WorkScheduler.API.Helpers
         {
             CreateMap<PhotoForCreationDto, Photo>();
             CreateMap<Photo, PhotoForReturnDto>();
-            CreateMap<JobToCreateDto, Job>();
-            CreateMap<Agency, AgencyToReturnDto>();
-            CreateMap<Tag, TagToReturnDto>();
-            CreateMap<Job, JobToReturnDto>().ForMember(dest => dest.Tags, opt => {
+            CreateMap<JobForCreationDto, Job>();
+            CreateMap<Agency, AgencyForReturnDto>();
+            CreateMap<Tag, TagForReturnDto>();
+            CreateMap<Job, JobForReturnDto>().ForMember(dest => dest.Tags, opt => {
                 opt.MapFrom(src => src.JobTags.Select(x => x.Tag).ToList());
             });
         }

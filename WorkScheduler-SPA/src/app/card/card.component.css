@@ -1,9 +1,7 @@
-/* .example-element-detail {
+.element-detail {
   overflow: hidden;
   display: flex;
-} */
-
-
+}
 
 .filled-mat-card {
   border-radius: 0;
@@ -374,7 +372,7 @@ a {
 }
 
 .mat-chip {
-  font-weight: 10;
+  font-weight: 350;
   color: white;
 }
 

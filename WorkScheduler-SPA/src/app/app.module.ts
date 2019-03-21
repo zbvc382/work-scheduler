@@ -33,6 +33,9 @@ import { DeleteJobDialogComponent } from './delete-job-dialog/delete-job-dialog.
 import { Safe } from './_pipes/safe.pipe';
 import { EditJobDialogComponent } from './edit-job-dialog/edit-job-dialog.component';
 import { TagService } from './_services/tag.service';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { TabContentComponent } from './tab-content/tab-content.component';
+import { NgxGalleryModule } from 'ngx-gallery';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -51,7 +54,8 @@ export function tokenGetter() {
       DeleteJobDialogComponent,
       TimePickerComponent,
       Safe,
-      EditJobDialogComponent
+      EditJobDialogComponent,
+      TabContentComponent
    ],
    imports: [
       BrowserModule,
@@ -63,9 +67,11 @@ export function tokenGetter() {
       ReactiveFormsModule,
       RouterModule,
       MomentModule,
+      NgxGalleryModule,
       RouterModule.forRoot(appRoutes),
       NgMatSearchBarModule,
       LayoutModule,
+      MDBBootstrapModule.forRoot(),
       NgxMaterialTimepickerModule.forRoot(),
       JwtModule.forRoot({
          config: {

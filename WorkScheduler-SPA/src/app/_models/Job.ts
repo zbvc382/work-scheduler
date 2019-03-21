@@ -1,5 +1,6 @@
 import { Agency } from './Agency';
 import { Tag } from './Tag';
+import { Photo } from './Photo';
 
 export interface Job {
     id: number;
@@ -27,4 +28,5 @@ export interface Job {
     tenantPhone?: string;
     agency?: Agency;
     tags: Tag;
+    photos: Photo;
 }

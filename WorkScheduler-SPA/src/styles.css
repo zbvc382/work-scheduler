@@ -13,3 +13,7 @@ html, body {
 .success-snackbar > .mat-simple-snackbar {
   justify-content: center;
 }
+
+.mat-sidenav-container, .mat-sidenav-content, .mat-tab-body-content {
+  transform: none !important;
+}

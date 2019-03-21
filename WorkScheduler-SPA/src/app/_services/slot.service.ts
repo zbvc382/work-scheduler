@@ -14,7 +14,6 @@ import { Visit } from '../_enums/Visit.enum';
 export class SlotService {
   private jobs: Job[] = [];
   private days: Day[] = [];
-  private queriedJobs$ = new BehaviorSubject<Job[]>([]);
   private days$ = new BehaviorSubject<Day[]>([]);
   private queriedResult$ = new BehaviorSubject<PaginatedResult<Job[]>>(null);
 
@@ -37,6 +36,7 @@ export class SlotService {
         });
         this.jobs = jobs;
         this.setSlots(date);
+        console.log(this.days);
         this.days$.next(this.days);
         this.Clear();
       },

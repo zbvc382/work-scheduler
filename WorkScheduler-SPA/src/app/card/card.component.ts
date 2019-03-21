@@ -13,6 +13,7 @@ import { JobToCreate } from '../_models/JobToCreate';
 import { EditJobDialogComponent } from '../edit-job-dialog/edit-job-dialog.component';
 import { TagService } from '../_services/tag.service';
 import { Tag } from '../_models/Tag';
+
 import {
   Component,
   OnInit,
@@ -71,8 +72,6 @@ export class CardComponent implements OnInit, OnDestroy {
   dateRangeSelected = '';
   queriedJobs: Job[];
   totalItems = 0;
-  // @Input() disableRipple: boolean;
-  // @Input() disabled: boolean;
   pageIndex = 0;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   searching = false;

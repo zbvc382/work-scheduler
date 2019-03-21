@@ -1,9 +1,8 @@
 namespace WorkScheduler.API.Dtos
 {
-    public class TagToReturnDto
+    public class AgencyForReturnDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public string Color { get; set; }
     }
 }

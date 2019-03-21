@@ -50,7 +50,10 @@ namespace WorkScheduler.API.Data
         {
             var end = BusinessDays.getEndDate(start);
             return await FindByCondition(x => x.DateAssigned >= start && x.DateAssigned < end)
-                                        .Include(j => j.JobTags).ThenInclude(t => t.Tag).Include(j => j.Agency)
+                                        .Include(j => j.JobTags)
+                                        .ThenInclude(t => t.Tag)
+                                        .Include(j => j.Agency)
+                                        .Include(j => j.Photos)
                                         .ToListAsync();
         }
 

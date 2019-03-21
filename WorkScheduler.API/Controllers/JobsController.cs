@@ -37,7 +37,7 @@ namespace WorkScheduler.API.Controllers
         public async Task<IActionResult> GetJobs()
         {
             var jobs = await _jobRepository.GetJobs();
-            var jobsToReturn = _mapper.Map<List<JobToReturnDto>>(jobs);
+            var jobsToReturn = _mapper.Map<List<JobForReturnDto>>(jobs);
 
             return Ok(jobsToReturn);
         }
@@ -46,7 +46,7 @@ namespace WorkScheduler.API.Controllers
         public async Task<IActionResult> GetJobWeek(DateTime date)
         {
             var jobs = await _jobRepository.GetJobsByWeek(date);
-            var jobsToReturn = _mapper.Map<List<JobToReturnDto>>(jobs);
+            var jobsToReturn = _mapper.Map<List<JobForReturnDto>>(jobs);
 
             return Ok(jobsToReturn);
         }
@@ -56,13 +56,13 @@ namespace WorkScheduler.API.Controllers
         {
             var job = await _jobRepository.GetJobAsync(id);
 
-            var jobToReturn = _mapper.Map<JobToReturnDto>(job);
+            var jobToReturn = _mapper.Map<JobForReturnDto>(job);
 
             return Ok(jobToReturn);
         }
 
         [HttpPost("{id}")]
-        public async Task<IActionResult> AddExtraVisitJob([FromRoute] int id, [FromBody] JobToCreateDto jobToCreateDto)
+        public async Task<IActionResult> AddExtraVisitJob([FromRoute] int id, [FromBody] JobForCreationDto jobToCreateDto)
         {
             var jobToCreate = _mapper.Map<Job>(jobToCreateDto);
 
@@ -79,7 +79,7 @@ namespace WorkScheduler.API.Controllers
 
                 if (await _jobRepository.SaveAsync())
                 {
-                    var jobToReturn = _mapper.Map<JobToReturnDto>(currentVisitJob);
+                    var jobToReturn = _mapper.Map<JobForReturnDto>(currentVisitJob);
                     return CreatedAtRoute("GetJob", new { id = jobToReturn.Id }, jobToReturn);
                 }
 
@@ -90,7 +90,7 @@ namespace WorkScheduler.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddJob(JobToCreateDto jobToCreateDto)
+        public async Task<IActionResult> AddJob(JobForCreationDto jobToCreateDto)
         {
             var jobToCreate = _mapper.Map<Job>(jobToCreateDto);
 

@@ -1,0 +1,9 @@
+<mat-tab-group mat-align-tabs="start">
+  <mat-tab label="Additional Information">Additional Information</mat-tab>
+  <mat-tab label="Photos">
+    <div>Photos</div>
+      <div *ngFor="let photo of photos">
+          <img src="{{photo.url}}" alt="">
+      </div>
+  </mat-tab>
+</mat-tab-group>
