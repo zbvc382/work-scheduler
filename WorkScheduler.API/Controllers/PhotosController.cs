@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using CloudinaryDotNet;
@@ -57,6 +58,19 @@ namespace WorkScheduler.API.Controllers
             return NoContent();
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetPhotos(int jobId) {
+            var photos = await _photoRepository.GetPhotos(jobId);
+
+            var photosToReturn = _mapper.Map<List<PhotoForReturnDto>>(photos);
+
+            if (photos != null) {
+                return Ok(photosToReturn);
+            }
+
+            return NoContent();
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddPhoto(int jobId, [FromForm] PhotoForCreationDto photoForCreationDto)
         {
@@ -71,7 +85,8 @@ namespace WorkScheduler.API.Controllers
                 {
                     var uploadParams = new ImageUploadParams()
                     {
-                        File = new FileDescription(file.Name, stream)
+                        File = new FileDescription(file.Name, stream),
+                     
                     };
 
                     uploadResult = _cloudinary.Upload(uploadParams);

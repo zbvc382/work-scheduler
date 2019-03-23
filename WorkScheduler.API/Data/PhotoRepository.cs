@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,12 @@ namespace WorkScheduler.API.Data
             var photo = await DataContext.Photos.FirstOrDefaultAsync();
 
             return photo;
+        }
+
+        public async Task<List<Photo>> GetPhotos(int jobId) {
+            var photos = await FindByCondition(x => x.JobId == jobId).ToListAsync();
+
+            return photos;
         }
     }
 }

@@ -380,11 +380,6 @@ a {
   opacity: 1;
 }
 
-
-
-/* .mat-chip:hover {
-  color: white;
-} */
-/* .noHover{
-  pointer-events: none;
-} */
+.incomplete-tag {
+  color: black;
+}

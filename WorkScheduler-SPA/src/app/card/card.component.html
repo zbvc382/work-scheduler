@@ -63,6 +63,7 @@
           <mat-card-header>
             <div fxFlex fxLayout fxLayoutAlign="end">
               <mat-chip-list>
+                <mat-chip class="incomplete-tag" *ngIf="!isTags(slot.job.tags)" selected="false">Incomplete</mat-chip>
                 <mat-chip disabled *ngFor="let tag of slot.job.tags" [style.background]="tag.color">
                   {{ tag.name }}
                 </mat-chip>
@@ -122,7 +123,8 @@
                       slot.job.report,
                       slot.job.tags,
                       slot.job.id,
-                      day.id
+                      day.id,
+                      slot.job.photos
                     )
                   ">
                   <mat-icon class="status-icon">edit</mat-icon>

@@ -1,9 +1,34 @@
-<mat-tab-group mat-align-tabs="start">
-  <mat-tab label="Additional Information">Additional Information</mat-tab>
-  <mat-tab label="Photos">
-    <div>Photos</div>
-      <div *ngFor="let photo of photos">
-          <img src="{{photo.url}}" alt="">
-      </div>
-  </mat-tab>
-</mat-tab-group>
+
+    <mat-tab-group *ngIf="!isMobile()" mat-align-tabs="end">
+        <mat-tab label="Additional Information">&nbsp; </mat-tab>
+        <mat-tab label="Photos">
+          <div class="photos-container" fxLayout="row" fxLayoutAlign="center">
+              <div *ngIf="isPhotos()">
+                  <div *ngFor="let photo of downloadablePhotos" class="photo">
+                      <img src="{{ photo.url }}" alt="Italian Trulli" />
+                      <div class="download">
+                        <a href="{{ photo.link }}" download>
+                          <mat-icon>cloud_download</mat-icon>
+                        </a>
+                      </div>
+                    </div>
+              </div>
+            <div *ngIf="!isPhotos()">No photos found</div>
+          </div>
+
+          
+        </mat-tab>
+      </mat-tab-group>
+      <mat-tab-group *ngIf="isMobile()" mat-align-tabs="center">
+        <mat-tab label="Additional Information">&nbsp; </mat-tab>
+        <mat-tab label="Photos">
+          <div fxLayout="column" fxLayoutAlign="space-between center" class="photo">
+            <ngx-gallery
+              [options]="galleryOptions"
+              [images]="galleryImages"
+              *ngIf="isPhotos()"
+            ></ngx-gallery>
+            <div *ngIf="!isPhotos()">No photos found</div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>

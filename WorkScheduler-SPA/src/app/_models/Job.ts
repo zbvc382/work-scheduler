@@ -28,5 +28,5 @@ export interface Job {
     tenantPhone?: string;
     agency?: Agency;
     tags: Tag;
-    photos: Photo;
+    photos: Photo[];
 }

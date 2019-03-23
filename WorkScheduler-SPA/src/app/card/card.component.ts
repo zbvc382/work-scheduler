@@ -37,6 +37,8 @@ import {
   MatDatepickerInputEvent,
   MatPaginator
 } from '@angular/material';
+import { Photo } from '../_models/Photo';
+import { PhotoService } from '../_services/photo.service';
 
 @Component({
   selector: 'app-card',
@@ -76,15 +78,15 @@ export class CardComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   searching = false;
   searchClear = false;
-  private $data = new BehaviorSubject<Day[]>([]);
+  private data$ = new BehaviorSubject<Day[]>([]);
   payerTypes = ['Agency', 'Private', 'Landlord'];
 
   @Input() set data(value: Day[]) {
-    this.$data.next(value);
+    this.data$.next(value);
   }
 
   get data() {
-    return this.$data.getValue();
+    return this.data$.getValue();
   }
 
   constructor(
@@ -94,11 +96,12 @@ export class CardComponent implements OnInit, OnDestroy {
     private timeService: TimeService,
     private snackBar: MatSnackBar,
     private slotService: SlotService,
-    private tagService: TagService
+    private tagService: TagService,
+    private photoService: PhotoService
   ) {}
 
   ngOnInit() {
-    this.$data.subscribe(j => {
+    this.data$.subscribe(j => {
       this.days = this.data;
     });
     this.loadTags();
@@ -117,6 +120,14 @@ export class CardComponent implements OnInit, OnDestroy {
   onPaginateChange(event) {
     const pageNumber = event.pageIndex + 1;
     this.queryJobs(pageNumber.toString());
+  }
+
+  isTags(tags: Tag[]): boolean {
+    if (tags.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   onSearchInput() {
@@ -229,7 +240,7 @@ export class CardComponent implements OnInit, OnDestroy {
     this.jobService.createJob(job).subscribe(
       () => {
         this.addJobEmitter.emit(null);
-        this.openSnackbar('Job added.', 'success-snackbar');
+        this.openSnackbar('Job created', 'success-snackbar');
       },
       error => {
         console.log(error);
@@ -288,10 +299,10 @@ export class CardComponent implements OnInit, OnDestroy {
     );
   }
 
-  onEditJobDialog(report: string, tags: Tag[], id: number, dayId: number) {
+  onEditJobDialog(report: string, tags: Tag[], id: number, dayId: number, jobPhotos: Photo[]) {
     const dialogConfig = new MatDialogConfig();
     const modifiedDefaultTags = this.defaultTags;
-
+    let jobIndex: number;
     const tagsArray: Tag[] = [];
 
     if (tags.length > 0) {
@@ -305,20 +316,29 @@ export class CardComponent implements OnInit, OnDestroy {
       }
     }
 
+    for (let i = 0; i < this.days[dayId].slots.length; i++) {
+      if (this.days[dayId].slots[i].job != null) {
+        if (this.days[dayId].slots[i].job.id === id) {
+          jobIndex = i;
+        }
+      }
+    }
+
     modifiedDefaultTags.forEach(element => {
       element.selected = false;
     });
 
     dialogConfig.autoFocus = false;
 
-    dialogConfig.height = '600px';
-    dialogConfig.width = '800px';
+    dialogConfig.height = '500px';
+    dialogConfig.width = '700px';
 
     dialogConfig.data = {
       defaultTags: modifiedDefaultTags,
       jobReport: report,
       jobTags: tagsArray,
-      jobId: id
+      jobId: id,
+      photos: jobPhotos
     };
 
     const dialogRef = this.dialog.open(EditJobDialogComponent, dialogConfig);
@@ -327,17 +347,16 @@ export class CardComponent implements OnInit, OnDestroy {
       data => {
         if (data) {
           this.jobService.updateJob(data[0]).subscribe(() => {
-            let index: number;
-
-            for (let i = 0; i < this.days[dayId].slots.length; i++) {
-              if (this.days[dayId].slots[i].job != null) {
-                if (this.days[dayId].slots[i].job.id === id) {
-                  index = i;
-                }
-              }
-            }
-            this.days[dayId].slots[index].job.tags = data[1];
+            this.days[dayId].slots[jobIndex].job.tags = data[1];
           });
+
+          if (data[2] === true) {
+            this.photoService.getPhotos(id).subscribe((photos: Photo[]) => {
+              console.log(photos);
+              this.days[dayId].slots[jobIndex].job.photos = photos;
+              this.data$.next(this.days);
+            });
+          }
         }
       },
       error => {
@@ -367,7 +386,7 @@ export class CardComponent implements OnInit, OnDestroy {
               }
             }
             this.days[dayId].slots.splice(index, 1);
-            this.openSnackbar('Job deleted.', 'success-snackbar');
+            this.openSnackbar('Job deleted', 'success-snackbar');
           },
           error => {
             console.log('Could not delete job');

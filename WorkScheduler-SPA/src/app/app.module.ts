@@ -36,6 +36,9 @@ import { TagService } from './_services/tag.service';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { TabContentComponent } from './tab-content/tab-content.component';
 import { NgxGalleryModule } from 'ngx-gallery';
+import { FileUploadModule } from 'ng2-file-upload';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { PhotoService } from './_services/photo.service';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -65,9 +68,11 @@ export function tokenGetter() {
       MaterialModule,
       FlexLayoutModule,
       ReactiveFormsModule,
+      FileUploadModule,
       RouterModule,
       MomentModule,
       NgxGalleryModule,
+      MaterialFileInputModule,
       RouterModule.forRoot(appRoutes),
       NgMatSearchBarModule,
       LayoutModule,
@@ -91,7 +96,8 @@ export function tokenGetter() {
       AgencyService,
       TimeService,
       Safe,
-      TagService
+      TagService,
+      PhotoService
    ],
    bootstrap: [
       AppComponent
