@@ -1,17 +1,18 @@
 import { Component, OnInit, Inject, OnChanges } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { Tag } from '../_models/Tag';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Photo } from '../_models/Photo';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-edit-job-dialog',
   templateUrl: './edit-job-dialog.component.html',
   styleUrls: ['./edit-job-dialog.component.css']
 })
-export class EditJobDialogComponent implements OnInit {
+export class EditJobDialogComponent implements OnInit, OnChanges {
   form: FormGroup;
   public uploader: FileUploader;
   jobReport: string;
@@ -23,7 +24,9 @@ export class EditJobDialogComponent implements OnInit {
 
   constructor(private dialogRef: MatDialogRef<EditJobDialogComponent>,
               @Inject(MAT_DIALOG_DATA) data,
-              private fb: FormBuilder) {
+              private fb: FormBuilder,
+              private snackBar: MatSnackBar,
+              private breakpointObserver: BreakpointObserver) {
 
     this.defaultTags = data.defaultTags;
     this.jobTags = data.jobTags;
@@ -42,6 +45,10 @@ export class EditJobDialogComponent implements OnInit {
     });
   }
 
+  ngOnChanges() {
+    console.log(this.uploader.onCompleteAll());
+  }
+
   ngOnInit() {
     this.form = this.fb.group({
       multiplefile: [{ value: undefined, disabled: false }],
@@ -50,6 +57,8 @@ export class EditJobDialogComponent implements OnInit {
     this.setTags();
     this.initialiseUploader();
     this.onChanges();
+    this.uploader.onWhenAddingFileFailed = () => { this.openSnackbar('Failed to add photo', 'failure-snackbar'); };
+    this.uploader.onCompleteAll = () => { this.openSnackbar('Upload successful', 'success-snackbar'); };
   }
 
   onUpload() {
@@ -78,6 +87,17 @@ export class EditJobDialogComponent implements OnInit {
         this.defaultTags[element.id - 1] = element;
       });
     }
+  }
+
+  isMobile(): boolean {
+    return this.breakpointObserver.isMatched('(max-width: 600px)');
+  }
+
+  openSnackbar(message: string, className: string) {
+    this.snackBar.open(message, '', {
+      duration: 4000,
+      panelClass: [className]
+    });
   }
 
   onSelect(tag: Tag) {

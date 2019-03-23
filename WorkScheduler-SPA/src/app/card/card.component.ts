@@ -195,7 +195,7 @@ export class CardComponent implements OnInit, OnDestroy {
     }
   }
 
-  get isMobile() {
+  get isMobile(): boolean {
     return this.breakpointObserver.isMatched('(max-width: 600px)');
   }
 
@@ -329,9 +329,16 @@ export class CardComponent implements OnInit, OnDestroy {
     });
 
     dialogConfig.autoFocus = false;
+    dialogConfig.disableClose = true;
 
-    dialogConfig.height = '500px';
-    dialogConfig.width = '700px';
+    if (this.isMobile === true) {
+      dialogConfig.height = '600px';
+      dialogConfig.width = '600px';
+    } else {
+      dialogConfig.height = '450px';
+      dialogConfig.width = '650px';
+    }
+
 
     dialogConfig.data = {
       defaultTags: modifiedDefaultTags,

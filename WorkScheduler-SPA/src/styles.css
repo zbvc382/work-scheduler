@@ -15,6 +15,14 @@ html, body {
   justify-content: center;
 }
 
+.failure-snackbar {
+  background: #F44336;
+}
+
+.failure-snackbar > .mat-simple-snackbar {
+  justify-content: center;
+}
+
 .mat-sidenav-container, .mat-sidenav-content, .mat-tab-body-content {
   transform: none !important;
 }

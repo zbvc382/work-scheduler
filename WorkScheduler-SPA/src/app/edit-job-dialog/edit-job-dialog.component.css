@@ -2,7 +2,7 @@
   .upload-button {
     min-width: 100%;
     color: white;
-    background: #4CAF50;
+    background: #4caf50;
     border-radius: 2.5px 2.5px 0px 0px;
   }
 
@@ -14,35 +14,72 @@
   .mat-progress-bar {
     border-radius: 0px 0px 2.5px 2.5px;
   }
+
+  .mat-dialog-content {
+    min-height: 460px;
+  }
+
+  .chip-row {
+    margin-left: 5%;
+    margin-right: 5%;
+  }
+
+  .mat-chip {
+    min-width: 190%;
+  }
+
+  .mat-standard-chip {
+    min-height: 30px;
+  }
 }
 
 @media (min-width: 600px) {
   .upload-button {
     margin-top: 12%;
-    color: #3f51b5;
+    color: white;
+    background: #4caf50;
+  }
+
+  .col-sm-2 {
+    padding-left: 10px;
+  }
+
+  .mat-dialog-content {
+    min-height: 310px;
+  }
+
+  .chip-row {
+    margin-left: 5%;
+  }
+
+  .mat-standard-chip {
+    min-height: 30px;
   }
 }
 
 mat-form-field {
   width: 100%;
 }
-.tag-container {
-  display: flex;
-  flex-direction: column;
-}
-
-.mat-standard-chip {
-  min-height: 30px;
-}
 
 .mat-chip {
   font-weight: 10;
 }
 
-.mat-dialog-content {
-  min-height: 360px;
-}
-
 h1 {
   color: #3f51b5;
 }
+
+.mat-dialog-title {
+  text-align: center;
+}
+
+.text-container > div {
+  text-align: center;
+  color: #757575;
+}
+
+.text-container {
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
