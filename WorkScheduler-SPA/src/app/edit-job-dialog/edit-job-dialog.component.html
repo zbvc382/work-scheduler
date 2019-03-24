@@ -42,7 +42,7 @@
   </div>
 </div>
 <div class="row chip-row">
-      <mat-chip-list [multiple]="true" [selectable]="true" [ngClass]="{'mat-chip-list-stacked': isMobile() }">
+      <mat-chip-list [multiple]="true" [selectable]="true" >
         <mat-chip
           *ngFor="let tag of defaultTags"
           [style.background]="tag.selected ? tag.color : '#e0e0e0'"
@@ -57,7 +57,7 @@
   </mat-dialog-content>
   <mat-dialog-actions>
     <div fxFlex fxLayout fxLayoutAlign="start">
-      <button class="mat-raised-button" (click)="close()">Close Dialog</button>
+      <button class="mat-raised-button" (click)="close()">Cancel</button>
     </div>
     <div fxFlex fxLayout fxLayoutAlign="end">
       <button class="mat-raised-button mat-primary" (click)="save()">

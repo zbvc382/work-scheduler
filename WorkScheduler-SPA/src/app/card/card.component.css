@@ -28,7 +28,6 @@ a {
   color: black;
 }
 
-
 /* .expansion-container {
   width: 100%;
 } */
@@ -82,6 +81,11 @@ a {
     transform: scale(0.85);
     margin-right: 8px;
     color: #484848;
+  }
+
+  .mat-chip-list {
+    margin-top: 10px;
+    margin-right: 5px;
   }
   .weekday-display > div {
     font-size: 15px;
@@ -145,6 +149,27 @@ a {
   .search-bar {
     width: 150px;
   }
+  .card-details {
+    max-width: 80%;
+  }
+
+  .card-options {
+    padding-top: 13%;
+  }
+
+  .card-options div {
+    margin-bottom: 10px;
+  }
+
+  .card-details-row div,
+  .card-details-row-two div {
+    margin-top: 5px;
+    margin-left: 5px;
+  }
+
+  .card-details-row-two {
+    margin-bottom: 10px;
+  }
 }
 
 @media screen and (min-width: 1280px) {
@@ -152,15 +177,11 @@ a {
     flex: none;
     max-width: 5%;
   }
-  
+
   .card-details {
     flex: none;
     max-width: 95%;
   }
-
-  /* .expansion-container .row {
-    margin-top: 10px;
-  } */
 
   .matchFound {
     font-size: 25px;
@@ -195,6 +216,11 @@ a {
     max-width: 180px;
   }
 
+  #person-col {
+    min-width: 180px;
+    max-width: 180px;
+  }
+
   #payer-type-col {
     min-width: 130px;
     max-width: 130px;
@@ -216,8 +242,13 @@ a {
   }
 
   #key-col {
-    min-width: 180px;
-    max-width: 180px;
+    min-width: 130px;
+    max-width: 130px;
+  }
+
+  #key-address-col {
+    min-width: 570px;
+    max-width: 570px;
   }
 
   #chips-col {
@@ -225,16 +256,10 @@ a {
     max-width: 600px;
   }
 
-
-
-
-
-
   /* #postcode-col-search {
     min-width: 150px;
     max-width: 150px;
   } */
-
 
   /* #date-col-search {
     min-width: 180px;
@@ -251,13 +276,10 @@ a {
     max-width: 150px;
   } */
 
-
   /* #phone-col {
     min-width: 180px;
     max-width: 180px;
   } */
-
-
 
   /* #job-number-col-search {
     min-width: 130px;

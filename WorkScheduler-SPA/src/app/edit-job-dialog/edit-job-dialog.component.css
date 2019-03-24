@@ -16,20 +16,16 @@
   }
 
   .mat-dialog-content {
-    min-height: 460px;
+    min-height: 480px;
   }
 
   .chip-row {
-    margin-left: 5%;
-    margin-right: 5%;
-  }
-
-  .mat-chip {
-    min-width: 190%;
+    margin-left: 10%;
+    margin-right: 0%;
   }
 
   .mat-standard-chip {
-    min-height: 30px;
+    min-height: 35px;
   }
 }
 
@@ -45,15 +41,16 @@
   }
 
   .mat-dialog-content {
-    min-height: 310px;
+    min-height: 340px;
   }
 
   .chip-row {
-    margin-left: 5%;
+    margin-left: 4.5%;
+    margin-right: 0%;
   }
 
   .mat-standard-chip {
-    min-height: 30px;
+    min-height: 35px;
   }
 }
 

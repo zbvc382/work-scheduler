@@ -30,6 +30,8 @@ namespace WorkScheduler.API.Models
         public string TenantPhone { get; set; }
         public string PrivateName { get; set; }
         public string PrivatePhone { get; set; }
+        public string AgencyContactName { get; set; }
+        public string AgencyPhone { get; set; }
         public int? AgencyId { get; set; }
         public Agency Agency { get; set; }
 

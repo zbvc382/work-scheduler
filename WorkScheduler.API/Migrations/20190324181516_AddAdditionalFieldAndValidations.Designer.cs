@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WorkScheduler.API.Data;
 
 namespace WorkScheduler.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20190324181516_AddAdditionalFieldAndValidations")]
+    partial class AddAdditionalFieldAndValidations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,11 +144,7 @@ namespace WorkScheduler.API.Migrations
 
                     b.Property<string>("Address");
 
-                    b.Property<string>("AgencyContactName");
-
                     b.Property<int?>("AgencyId");
-
-                    b.Property<string>("AgencyPhone");
 
                     b.Property<string>("AgencyReference");
 

@@ -256,7 +256,7 @@ export class CardComponent implements OnInit, OnDestroy {
   ) {
     const dialogConfig = new MatDialogConfig();
 
-    dialogConfig.height = '600px';
+    dialogConfig.height = '680px';
     dialogConfig.width = '800px';
 
     dialogConfig.disableClose = true;
@@ -332,10 +332,10 @@ export class CardComponent implements OnInit, OnDestroy {
     dialogConfig.disableClose = true;
 
     if (this.isMobile === true) {
-      dialogConfig.height = '600px';
+      dialogConfig.height = '620px';
       dialogConfig.width = '600px';
     } else {
-      dialogConfig.height = '450px';
+      dialogConfig.height = '480px';
       dialogConfig.width = '650px';
     }
 

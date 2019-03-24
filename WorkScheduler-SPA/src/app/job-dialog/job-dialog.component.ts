@@ -44,21 +44,23 @@ export class JobDialogComponent implements OnInit {
     this.form = this.fb.group({
       payerType: ['', [Validators.required]],
       applianceType: ['', []],
-      problemGiven: ['', []],
+      problemGiven: ['', [Validators.max(400)]],
       agency: ['', []],
       timeFrom: ['', [Validators.required]],
       timeTo: ['', [Validators.required]],
-      landlordName: ['', []],
-      landlordPhone: ['', []],
-      privateName: ['', []],
-      privatePhone: ['', []],
-      address: ['', [Validators.required]],
-      postcode: ['', [Validators.required]],
-      tenantName: ['', []],
-      tenantPhone: ['', []],
+      landlordName: ['', [Validators.maxLength(30)]],
+      landlordPhone: ['', [Validators.maxLength(15)]],
+      privateName: ['', [Validators.maxLength(30)]],
+      privatePhone: ['', [Validators.maxLength(15)]],
+      address: ['', [Validators.required, Validators.maxLength(60)]],
+      postcode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]],
+      tenantName: ['', [Validators.maxLength(30)]],
+      tenantPhone: ['', [Validators.maxLength(15)]],
       keyAddress: [{ value: '', disabled: true }],
       key: false,
-      agencyReference: ['', []]
+      agencyReference: ['', [Validators.maxLength(20)]],
+      agencyContactName: ['', [Validators.maxLength(30)]],
+      agencyPhone: ['', [Validators.maxLength(15)]]
     });
 
     this.getAgenciesFromService();
@@ -155,6 +157,16 @@ export class JobDialogComponent implements OnInit {
         this.form.controls['tenantPhone'].setValue(null);
       }
       // tslint:disable-next-line:no-string-literal
+      if (!this.form.controls['agencyContactName'].dirty) {
+        // tslint:disable-next-line:no-string-literal
+        this.form.controls['tenantPhone'].setValue(null);
+      }
+      // tslint:disable-next-line:no-string-literal
+      if (!this.form.controls['agencyPhone'].dirty) {
+        // tslint:disable-next-line:no-string-literal
+        this.form.controls['tenantPhone'].setValue(null);
+      }
+      // tslint:disable-next-line:no-string-literal
       if (!this.form.controls['agencyReference'].dirty) {
         // tslint:disable-next-line:no-string-literal
         this.form.controls['agencyReference'].setValue(null);
@@ -180,7 +192,7 @@ export class JobDialogComponent implements OnInit {
   }
 
   close() {
-    this.dialogRef.close();
+    this.dialogRef.close(null);
   }
 
   private filter(name: string): Agency[] {

@@ -1,40 +1,18 @@
-<div
-class="flex-row"
-fxLayout="row"
-fxLayoutGap="20px"
-fxLayoutAlign="center center"
->
-<div class="time-picker">
-  <app-time-picker
-    [timeFrame]="timeFrom"
-    (timeEmitter)="timeFromEvent($event)"
-    [time]="fromDefault"
-  ></app-time-picker>
-</div>
-<div class="time-picker">
-  <app-time-picker
-    [timeFrame]="timeTo"
-    (timeEmitter)="timeToEvent($event)"
-    [time]="toDefault"
-  ></app-time-picker>
-</div>
+<div class="flex-row" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+  <div class="time-picker">
+    <app-time-picker [timeFrame]="timeFrom" (timeEmitter)="timeFromEvent($event)" [time]="fromDefault">
+    </app-time-picker>
+  </div>
+  <div class="time-picker">
+    <app-time-picker [timeFrame]="timeTo" (timeEmitter)="timeToEvent($event)" [time]="toDefault"></app-time-picker>
+  </div>
 </div>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
-<mat-dialog-content>
-  
-    <div
-      class="flex-row"
-      fxLayout="row"
-      fxLayoutGap="20px"
-      fxLayoutAlign="center center"
-    >
+  <mat-dialog-content>
+    <div class="flex-row" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
       <mat-form-field>
-        <mat-select
-          placeholder="Payer Type"
-          (selectionChange)="onPayerTypeSelection()"
-          formControlName="payerType"
-          required
-        >
+        <mat-select placeholder="Payer Type" (selectionChange)="onPayerTypeSelection()" formControlName="payerType"
+          required>
           <mat-option *ngFor="let payerType of payerTypes" [value]="payerType">
             {{ payerType }}
           </mat-option>
@@ -44,146 +22,105 @@ fxLayoutAlign="center center"
         <input matInput formControlName="applianceType" placeholder="Appliance" />
       </mat-form-field>
     </div>
-    <div
-      class="flex-row"
-      fxLayout="row"
-      fxLayoutGap="20px"
-      fxLayoutAlign="center center"
-    >
+    <div class="flex-row" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
       <mat-form-field>
-        <input
-          matInput
-          formControlName="address"
-          placeholder="Address"
-          required
-        />
+        <input matInput formControlName="address" placeholder="Address" #addressInput maxlength="60" required />
+        <mat-hint align="end">{{addressInput.value?.length || 0}}/60</mat-hint>
+        <mat-error *ngIf="form.get('address').hasError('maxlength')">Exceeded character limit</mat-error>
+        <mat-error *ngIf="form.get('address').hasError('required')">Address is required</mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input
-          matInput
-          formControlName="postcode"
-          placeholder="Postcode"
-          required
-        />
+        <input matInput formControlName="postcode" placeholder="Postcode" #postcodeInput maxlength="8" required />
+        <mat-hint align="end">{{postcodeInput.value?.length || 0}}/8</mat-hint>
+        <mat-error *ngIf="form.get('postcode').hasError('required')">Postcode is required</mat-error>
+        <mat-error *ngIf="form.get('postcode').hasError('maxlength')">Exceeded character limit</mat-error>
+        <mat-error *ngIf="form.get('postcode').hasError('minlength')">Minimum of 6 characters is required</mat-error>
       </mat-form-field>
     </div>
     <div fxLayout="column" fxLayoutAlign="center center">
       <mat-form-field>
-        <input matInput formControlName="problemGiven" placeholder="Problem" />
+        <textarea matInput rows="4" #problemInput maxlength="400" formControlName="problemGiven"
+          placeholder="Problem Given"></textarea>
+        <mat-hint align="end">{{problemInput.value?.length || 0}}/400</mat-hint>
+        <mat-error *ngIf="form.get('problemGiven').hasError('maxlength')">Exceeded character limit</mat-error>
       </mat-form-field>
     </div>
-
-    <div
-      class="flex-row"
-      fxLayout="row"
-      fxLayoutGap="20px"
-      fxLayoutAlign="center center"
-    >
+    <div class="flex-row" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
       <mat-form-field class="example-full-width" *ngIf="isAgency">
-        <input
-          type="text"
-          placeholder="Agency"
-          matInput
-          formControlName="agency"
-          [matAutocomplete]="auto"
-        />
+        <input type="text" placeholder="Agency" matInput formControlName="agency" [matAutocomplete]="auto" />
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option
-            *ngFor="let option of (filteredOptions | async)"
-            [value]="option"
-          >
+          <mat-option *ngFor="let option of (filteredOptions | async)" [value]="option">
             {{ option.name }}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
-      <mat-slide-toggle
-        *ngIf="isAgency"
-        formControlName="key"
-        (toggleChange)="onKeyToggle()"
-        >Pickup Key</mat-slide-toggle
-      >
+      <mat-slide-toggle *ngIf="isAgency" formControlName="key" (toggleChange)="onKeyToggle()">Pickup Key
+      </mat-slide-toggle>
       <mat-form-field *ngIf="isLandlord">
-        <input
-          matInput
-          formControlName="landlordName"
-          placeholder="Landlord Name"
-        />
+        <input matInput formControlName="landlordName" placeholder="Landlord Name" #landlordNameInput maxlength="30" />
+        <mat-hint align="end">{{landlordNameInput.value?.length || 0}}/30</mat-hint>
+        <mat-error *ngIf="form.get('landlordName').hasError('maxlength')">Exceeded character limit</mat-error>
       </mat-form-field>
       <mat-form-field *ngIf="isLandlord">
-        <input
-          matInput
-          formControlName="landlordPhone"
-          placeholder="Landlord Phone"
-        />
+        <input matInput formControlName="landlordPhone" placeholder="Landlord Phone" #landlordPhoneInput
+          maxlength="15" />
+        <mat-hint align="end">{{landlordPhoneInput.value?.length || 0}}/15</mat-hint>
+        <mat-error *ngIf="form.get('landlordPhone').hasError('maxlength')">Exceeded character limit</mat-error>
       </mat-form-field>
       <mat-form-field *ngIf="isPrivate">
-        <input
-          matInput
-          formControlName="privateName"
-          placeholder="Client Name"
-        />
+        <input matInput formControlName="privateName" placeholder="Client Name" #privateNameInput maxlength="30" />
+        <mat-hint align="end">{{privateNameInput.value?.length || 0}}/30</mat-hint>
+        <mat-error *ngIf="form.get('privateName').hasError('maxlength')">Exceeded character limit</mat-error>
       </mat-form-field>
       <mat-form-field *ngIf="isPrivate">
-        <input
-          matInput
-          formControlName="privatePhone"
-          placeholder="Client Phone"
-        />
+        <input matInput formControlName="privatePhone" placeholder="Client Phone" #privatePhoneInput maxlength="15" />
+        <mat-hint align="end">{{privatePhoneInput.value?.length || 0}}/15</mat-hint>
+        <mat-error *ngIf="form.get('privatePhone').hasError('maxlength')">Exceeded character limit</mat-error>
       </mat-form-field>
     </div>
-    <div
-      class="flex-row"
-      fxLayout="row"
-      fxLayoutGap="20px"
-      fxLayoutAlign="center center"
-    >
+    <div class="flex-row" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
       <mat-form-field *ngIf="isAgency">
-        <input
-          matInput
-          formControlName="keyAddress"
-          placeholder="Key Address"
-        />
+        <input matInput formControlName="keyAddress" placeholder="Key Address" #KeyInput maxlength="60" />
+        <mat-hint align="end">{{KeyInput.value?.length || 0}}/60</mat-hint>
       </mat-form-field>
       <mat-form-field *ngIf="isAgency">
-        <input
-          matInput
-          formControlName="agencyReference"
-          placeholder="Reference"
-        />
+        <input matInput formControlName="agencyReference" placeholder="Agency Reference" #referenceInput
+          maxlength="20" />
+        <mat-hint align="end">{{referenceInput.value?.length || 0}}/20</mat-hint>
+        <mat-error *ngIf="form.get('agencyReference').hasError('maxlength')">Exceeded character limit</mat-error>
       </mat-form-field>
     </div>
-
-    <div
-      class="flex-row"
-      fxLayout="row"
-      fxLayoutGap="20px"
-      fxLayoutAlign="center center"
-    >
-      <mat-form-field *ngIf="isAgency || isLandlord">
-        <input
-          matInput
-          formControlName="tenantName"
-          placeholder="Tenant Name"
-        />
+    <div class="flex-row" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+      <mat-form-field *ngIf="isAgency">
+        <input matInput formControlName="agencyContactName" placeholder="Agency Contact" #agencyContactNameInput maxlength="30"/>
+        <mat-hint align="end">{{agencyContactNameInput.value?.length || 0}}/30</mat-hint>
+        <mat-error *ngIf="form.get('agencyContactName').hasError('maxlength')">Exceeded character limit</mat-error>
       </mat-form-field>
-      <mat-form-field *ngIf="isAgency || isLandlord">
-        <input
-          matInput
-          formControlName="tenantPhone"
-          placeholder="Tenant Phone"
-        />
+      <mat-form-field *ngIf="isAgency">
+        <input matInput formControlName="agencyPhone" placeholder="Agency Phone" #agencyPhoneInput maxlength="15" />
+        <mat-hint align="end">{{agencyPhoneInput.value?.length || 0}}/15</mat-hint>
+        <mat-error *ngIf="form.get('agencyPhone').hasError('maxlength')">Exceeded character limit</mat-error>
       </mat-form-field>
     </div>
-  
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button class="mat-raised-button" (click)="close()">Close</button>
-  <button
-    class="mat-raised-button mat-primary"
-    type="submit"
-    [disabled]="!form.valid"
-  >
-    Save
-  </button>
-</mat-dialog-actions>
+    <div class="flex-row" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+      <mat-form-field *ngIf="isAgency || isLandlord">
+        <input matInput formControlName="tenantName" placeholder="Tenant Name" #tenantNameInput maxlength="30" />
+        <mat-hint align="end">{{tenantNameInput.value?.length || 0}}/30</mat-hint>
+        <mat-error *ngIf="form.get('tenantName').hasError('maxlength')">Exceeded character limit</mat-error>
+      </mat-form-field>
+      <mat-form-field *ngIf="isAgency || isLandlord">
+        <input matInput formControlName="tenantPhone" placeholder="Tenant Phone" #tenantPhoneInput maxlength="15" />
+        <mat-hint align="end">{{tenantPhoneInput.value?.length || 0}}/15</mat-hint>
+        <mat-error *ngIf="form.get('tenantPhone').hasError('maxlength')">Exceeded character limit</mat-error>
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <div fxFlex fxLayout fxLayoutAlign="start">
+      <button type="button" class="mat-raised-button" (click)="close()">Cancel</button>
+    </div>
+    <div fxFlex fxLayout fxLayoutAlign="end">
+      <button class="mat-raised-button mat-primary" type="submit" [disabled]="!form.valid">Create</button>
+    </div>
+  </mat-dialog-actions>
 </form>
