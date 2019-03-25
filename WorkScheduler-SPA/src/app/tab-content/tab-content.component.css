@@ -40,3 +40,39 @@
     color: white;
   }
 }
+
+.info-container .row .col-6 {
+  padding: 0;
+}
+
+.info-container {
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.info-container .row {
+  padding: 5px;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+p {
+  color: black;
+  display: inline;
+  margin-bottom: 0;
+}
+
+.not-provided {
+  color: rgb(117, 117, 117);
+}
+
+span {
+  display: inline;
+  overflow-wrap: break-word;
+  color: #3f51b5;
+}
+
+.col-4 {
+  padding-left: 0;
+}
+

@@ -29,6 +29,8 @@ namespace WorkScheduler.API.Dtos
         public string TenantPhone { get; set; }
         public string PrivateName { get; set; }
         public string PrivatePhone { get; set; }
+        public string AgencyContactName { get; set; }
+        public string AgencyPhone { get; set; }
         public AgencyForReturnDto Agency { get; set; }
 
         public virtual ICollection<PhotoForReturnDto> Photos { get; set; }

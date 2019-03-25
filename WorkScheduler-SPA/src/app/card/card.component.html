@@ -50,9 +50,6 @@
           <button mat-raised-button (click)="openDialog(day.date)">
             <mat-icon>add</mat-icon>
           </button>
-          <button mat-raised-button fxHide.xs>
-            <mat-icon>print</mat-icon>
-          </button>
         </div>
         <div fxFlex fxLayout fxLayoutAlign="end" id="week">
           {{ day.date | date: 'fullDate' }}
@@ -159,7 +156,7 @@
             </div>
           </div>
           <div mdbCollapse #expansion="bs-collapse">
-            <app-tab-content [photos]="slot.job.photos"></app-tab-content>
+            <app-tab-content [photos]="slot.job.photos" [job]="slot.job"></app-tab-content>
           </div>
         </mat-card>
         <ng-template #emptySlot>

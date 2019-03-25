@@ -7,6 +7,7 @@ import {
   NgxGalleryAnimation
 } from 'ngx-gallery';
 import { DownloadablePhoto } from '../_models/DownloadablePhoto';
+import { Job } from '../_models/Job';
 
 @Component({
   selector: 'app-tab-content',
@@ -15,6 +16,7 @@ import { DownloadablePhoto } from '../_models/DownloadablePhoto';
 })
 export class TabContentComponent implements OnInit {
   @Input() photos: Photo[];
+  @Input() job: Job;
   downloadablePhotos: DownloadablePhoto[] = [];
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];

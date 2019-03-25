@@ -1,34 +1,138 @@
-
-    <mat-tab-group *ngIf="!isMobile()" mat-align-tabs="end">
-        <mat-tab label="Additional Information">&nbsp; </mat-tab>
-        <mat-tab label="Photos">
-          <div class="photos-container" fxLayout="row" fxLayoutAlign="center">
-              <div *ngIf="isPhotos()">
-                  <div *ngFor="let photo of downloadablePhotos" class="photo">
-                      <img src="{{ photo.url }}" alt="Italian Trulli" />
-                      <div class="download">
-                        <a href="{{ photo.link }}" download>
-                          <mat-icon>cloud_download</mat-icon>
-                        </a>
-                      </div>
-                    </div>
-              </div>
-            <div *ngIf="!isPhotos()">No photos found</div>
+<mat-tab-group *ngIf="!isMobile()" mat-align-tabs="end">
+  <mat-tab label="Additional Information">
+    <div class="info-container">
+      <div *ngIf="job.payerType === 'Agency'" class="row info">
+        <div *ngIf="job.agencyContactName !== null" class="col-4">
+          <span>Agency Contact Name:<p>&nbsp;{{ job.agencyContactName }}</p></span>
+        </div>
+        <div *ngIf="job.agencyContactName === null" class="col-4">
+          <span>Agency Contact Name:<p class="not-provided">&nbsp;Not Provided</p></span>
+        </div>
+        <div *ngIf="job.agencyPhone !== null" class="col-4">
+          <span>Agency Phone:<p>&nbsp;{{ job.agencyPhone }}</p></span>
+        </div>
+        <div *ngIf="job.agencyPhone === null" class="col-4">
+          <span>Agency Phone:<p class="not-provided">&nbsp;Not Provided</p></span>
+          &nbsp;Not Provided
+        </div>
+        <div *ngIf="job.agencyReference === null" class="col-4">
+          <span>Agency Reference:<p class="not-provided">&nbsp;Not Provided</p></span>
+        </div>
+        <div *ngIf="job.agencyReference !== null" class="col-4">
+          <span>Agency Reference:<p>&nbsp;{{ job.agencyReference }}</p></span>
+        </div>
+      </div>
+      <div *ngIf="job.payerType === 'Landlord'" class="row info">
+        <div *ngIf="job.landlordName !== null" class="col-6">
+          <span>Landlord Name:<p>&nbsp;{{ job.landlordName }}</p></span>
+        </div>
+        <div *ngIf="job.landlordName === null" class="col-6">
+          <span>Landlord Name:<p class="not-provided">&nbsp;Not Provided</p></span>
+        </div>
+        <div *ngIf="job.landlordPhone !== null" class="col-6">
+          <span>Landlord Phone:<p>&nbsp;{{ job.landlordPhone }}</p></span>
+        </div>
+        <div *ngIf="job.landlordPhone === null" class="col-6">
+          <span>Landlord Phone:<p class="not-provided">&nbsp;Not Provided</p></span>
+        </div>
+      </div>
+      <div *ngIf="job.problemGiven !== null" class="row info">
+        <span>Problem Given:<p>&nbsp;{{ job.problemGiven }}</p></span>
+      </div>
+      <div *ngIf="job.problemGiven === null" class="row info">
+        <span>Problem Given:<p class="not-provided">&nbsp;Not Provided</p></span>
+      </div>
+      <div *ngIf="job.report !== null" class="row info">
+        <span>Report:<p>&nbsp;{{ job.report }}</p></span>
+      </div>
+      <div *ngIf="job.report === null" class="row info">
+        <span>Report:<p class="not-provided">&nbsp;Not Provided</p></span>
+      </div>
+      <div *ngIf="job.applianceType !== null" class="row info">
+        <span>Appliance Type:<p>&nbsp;{{ job.applianceType }}</p></span>
+      </div>
+      <div *ngIf="job.applianceType === null" class="row info">
+        <span>Appliance Type:<p class="not-provided">&nbsp;Not Provided</p></span>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Photos">
+    <div class="photos-container" fxLayout="row" fxLayoutAlign="center">
+      <div *ngIf="isPhotos()">
+        <div *ngFor="let photo of downloadablePhotos" class="photo">
+          <img src="{{ photo.url }}" alt="Italian Trulli" />
+          <div class="download">
+            <a href="{{ photo.link }}" download>
+              <mat-icon>cloud_download</mat-icon>
+            </a>
           </div>
-
-          
-        </mat-tab>
-      </mat-tab-group>
-      <mat-tab-group *ngIf="isMobile()" mat-align-tabs="center">
-        <mat-tab label="Additional Information">&nbsp; </mat-tab>
-        <mat-tab label="Photos">
-          <div fxLayout="column" fxLayoutAlign="space-between center" class="photo">
-            <ngx-gallery
-              [options]="galleryOptions"
-              [images]="galleryImages"
-              *ngIf="isPhotos()"
-            ></ngx-gallery>
-            <div *ngIf="!isPhotos()">No photos found</div>
-          </div>
-        </mat-tab>
-      </mat-tab-group>
+        </div>
+      </div>
+      <div *ngIf="!isPhotos()">No photos found</div>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+<mat-tab-group *ngIf="isMobile()" mat-align-tabs="center">
+  <mat-tab label="Additional Information">&nbsp;
+    <div class="info-container">
+      <div *ngIf="job.payerType === 'Agency'" class="row info">
+        <span>Agency:<p>&nbsp;{{ job.agency.name }}</p></span>
+      </div>
+      <div *ngIf="job.payerType === 'Agency' && job.agencyContactName !== null" class="row info">
+        <span>Agency Contact:<p>&nbsp;{{ job.agencyContactName }}</p></span>
+      </div>
+      <div *ngIf="job.payerType === 'Agency' && job.agencyContactName === null" class="row info">
+        <span>Agency Contact:<p class="not-provided">&nbsp;Not Provided</p></span>
+      </div>
+      <div *ngIf="job.payerType === 'Agency' && job.agencyPhone !== null" class="row info">
+        <span>Agency Phone:<p>&nbsp;{{ job.agencyPhone }}</p></span>
+      </div>
+      <div *ngIf="job.payerType === 'Agency' && job.agencyPhone === null" class="row info">
+        <span>Agency Phone:<p class="not-provided">&nbsp;Not Provided</p></span>
+        &nbsp;Not Provided
+      </div>
+      <div *ngIf="job.payerType === 'Landlord' && job.landlordName !== null" class="row info">
+        <span>Landlord Name:<p>&nbsp;{{ job.landlordName }}</p></span>
+      </div>
+      <div *ngIf="job.payerType === 'Landlord' && job.landlordPhone === null" class="row info">
+        <span>Landlord Name:<p class="not-provided">&nbsp;Not Provided</p></span>
+      </div>
+      <div *ngIf="job.payerType === 'Landlord' && job.landlordPhone !== null" class="row info">
+        <span>Landlord Phone:<p>&nbsp;{{ job.landlordPhone }}</p></span>
+      </div>
+      <div *ngIf="job.payerType === 'Landlord' && job.landlordPhone === null" class="row info">
+        <span>Landlord Phone:<p class="not-provided">&nbsp;Not Provided</p></span>
+      </div>
+      <div *ngIf="job.problemGiven !== null" class="row info">
+        <span>Problem Given:<p>&nbsp;{{ job.problemGiven }}</p></span>
+      </div>
+      <div *ngIf="job.problemGiven === null" class="row info">
+        <span>Problem Given:<p class="not-provided">&nbsp;Not Provided</p></span>
+      </div>
+      <div *ngIf="job.report !== null" class="row info">
+        <span>Report:<p>&nbsp;{{ job.report }}</p></span>
+      </div>
+      <div *ngIf="job.report === null" class="row info">
+        <span>Report:<p class="not-provided">&nbsp;Not Provided</p></span>
+      </div>
+      <div *ngIf="job.applianceType !== null" class="row info">
+        <span>Appliance Type:<p>&nbsp;{{ job.applianceType }}</p></span>
+      </div>
+      <div *ngIf="job.applianceType === null" class="row info">
+        <span>Appliance Type:<p class="not-provided">&nbsp;Not Provided</p></span>
+      </div>
+      <div *ngIf="job.payerType === 'Agency' && job.agencyReference !== null" class="row info">
+        <span>Agency Reference:<p>&nbsp;{{ job.agencyReference }}</p></span>
+      </div>
+      <div *ngIf="job.payerType === 'Agency' && job.agencyReference === null" class="row info">
+        <span>Agency Reference:<p class="not-provided">&nbsp;Not Provided</p></span>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Photos">
+    <div fxLayout="column" fxLayoutAlign="space-between center" class="photo">
+      <ngx-gallery [options]="galleryOptions" [images]="galleryImages" *ngIf="isPhotos()"></ngx-gallery>
+      <div *ngIf="!isPhotos()">No photos found</div>
+    </div>
+  </mat-tab>
+</mat-tab-group>

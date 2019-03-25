@@ -112,62 +112,62 @@ export class JobDialogComponent implements OnInit {
   onSubmit() {
     if (this.form.valid) {
       // tslint:disable-next-line:no-string-literal
-      if (!this.form.controls['agency'].dirty) {
+      if (this.form.controls['agency'].value.length < 1) {
         // tslint:disable-next-line:no-string-literal
         this.form.controls['agency'].setValue(null);
       }
       // tslint:disable-next-line:no-string-literal
-      if (!this.form.controls['applianceType'].dirty) {
+      if (this.form.controls['applianceType'].value.length < 1) {
         // tslint:disable-next-line:no-string-literal
         this.form.controls['applianceType'].setValue(null);
       }
       // tslint:disable-next-line:no-string-literal
-      if (!this.form.controls['problemGiven'].dirty) {
+      if (this.form.controls['problemGiven'].value.length < 1) {
         // tslint:disable-next-line:no-string-literal
         this.form.controls['problemGiven'].setValue(null);
       }
       // tslint:disable-next-line:no-string-literal
-      if (!this.form.controls['landlordName'].dirty) {
+      if (this.form.controls['landlordName'].value.length < 1) {
         // tslint:disable-next-line:no-string-literal
         this.form.controls['landlordName'].setValue(null);
       }
       // tslint:disable-next-line:no-string-literal
-      if (!this.form.controls['landlordPhone'].dirty) {
+      if (this.form.controls['landlordPhone'].value.length < 1) {
         // tslint:disable-next-line:no-string-literal
         this.form.controls['landlordPhone'].setValue(null);
       }
       // tslint:disable-next-line:no-string-literal
-      if (!this.form.controls['privatePhone'].dirty) {
+      if (this.form.controls['privatePhone'].value.length < 1) {
         // tslint:disable-next-line:no-string-literal
         this.form.controls['privatePhone'].setValue(null);
       }
       // tslint:disable-next-line:no-string-literal
-      if (!this.form.controls['privateName'].dirty) {
+      if (this.form.controls['privateName'].value.length < 1) {
         // tslint:disable-next-line:no-string-literal
         this.form.controls['privateName'].setValue(null);
       }
       // tslint:disable-next-line:no-string-literal
-      if (!this.form.controls['tenantName'].dirty) {
+      if (this.form.controls['tenantName'].value.length < 1) {
         // tslint:disable-next-line:no-string-literal
         this.form.controls['tenantName'].setValue(null);
       }
       // tslint:disable-next-line:no-string-literal
-      if (!this.form.controls['tenantPhone'].dirty) {
+      if (this.form.controls['tenantPhone'].value.length < 1) {
         // tslint:disable-next-line:no-string-literal
         this.form.controls['tenantPhone'].setValue(null);
       }
       // tslint:disable-next-line:no-string-literal
-      if (!this.form.controls['agencyContactName'].dirty) {
+      if (this.form.controls['agencyContactName'].value.length < 1) {
         // tslint:disable-next-line:no-string-literal
-        this.form.controls['tenantPhone'].setValue(null);
+        this.form.controls['agencyContactName'].setValue(null);
       }
       // tslint:disable-next-line:no-string-literal
-      if (!this.form.controls['agencyPhone'].dirty) {
+      if (this.form.controls['agencyPhone'].value.length < 1) {
         // tslint:disable-next-line:no-string-literal
-        this.form.controls['tenantPhone'].setValue(null);
+        this.form.controls['agencyPhone'].setValue(null);
       }
       // tslint:disable-next-line:no-string-literal
-      if (!this.form.controls['agencyReference'].dirty) {
+      if (this.form.controls['agencyReference'].value.length < 1) {
         // tslint:disable-next-line:no-string-literal
         this.form.controls['agencyReference'].setValue(null);
       }
