@@ -1,48 +1,54 @@
 <h1 mat-dialog-title>Edit Job</h1>
-
 <form [formGroup]="form">
   <mat-dialog-content>
     <mat-form-field>
-      <input matInput formControlName="jobreport" placeholder="Report" />
+      <textarea #jobReportInput rows="2" maxlength="200" matInput formControlName="jobreport" placeholder="Report"></textarea>
+      <mat-hint align="end">{{jobReportInput.value?.length || 0}}/200</mat-hint>
+      <mat-error *ngIf="form.get('jobreport').hasError('maxlength')">Exceeded character limit</mat-error>
     </mat-form-field>
     <div class="row">
-        <div class="col-sm-10">
-                <mat-form-field>
-                        <ngx-mat-file-input
-                         #Input
-                          formControlName="multiplefile"
-                          placeholder="Click to add photos"
-                          [accept]="'.jpg'"
-                          multiple
-                        ></ngx-mat-file-input>
-                        <button mat-icon-button matSuffix *ngIf="!Input.empty" (click)="Input.clear($event)">
-                              <mat-icon>clear</mat-icon>
-                            </button>
-                        <mat-icon *ngIf="Input.empty" matSuffix>folder_open</mat-icon>
-                      </mat-form-field>
-        </div>
-        
-    
+      <div class="col-sm-10">
+        <mat-form-field>
+          <ngx-mat-file-input
+            #Input
+            formControlName="multiplefile"
+            placeholder="Click to add photos"
+            [accept]="'.jpg'"
+            multiple
+          ></ngx-mat-file-input>
+          <button
+            mat-icon-button
+            matSuffix
+            *ngIf="!Input.empty"
+            (click)="Input.clear($event)"
+          >
+            <mat-icon>clear</mat-icon>
+          </button>
+          <mat-icon *ngIf="Input.empty" matSuffix>folder_open</mat-icon>
+        </mat-form-field>
+      </div>
 
-        <div class="col-sm-2">
-                        <button
-                          class="mat-raised-button upload-button"
-                          (click)="onUpload()"
-                          [disabled]="!uploader.getNotUploadedItems().length"
-                        >
-                          Upload
-                        </button>
-
+      <div class="col-sm-2">
+        <button
+          class="mat-raised-button upload-button"
+          (click)="onUpload()"
+          [disabled]="!uploader.getNotUploadedItems().length"
+        >
+          Upload
+        </button>
+      </div>
     </div>
-</div>
-<mat-progress-bar mode="determinate" value={{uploader.progress}}></mat-progress-bar>
-<div class="text-container">
-  <div>
-      Click tag to select
-  </div>
-</div>
-<div class="row chip-row">
-      <mat-chip-list [multiple]="true" [selectable]="true" >
+    <mat-progress-bar
+      mode="determinate"
+      value="{{ uploader.progress }}"
+    ></mat-progress-bar>
+    <div class="text-container">
+      <div>
+        Click tag to select
+      </div>
+    </div>
+    <div class="row chip-row">
+      <mat-chip-list [multiple]="true" [selectable]="true">
         <mat-chip
           *ngFor="let tag of defaultTags"
           [style.background]="tag.selected ? tag.color : '#e0e0e0'"

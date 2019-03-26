@@ -62,9 +62,9 @@ namespace WorkScheduler.API.Controllers
         }
 
         [HttpPost("{id}")]
-        public async Task<IActionResult> AddExtraVisitJob([FromRoute] int id, [FromBody] JobForCreationDto jobToCreateDto)
+        public async Task<IActionResult> AddExtraVisitJob([FromRoute] int id, [FromBody] JobForCreationDto jobForCreationDto)
         {
-            var jobToCreate = _mapper.Map<Job>(jobToCreateDto);
+            var jobToCreate = _mapper.Map<Job>(jobForCreationDto);
 
             var lastVisitJob = _jobRepository.GetJob(id);
 
@@ -83,7 +83,7 @@ namespace WorkScheduler.API.Controllers
                     return CreatedAtRoute("GetJob", new { id = jobToReturn.Id }, jobToReturn);
                 }
 
-                throw new Exception($"Adding job failed on save");
+                throw new Exception("Adding job failed on save");
             }
 
             return BadRequest();
@@ -107,14 +107,25 @@ namespace WorkScheduler.API.Controllers
 
         }
 
-        // TODO: Finish method
         [HttpPut]
-        public IActionResult UpdateJob(UpdateJob updateJob)
+        public async Task<IActionResult> UpdateJob(UpdateJob updateJob)
         {
-            _jobRepository.UpdateTags(updateJob);
             var jobToUpdate = _jobRepository.GetJob(updateJob.Id);
 
-            return NoContent();
+            if (jobToUpdate != null)
+            {
+                _jobRepository.UpdateTags(updateJob);
+
+                jobToUpdate.Report = updateJob.Report;
+            }
+
+            if (await _jobRepository.SaveAsync())
+            {
+                return NoContent();
+            }
+
+            Console.WriteLine("Failed??????");
+            return BadRequest();
         }
 
         [HttpDelete("{id}")]
@@ -131,6 +142,15 @@ namespace WorkScheduler.API.Controllers
             }
 
             return BadRequest();
+        }
+
+        [HttpGet("number/{number}")]
+        public IActionResult getJobByJobNumber(string number)
+        {
+            var job = _jobRepository.GetJobByJobNumber(number);
+            var jobToReturn = _mapper.Map<ExtraJobForReturn>(job);
+
+            return Ok(jobToReturn);
         }
 
         [HttpGet("search")]

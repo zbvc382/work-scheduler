@@ -3,7 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { Tag } from '../_models/Tag';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Photo } from '../_models/Photo';
 import { BreakpointObserver } from '@angular/cdk/layout';
 
@@ -46,13 +46,13 @@ export class EditJobDialogComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log(this.uploader.onCompleteAll());
+
   }
 
   ngOnInit() {
     this.form = this.fb.group({
       multiplefile: [{ value: undefined, disabled: false }],
-      jobreport: ['', []]
+      jobreport: [this.jobReport, [Validators.maxLength(200)]]
     });
     this.setTags();
     this.initialiseUploader();
@@ -118,7 +118,7 @@ export class EditJobDialogComponent implements OnInit, OnChanges {
     const unselectedTags = this.defaultTags.filter(x => x.selected === false).map((value: Tag) => {
       return value.id;
     });
-    const object = { id: this.jobId, selectedTags, unselectedTags };
+    const object = { id: this.jobId, selectedTags, unselectedTags, report: this.form.get('jobreport').value };
     const selectedArray: Tag[] = this.defaultTags.filter(x => x.selected === true);
 
     const data = [object, selectedArray, this.uploaded];

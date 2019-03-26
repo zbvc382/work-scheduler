@@ -138,7 +138,7 @@ namespace WorkScheduler.API.Data
                 
                 }
             }
-            this.DataContext.SaveChanges();
+            // this.DataContext.SaveChanges();
             
         }
 
@@ -162,6 +162,12 @@ namespace WorkScheduler.API.Data
             }
 
             return await CreateAsync(job);
+        }
+
+        public Job GetJobByJobNumber(string jobNumber) {
+            var job = DataContext.Jobs.Include(x => x.Agency).FirstOrDefault(x => x.JobNumber == jobNumber);
+
+            return job;
         }
     }
 }

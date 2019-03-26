@@ -14,6 +14,7 @@ namespace WorkScheduler.API.Helpers
             CreateMap<JobForCreationDto, Job>();
             CreateMap<Agency, AgencyForReturnDto>();
             CreateMap<Tag, TagForReturnDto>();
+            CreateMap<ExtraJobForReturn, Job>();
             CreateMap<Job, JobForReturnDto>().ForMember(dest => dest.Tags, opt => {
                 opt.MapFrom(src => src.JobTags.Select(x => x.Tag).ToList());
             });

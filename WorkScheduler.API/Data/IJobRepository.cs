@@ -18,5 +18,6 @@ namespace WorkScheduler.API.Data
         Task<PagedJobs<Job>> SearchAllJobs(SearchParams searchParams);
         void AddTag(Tag tag, Job job);
         void UpdateTags(UpdateJob updateJob);
+        Job GetJobByJobNumber(string jobNumber);
     }
 }

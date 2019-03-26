@@ -14,6 +14,9 @@ namespace WorkScheduler.API.Dtos
         [MaxLength(400)]
         public string ProblemGiven { get; set; }
 
+        [MaxLength(200)]
+        public string Report { get; set; }
+
         [Required]
         public DateTime DateAssigned { get; set; }
 

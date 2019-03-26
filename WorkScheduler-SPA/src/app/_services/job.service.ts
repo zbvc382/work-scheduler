@@ -7,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { DateRange } from '../_enums/DateRange.enum';
 import { JobToCreate } from '../_models/JobToCreate';
+import { ExtraJob } from '../_models/ExtraJob';
 
 @Injectable()
 export class JobService implements OnInit {
@@ -29,7 +30,11 @@ export class JobService implements OnInit {
     return this.httpClient.put(this.baseUrl, updateObject);
   }
 
-  searchJobs(query: string, pageNumber?: string, dateRange?: string): Observable<PaginatedResult<Job[]>> {
+  getJobByJobNumber(jobNumber: string) {
+    return this.httpClient.get<ExtraJob>(this.baseUrl + '/number/' + jobNumber);
+  }
+
+  searchJobs(query: string, pageNumber?: string, dateRange?: string, jobNumber?: string): Observable<PaginatedResult<Job[]>> {
     const paginatedResult: PaginatedResult<Job[]> = new PaginatedResult<Job[]>();
 
     let params = new HttpParams();

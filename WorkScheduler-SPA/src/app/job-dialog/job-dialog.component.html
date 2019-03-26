@@ -1,4 +1,15 @@
 <div class="flex-row" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+    <mat-form-field>
+      <input  matInput placeholder="Job Number" [(ngModel)]="jobNumber" (keyup.enter)="onJobEnter()" [disabled]="!isExtraVisit" />
+       <!-- <mat-hint>Enter an existing job number to retrieve its data and prefill the form automatically</mat-hint> -->
+      <!-- <mat-icon *ngIf="searchClear" id="clearIcon" (click)="onSearchClear()" matSuffix>
+        clear
+      </mat-icon> -->
+    </mat-form-field>
+    <mat-slide-toggle (toggleChange)="onExtraVisitToggle()">Extra Visit
+      </mat-slide-toggle>
+  </div>
+<div class="flex-row" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
   <div class="time-picker">
     <app-time-picker [timeFrame]="timeFrom" (timeEmitter)="timeFromEvent($event)" [time]="fromDefault">
     </app-time-picker>
@@ -9,6 +20,21 @@
 </div>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <mat-dialog-content>
+
+
+
+      <!-- <div class="flex-row" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
+          <mat-form-field>
+            <input placeholder="Job Number" matInput formControlName="jobNumber"/>
+          </mat-form-field>
+          <mat-slide-toggle formControlName="extraVisit" (toggleChange)="onExtraVisitToggle()">Extra Visit
+          </mat-slide-toggle>
+      </div> -->
+
+
+
+
+
     <div class="flex-row" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
       <mat-form-field>
         <mat-select placeholder="Payer Type" (selectionChange)="onPayerTypeSelection()" formControlName="payerType"
@@ -30,16 +56,16 @@
         <mat-error *ngIf="form.get('address').hasError('required')">Address is required</mat-error>
       </mat-form-field>
       <mat-form-field>
-        <input matInput formControlName="postcode" placeholder="Postcode" #postcodeInput maxlength="8" required />
+        <input matInput formControlName="postCode" placeholder="Postcode" #postcodeInput maxlength="8" required />
         <mat-hint align="end">{{postcodeInput.value?.length || 0}}/8</mat-hint>
-        <mat-error *ngIf="form.get('postcode').hasError('required')">Postcode is required</mat-error>
-        <mat-error *ngIf="form.get('postcode').hasError('maxlength')">Exceeded character limit</mat-error>
-        <mat-error *ngIf="form.get('postcode').hasError('minlength')">Minimum of 6 characters is required</mat-error>
+        <mat-error *ngIf="form.get('postCode').hasError('required')">Postcode is required</mat-error>
+        <mat-error *ngIf="form.get('postCode').hasError('maxlength')">Exceeded character limit</mat-error>
+        <mat-error *ngIf="form.get('postCode').hasError('minlength')">Minimum of 6 characters is required</mat-error>
       </mat-form-field>
     </div>
     <div fxLayout="column" fxLayoutAlign="center center">
       <mat-form-field>
-        <textarea matInput rows="4" #problemInput maxlength="400" formControlName="problemGiven"
+        <textarea matInput rows="1" #problemInput maxlength="400" formControlName="problemGiven"
           placeholder="Problem Given"></textarea>
         <mat-hint align="end">{{problemInput.value?.length || 0}}/400</mat-hint>
         <mat-error *ngIf="form.get('problemGiven').hasError('maxlength')">Exceeded character limit</mat-error>

@@ -76,3 +76,11 @@ span {
   padding-left: 0;
 }
 
+.no-photos {
+  width: 100%;
+  color: #3f51b5;
+  text-align: left;
+  padding-left: 20px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+}

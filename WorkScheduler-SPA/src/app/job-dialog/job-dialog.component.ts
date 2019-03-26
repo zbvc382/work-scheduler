@@ -6,6 +6,8 @@ import { map, startWith } from 'rxjs/operators';
 import { AgencyService } from '../_services/agency.service';
 import { Agency } from '../_models/Agency';
 import { TimeService } from '../_services/time.service';
+import { JobService } from '../_services/job.service';
+import { ExtraJob } from '../_models/ExtraJob';
 
 @Component({
   selector: 'app-job-dialog',
@@ -24,6 +26,8 @@ export class JobDialogComponent implements OnInit {
   fromDefault = '';
   toDefault = '';
   replaced = false;
+  isExtraVisit = false;
+  jobNumber: string;
 
   filteredOptions: Observable<Agency[]>;
 
@@ -32,7 +36,8 @@ export class JobDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<JobDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data,
     private agencyService: AgencyService,
-    private timeService: TimeService
+    private timeService: TimeService,
+    private jobService: JobService
   ) {
     this.payerTypes = data.payerTypes;
     this.fromDefault = data.fromDefault;
@@ -53,7 +58,7 @@ export class JobDialogComponent implements OnInit {
       privateName: ['', [Validators.maxLength(30)]],
       privatePhone: ['', [Validators.maxLength(15)]],
       address: ['', [Validators.required, Validators.maxLength(60)]],
-      postcode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]],
+      postCode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]],
       tenantName: ['', [Validators.maxLength(30)]],
       tenantPhone: ['', [Validators.maxLength(15)]],
       keyAddress: [{ value: '', disabled: true }],
@@ -94,6 +99,10 @@ export class JobDialogComponent implements OnInit {
       this.agencies = agencies;
       this.filterOptions();
     });
+  }
+
+  onExtraVisitToggle() {
+    this.isExtraVisit = !this.isExtraVisit;
   }
 
   onKeyToggle() {
@@ -204,5 +213,28 @@ export class JobDialogComponent implements OnInit {
 
   displayFn(user?: Agency): string | undefined {
     return user ? user.name : undefined;
+  }
+
+  onJobEnter() {
+    if (this.jobNumber.trim().length > 0) {
+      this.jobService.getJobByJobNumber(this.jobNumber).subscribe((job: ExtraJob) => {
+        if (job != null) {
+          console.log(job);
+          console.log('Job found!');
+
+          this.form.setValue(job);
+
+          this.form.get('timeFrom').setValue(this.fromDefault);
+          this.form.get('timeTo').setValue(this.toDefault);
+          this.form.get('problemGiven').setValue('');
+
+          this.onPayerTypeSelection();
+          this.form.get('payerType').disable();
+        } else {
+          console.log(job);
+          console.log('Job not found');
+        }
+      });
+    }
   }
 }

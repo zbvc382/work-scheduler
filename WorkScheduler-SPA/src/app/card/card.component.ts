@@ -105,6 +105,12 @@ export class CardComponent implements OnInit, OnDestroy {
       this.days = this.data;
     });
     this.loadTags();
+
+    // this.jobService.getJobByJobNumber('JB5037').subscribe(response => {
+    //   console.log(response);
+    // }, error => {
+    //   console.log(error);
+    // });
   }
 
   ngOnDestroy(): void {}
@@ -335,7 +341,7 @@ export class CardComponent implements OnInit, OnDestroy {
       dialogConfig.height = '620px';
       dialogConfig.width = '600px';
     } else {
-      dialogConfig.height = '480px';
+      dialogConfig.height = '500px';
       dialogConfig.width = '650px';
     }
 
@@ -355,11 +361,13 @@ export class CardComponent implements OnInit, OnDestroy {
         if (data) {
           this.jobService.updateJob(data[0]).subscribe(() => {
             this.days[dayId].slots[jobIndex].job.tags = data[1];
+            this.days[dayId].slots[jobIndex].job.report = data[0].report;
+          }, error => {
+            console.log('Failed to update job');
           });
 
           if (data[2] === true) {
             this.photoService.getPhotos(id).subscribe((photos: Photo[]) => {
-              console.log(photos);
               this.days[dayId].slots[jobIndex].job.photos = photos;
               this.data$.next(this.days);
             });
