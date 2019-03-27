@@ -64,7 +64,6 @@ export class CardComponent implements OnInit, OnDestroy {
   @Output() dateChange: EventEmitter<MatDatepickerInputEvent<any>>;
   @Input() hidePageSize: boolean;
   date = new FormControl(new Date());
-  expanded: boolean[] = [false];
   days: Day[];
   defaultTags: Tag[];
   searchValue = '';
@@ -98,22 +97,16 @@ export class CardComponent implements OnInit, OnDestroy {
     private slotService: SlotService,
     private tagService: TagService,
     private photoService: PhotoService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.data$.subscribe(j => {
       this.days = this.data;
     });
     this.loadTags();
-
-    // this.jobService.getJobByJobNumber('JB5037').subscribe(response => {
-    //   console.log(response);
-    // }, error => {
-    //   console.log(error);
-    // });
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void { }
 
   onDateRangeSelection() {
     this.queryJobs();
@@ -193,14 +186,6 @@ export class CardComponent implements OnInit, OnDestroy {
     this.queriedJobs = null;
   }
 
-  onExpansion() {
-    if (this.expanded[0] === false) {
-      this.expanded[0] = true;
-    } else {
-      this.expanded[0] = false;
-    }
-  }
-
   get isMobile(): boolean {
     return this.breakpointObserver.isMatched('(max-width: 600px)');
   }
@@ -240,8 +225,6 @@ export class CardComponent implements OnInit, OnDestroy {
       job.keyAddress = null;
     }
 
-    console.log(job);
-
     job.timeFrom = this.timeService.get24HourTime(job.timeFrom, new Date(date));
     job.timeTo = this.timeService.get24HourTime(job.timeTo, new Date(date));
 
@@ -261,7 +244,7 @@ export class CardComponent implements OnInit, OnDestroy {
           this.addJobEmitter.emit(null);
           this.openSnackbar('Job created', 'success-snackbar');
         }
-      )
+      );
     }
 
   }

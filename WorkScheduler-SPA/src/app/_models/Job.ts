@@ -19,7 +19,7 @@ export interface Job {
     key?: boolean;
     keyAddress?: string;
     address?: string;
-    postcode?: string;
+    postCode?: string;
     agencyReference?: string;
     landlordName?: string;
     landlordPhone?: string;

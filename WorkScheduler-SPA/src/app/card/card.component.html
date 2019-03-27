@@ -81,10 +81,15 @@
                   {{ slot.job.timeTo | date: 'shortTime' }}
                 </div>
                 <div class="col-sm-2" id="contact-phone-col">
-                  <mat-icon [ngStyle]="{'color': slot.job.tenantPhone === null && slot.job.privatePhone === null ? '#757575' : '#484848'}" class="info-icon">local_phone</mat-icon>
-                  <a *ngIf="slot.job.payerType === 'Private'" href="tel:{{slot.job.privatePhone}}">{{slot.job.privatePhone}}</a>
-                  <a *ngIf="slot.job.payerType === 'Agency' || slot.job.payerType === 'Landlord'" href="tel:{{slot.job.tenantPhone}}">{{slot.job.tenantPhone}}</a>
-                  <a [style.color]="'#757575'" *ngIf="slot.job.tenantPhone === null && slot.job.privatePhone === null">Not Provided</a>
+                  <mat-icon
+                    [ngStyle]="{'color': slot.job.tenantPhone === null && slot.job.privatePhone === null ? '#757575' : '#484848'}"
+                    class="info-icon">local_phone</mat-icon>
+                  <a *ngIf="slot.job.payerType === 'Private'"
+                    href="tel:{{slot.job.privatePhone}}">{{slot.job.privatePhone}}</a>
+                  <a *ngIf="slot.job.payerType === 'Agency' || slot.job.payerType === 'Landlord'"
+                    href="tel:{{slot.job.tenantPhone}}">{{slot.job.tenantPhone}}</a>
+                  <a [style.color]="'#757575'"
+                    *ngIf="slot.job.tenantPhone === null && slot.job.privatePhone === null">Not Provided</a>
                 </div>
                 <div class="col-sm-2" id="payer-type-col">
                   <mat-icon class="info-icon">attach_money</mat-icon>
@@ -105,19 +110,23 @@
                   <mat-icon class="info-icon">drive_eta</mat-icon>
                   {{ slot.job.visitToDisplay }}
                 </div>
-                <div *ngIf="(slot.job.payerType === 'Agency' || slot.job.payerType === 'Landlord') && slot.job.tenantName != null" class="col-sm-2" id="person-col">
+                <div
+                  *ngIf="(slot.job.payerType === 'Agency' || slot.job.payerType === 'Landlord') && slot.job.tenantName != null"
+                  class="col-sm-2" id="person-col">
                   <mat-icon class="info-icon">person</mat-icon>
                   {{ slot.job.tenantName }}
                 </div>
-                <div *ngIf="slot.job.payerType === 'Private' && slot.job.privateName != null" class="col-sm-2" id="person-col">
+                <div *ngIf="slot.job.payerType === 'Private' && slot.job.privateName != null" class="col-sm-2"
+                  id="person-col">
                   <mat-icon class="info-icon">person</mat-icon>
                   {{ slot.job.privateName }}
                 </div>
-                <div *ngIf="slot.job.privateName === null && slot.job.tenantName === null" [style.color]="'#757575'" class="col-sm-2" id="person-col">
+                <div *ngIf="slot.job.privateName === null && slot.job.tenantName === null" [style.color]="'#757575'"
+                  class="col-sm-2" id="person-col">
                   <mat-icon [style.color]="'#757575'" class="info-icon">person</mat-icon>
                   Not Provided
                 </div>
-                
+
                 <div *ngIf="slot.job.key" class="col-sm-2" id="key-col">
                   <mat-icon [style.color]="'#F44336'" class="info-icon">vpn_key</mat-icon>
                   Collect
@@ -196,58 +205,95 @@
   </ng-container>
   <ng-template #searchSlot>
     <div *ngFor="let job of queriedJobs">
-      <mat-card class="filled-mat-card">
-        <div class="card-container">
-          <div class="row">
-            <div class="col-sm-2" id="status-col-search">
-              <mat-icon class="status-col-icon">brightness_1</mat-icon>
-              Completed
+      <mat-card class="filled-mat-card-search">
+        <mat-card-header>
+          <div fxFlex fxLayout fxLayoutAlign="end">
+            <mat-chip-list>
+              <mat-chip class="incomplete-tag" *ngIf="!isTags(job.tags)" selected="false">Incomplete</mat-chip>
+              <mat-chip disabled *ngFor="let tag of job.tags" [style.background]="tag.color">
+                {{ tag.name }}
+              </mat-chip>
+            </mat-chip-list>
+          </div>
+        </mat-card-header>
+        &nbsp;
+        <div class="row">
+          <div class="col-10 card-details">
+            <div class="row card-details-row">
+              <div class="col-sm-2" id="postcode-col">
+                <mat-icon class="info-icon">explore</mat-icon>
+                {{ job.postCode }}
+              </div>
+              <div class="col-sm-2" id="time-col">
+                <mat-icon class="info-icon">access_time</mat-icon>
+                {{ job.timeFrom | date: 'shortTime' }} -
+                {{ job.timeTo | date: 'shortTime' }}
+              </div>
+              <div class="col-sm-2" id="contact-phone-col">
+                <mat-icon
+                  [ngStyle]="{'color': job.tenantPhone === null && job.privatePhone === null ? '#757575' : '#484848'}"
+                  class="info-icon">local_phone</mat-icon>
+                <a *ngIf="job.payerType === 'Private'" href="tel:{{job.privatePhone}}">{{job.privatePhone}}</a>
+                <a *ngIf="job.payerType === 'Agency' || job.payerType === 'Landlord'"
+                  href="tel:{{job.tenantPhone}}">{{job.tenantPhone}}</a>
+                <a [style.color]="'#757575'" *ngIf="job.tenantPhone === null && job.privatePhone === null">Not
+                  Provided</a>
+              </div>
+              <div class="col-sm-2" id="payer-type-col">
+                <mat-icon class="info-icon">attach_money</mat-icon>
+                {{ job.payerType }}
+              </div>
+              <div class="col-sm-2" id="address-col">
+                <mat-icon class="info-icon">home</mat-icon>
+                {{ job.address }}
+              </div>
             </div>
-            <div class="col-sm-2" id="job-number-col-search">
-              <mat-icon class="info-icon">format_list_numbered</mat-icon>
-              J1004
+            <hr *ngIf="!isMobile" />
+            <div class="row card-details-row-two">
+              <div class="col-sm-2" id="job-number-col">
+                <mat-icon class="info-icon">work</mat-icon>
+                {{ job.jobNumber }}
+              </div>
+              <div class="col-sm-2" id="visit-col">
+                <mat-icon class="info-icon">drive_eta</mat-icon>
+                {{ job.visitToDisplay }}
+              </div>
+              <div *ngIf="(job.payerType === 'Agency' || job.payerType === 'Landlord') && job.tenantName != null"
+                class="col-sm-2" id="person-col">
+                <mat-icon class="info-icon">person</mat-icon>
+                {{ job.tenantName }}
+              </div>
+              <div *ngIf="job.payerType === 'Private' && job.privateName != null" class="col-sm-2" id="person-col">
+                <mat-icon class="info-icon">person</mat-icon>
+                {{ job.privateName }}
+              </div>
+              <div *ngIf="job.privateName === null && job.tenantName === null" [style.color]="'#757575'"
+                class="col-sm-2" id="person-col">
+                <mat-icon [style.color]="'#757575'" class="info-icon">person</mat-icon>
+                Not Provided
+              </div>
+
+              <div *ngIf="job.key" class="col-sm-2" id="key-col">
+                <mat-icon [style.color]="'#F44336'" class="info-icon">vpn_key</mat-icon>
+                Collect
+              </div>
+              <div *ngIf="job.key && job.keyAddress != null" class="col-sm-2" id="key-address-col">
+                <mat-icon [style.color]="'#F44336'" class="info-icon">domain</mat-icon>
+                {{job.keyAddress}}
+              </div>
             </div>
-            <div class="col-sm-2" id="postcode-col-search">
-              <mat-icon class="info-icon">explore</mat-icon>
-              E16 3NP
-            </div>
-            <div class="col-sm-2" id="date-col-search">
-              <mat-icon class="info-icon">date_range</mat-icon>
-              {{ job.dateAssigned | date: 'mediumDate' }}
-            </div>
-            <div class="col-sm-5" id="address-col-search">
-              <mat-icon class="info-icon">home</mat-icon>
-              {{ job.address }}
-            </div>
-            <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
-              <button mat-button *ngIf="expanded[0]; else expandMore" class="options-button" (click)="onExpansion()">
-                <mat-icon class="expand-icon">expand_less</mat-icon>
-              </button>
-              <ng-template #expandMore>
-                <button mat-button class="options-button" (click)="onExpansion()">
-                  <mat-icon class="expand-icon">expand_more</mat-icon>
-                </button>
-              </ng-template>
-            </div>
-            <div fxHide.gt-xs fxFlex fxLayout fxLayoutAlign="center">
-              <button mat-button class="options-button" (click)="onExpansion()">
+          </div>
+          <div class="col-2 card-options">
+            <div class="row">
+              <button mat-button class="options-button" (click)="expansion.toggle()">
                 <mat-icon class="expand-icon">expand_more</mat-icon>
               </button>
             </div>
           </div>
         </div>
-        <mat-divider *ngIf="expanded[0]"></mat-divider>
-        <mat-card-content>
-          <div class="example-element-detail" [@detailExpand]="expanded[0] === true ? 'expanded' : 'collapsed'">
-            <div class="expansion-container">
-              <div class="row">
-                <div class="col-sm">Contact: Josh Holmes</div>
-                <div class="col-sm">Address: 21 Hartington Road</div>
-                <div class="col-sm">Phone: 07894875433</div>
-              </div>
-            </div>
-          </div>
-        </mat-card-content>
+        <div mdbCollapse #expansion="bs-collapse">
+          <app-tab-content [photos]="job.photos" [job]="job"></app-tab-content>
+        </div>
       </mat-card>
     </div>
     <mat-paginator id="paginator" [pageIndex]="pageIndex" [length]="totalItems" [pageSize]="10"

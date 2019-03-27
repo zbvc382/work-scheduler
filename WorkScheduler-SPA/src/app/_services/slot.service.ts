@@ -36,7 +36,6 @@ export class SlotService {
         });
         this.jobs = jobs;
         this.setSlots(date);
-        console.log(this.days);
         this.days$.next(this.days);
         this.Clear();
       },

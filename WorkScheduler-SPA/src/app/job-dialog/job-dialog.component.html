@@ -69,7 +69,8 @@
     </div>
     <div class="flex-row" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
       <mat-form-field class="example-full-width" *ngIf="isAgency">
-        <input type="text" placeholder="Agency" matInput formControlName="agency" [matAutocomplete]="auto" />
+        <input type="text" required="isAgency" placeholder="Agency" matInput formControlName="agency" [matAutocomplete]="auto" />
+        <mat-error *ngIf="form.get('agency').hasError('required')">Agency is required</mat-error>
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
           <mat-option *ngFor="let option of (filteredOptions | async)" [value]="option">
             {{ option.name }}

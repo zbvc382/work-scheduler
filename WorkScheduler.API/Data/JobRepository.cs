@@ -75,7 +75,11 @@ namespace WorkScheduler.API.Data
                 || x.ProblemGiven.ContainsWords(searchParams.Query)
                 || x.TenantName.ContainsWords(searchParams.Query)
                 || x.TenantPhone.ContainsWords(searchParams.Query)
-                )).OrderByDescending(x => x.DateAssigned);
+                )).Include(j => j.JobTags)
+                  .ThenInclude(t => t.Tag)
+                  .Include(j => j.Agency)
+                  .Include(j => j.Photos)
+                  .OrderByDescending(x => x.DateAssigned);
             }
 
             else
@@ -91,7 +95,11 @@ namespace WorkScheduler.API.Data
                 || x.ProblemGiven.ContainsWords(searchParams.Query)
                 || x.TenantName.ContainsWords(searchParams.Query)
                 || x.TenantPhone.ContainsWords(searchParams.Query)
-                ).OrderByDescending(x => x.DateAssigned);
+                ).Include(j => j.JobTags)
+                 .ThenInclude(t => t.Tag)
+                 .Include(j => j.Agency)
+                 .Include(j => j.Photos)
+                 .OrderByDescending(x => x.DateAssigned);
             }
 
             return await PagedJobs<Job>.CreateAsync(jobs, searchParams.PageNumber, searchParams.PageSize);

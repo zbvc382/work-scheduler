@@ -86,8 +86,13 @@ export class JobDialogComponent implements OnInit {
   }
 
   onPayerTypeSelection() {
-    // tslint:disable-next-line:no-string-literal
-    const selection = this.form.controls['payerType'].value;
+    const selection = this.form.get('payerType').value;
+    const key = this.form.get('key').value;
+    if (this.jobId === undefined || this.jobId === null) {
+      this.form.reset();
+    }
+    this.form.get('payerType').setValue(selection);
+    this.form.get('key').setValue(key);
 
     if (selection === 'Agency') {
       this.isAgency = true;

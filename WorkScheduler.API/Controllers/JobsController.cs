@@ -149,7 +149,7 @@ namespace WorkScheduler.API.Controllers
         [HttpGet("number/{number}")]
         public IActionResult getJobByJobNumber(string number)
         {
-            var job = _jobRepository.GetJobByJobNumber(number);
+            var job = _jobRepository.GetJobByJobNumber(number.ToUpper());
             var jobToReturn = _mapper.Map<ExtraJobForReturn>(job);
 
             return Ok(jobToReturn);
@@ -164,8 +164,9 @@ namespace WorkScheduler.API.Controllers
 
                 if (pagedJobs != null)
                 {
+                    var jobsToReturn = _mapper.Map<List<JobForReturnDto>>(pagedJobs);
                     Response.AddPagination(pagedJobs.TotalCount);
-                    return Ok(pagedJobs);
+                    return Ok(jobsToReturn);
                 }
 
                 else
