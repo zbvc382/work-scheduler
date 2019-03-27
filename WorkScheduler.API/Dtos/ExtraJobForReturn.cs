@@ -4,6 +4,7 @@ namespace WorkScheduler.API.Dtos
 {
     public class ExtraJobForReturn
     {
+        public int Id { get; set; }
         public string PayerType { get; set; }
         public string ApplianceType { get; set; }
         public string ProblemGiven { get; set; }

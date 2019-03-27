@@ -1,7 +1,7 @@
 import { Agency } from './Agency';
 
 export interface ExtraJob {
-    [key: string]: any;
+    id: number;
     payerType: string;
     applianceType?: string;
     address: string;

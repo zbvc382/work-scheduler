@@ -212,7 +212,7 @@ export class CardComponent implements OnInit, OnDestroy {
     });
   }
 
-  addJob(data, date: Date, index: number) {
+  addJob(data, date: Date, index: number, id: number) {
     let job: JobToCreate;
 
     if (!isObject(data.agency)) {
@@ -240,18 +240,30 @@ export class CardComponent implements OnInit, OnDestroy {
       job.keyAddress = null;
     }
 
+    console.log(job);
+
     job.timeFrom = this.timeService.get24HourTime(job.timeFrom, new Date(date));
     job.timeTo = this.timeService.get24HourTime(job.timeTo, new Date(date));
 
-    this.jobService.createJob(job).subscribe(
-      () => {
-        this.addJobEmitter.emit(null);
-        this.openSnackbar('Job created', 'success-snackbar');
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    if (id === null) {
+      this.jobService.createJob(job).subscribe(
+        () => {
+          this.addJobEmitter.emit(null);
+          this.openSnackbar('Job created', 'success-snackbar');
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    } else {
+      this.jobService.createExtraJob(job, id).subscribe(
+        () => {
+          this.addJobEmitter.emit(null);
+          this.openSnackbar('Job created', 'success-snackbar');
+        }
+      )
+    }
+
   }
 
   openDialog(
@@ -288,7 +300,8 @@ export class CardComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-        this.addJob(data, date, index);
+        console.log(data);
+        this.addJob(data[0], date, index, data[1]);
       }
     });
     dialogRef = null;
@@ -362,8 +375,10 @@ export class CardComponent implements OnInit, OnDestroy {
           this.jobService.updateJob(data[0]).subscribe(() => {
             this.days[dayId].slots[jobIndex].job.tags = data[1];
             this.days[dayId].slots[jobIndex].job.report = data[0].report;
+            this.openSnackbar('Changes applied', 'success-snackbar');
           }, error => {
             console.log('Failed to update job');
+            this.openSnackbar('Failed to save changes', 'failure-snackbar');
           });
 
           if (data[2] === true) {
@@ -405,6 +420,7 @@ export class CardComponent implements OnInit, OnDestroy {
           },
           error => {
             console.log('Could not delete job');
+            this.openSnackbar('Could not delete job', 'failure-snackbar');
           }
         );
       }

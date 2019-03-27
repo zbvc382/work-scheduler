@@ -2,7 +2,7 @@
 <form [formGroup]="form">
   <mat-dialog-content>
     <mat-form-field>
-      <textarea #jobReportInput rows="2" maxlength="200" matInput formControlName="jobreport" placeholder="Report"></textarea>
+      <textarea #jobReportInput rows="1" maxlength="200" matInput formControlName="jobreport" placeholder="Report"></textarea>
       <mat-hint align="end">{{jobReportInput.value?.length || 0}}/200</mat-hint>
       <mat-error *ngIf="form.get('jobreport').hasError('maxlength')">Exceeded character limit</mat-error>
     </mat-form-field>

@@ -22,6 +22,11 @@ export class JobService implements OnInit {
   createJob(job: JobToCreate) {
     return this.httpClient.post(this.baseUrl, job);
   }
+
+  createExtraJob(job: JobToCreate, id: number) {
+    console.log(job);
+    return this.httpClient.post(this.baseUrl + '/' + id, job);
+  }
   deleteJob(id: number) {
     return this.httpClient.delete(this.baseUrl + '/' + id);
   }

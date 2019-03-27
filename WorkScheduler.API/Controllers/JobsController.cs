@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WorkScheduler.API.Data;
 using WorkScheduler.API.Dtos;
 using WorkScheduler.API.Helpers;
@@ -70,7 +71,8 @@ namespace WorkScheduler.API.Controllers
 
             if (lastVisitJob != null)
             {
-                var visit = lastVisitJob.Visit + 1;
+                var listOfPreviousJobs = await _jobRepository.FindByCondition(x => x.JobNumber == lastVisitJob.JobNumber).ToListAsync();
+                var visit = listOfPreviousJobs.Count + 1;
                 var jobNumber = lastVisitJob.JobNumber;
 
                 var currentVisitJob = await _jobRepository.AddJob(jobToCreate);

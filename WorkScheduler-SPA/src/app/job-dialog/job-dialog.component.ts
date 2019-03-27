@@ -1,6 +1,13 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  ElementRef,
+  ViewChild,
+  Renderer2
+} from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { AgencyService } from '../_services/agency.service';
@@ -15,7 +22,9 @@ import { ExtraJob } from '../_models/ExtraJob';
   styleUrls: ['./job-dialog.component.css']
 })
 export class JobDialogComponent implements OnInit {
+  @ViewChild('jobNumberInput') jobInput: ElementRef;
   form: FormGroup;
+  jobId: number;
   payerTypes: string[];
   timeFrom = 'Time From';
   timeTo = 'Time To';
@@ -37,7 +46,9 @@ export class JobDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data,
     private agencyService: AgencyService,
     private timeService: TimeService,
-    private jobService: JobService
+    private jobService: JobService,
+    private renderer: Renderer2,
+    private snackBar: MatSnackBar
   ) {
     this.payerTypes = data.payerTypes;
     this.fromDefault = data.fromDefault;
@@ -58,7 +69,10 @@ export class JobDialogComponent implements OnInit {
       privateName: ['', [Validators.maxLength(30)]],
       privatePhone: ['', [Validators.maxLength(15)]],
       address: ['', [Validators.required, Validators.maxLength(60)]],
-      postCode: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(8)]],
+      postCode: [
+        '',
+        [Validators.required, Validators.minLength(6), Validators.maxLength(8)]
+      ],
       tenantName: ['', [Validators.maxLength(30)]],
       tenantPhone: ['', [Validators.maxLength(15)]],
       keyAddress: [{ value: '', disabled: true }],
@@ -120,67 +134,72 @@ export class JobDialogComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-      // tslint:disable-next-line:no-string-literal
-      if (this.form.controls['agency'].value.length < 1) {
-        // tslint:disable-next-line:no-string-literal
-        this.form.controls['agency'].setValue(null);
+      if (this.form.get('agency').value != null) {
+        if (this.form.get('agency').value.length < 1) {
+          this.form.get('agency').setValue(null);
+        }
       }
-      // tslint:disable-next-line:no-string-literal
-      if (this.form.controls['applianceType'].value.length < 1) {
-        // tslint:disable-next-line:no-string-literal
-        this.form.controls['applianceType'].setValue(null);
+      if (this.form.get('applianceType').value != null) {
+        if (this.form.get('applianceType').value.length < 1) {
+          this.form.get('applianceType').setValue(null);
+        }
       }
-      // tslint:disable-next-line:no-string-literal
-      if (this.form.controls['problemGiven'].value.length < 1) {
-        // tslint:disable-next-line:no-string-literal
-        this.form.controls['problemGiven'].setValue(null);
+      if (this.form.get('problemGiven').value != null) {
+        if (this.form.get('problemGiven').value.length < 1) {
+          this.form.get('problemGiven').setValue(null);
+        }
       }
-      // tslint:disable-next-line:no-string-literal
-      if (this.form.controls['landlordName'].value.length < 1) {
-        // tslint:disable-next-line:no-string-literal
-        this.form.controls['landlordName'].setValue(null);
+      if (this.form.get('landlordName').value != null) {
+        if (this.form.get('landlordName').value.length < 1) {
+          this.form.get('landlordName').setValue(null);
+        }
       }
-      // tslint:disable-next-line:no-string-literal
-      if (this.form.controls['landlordPhone'].value.length < 1) {
-        // tslint:disable-next-line:no-string-literal
-        this.form.controls['landlordPhone'].setValue(null);
+      if (this.form.get('landlordPhone').value != null) {
+        if (this.form.get('landlordPhone').value.length < 1) {
+          this.form.get('landlordPhone').setValue(null);
+        }
       }
-      // tslint:disable-next-line:no-string-literal
-      if (this.form.controls['privatePhone'].value.length < 1) {
-        // tslint:disable-next-line:no-string-literal
-        this.form.controls['privatePhone'].setValue(null);
+      if (this.form.get('privatePhone').value != null) {
+        if (this.form.get('privatePhone').value.length < 1) {
+          this.form.get('privatePhone').setValue(null);
+        }
       }
-      // tslint:disable-next-line:no-string-literal
-      if (this.form.controls['privateName'].value.length < 1) {
-        // tslint:disable-next-line:no-string-literal
-        this.form.controls['privateName'].setValue(null);
+      if (this.form.get('privateName').value != null) {
+        if (this.form.get('privateName').value.length < 1) {
+          this.form.get('privateName').setValue(null);
+        }
       }
-      // tslint:disable-next-line:no-string-literal
-      if (this.form.controls['tenantName'].value.length < 1) {
-        // tslint:disable-next-line:no-string-literal
-        this.form.controls['tenantName'].setValue(null);
+      if (this.form.get('tenantName').value != null) {
+        if (this.form.get('tenantName').value.length < 1) {
+          this.form.get('tenantName').setValue(null);
+        }
       }
-      // tslint:disable-next-line:no-string-literal
-      if (this.form.controls['tenantPhone'].value.length < 1) {
-        // tslint:disable-next-line:no-string-literal
-        this.form.controls['tenantPhone'].setValue(null);
+      if (this.form.get('tenantPhone').value != null) {
+        if (this.form.get('tenantPhone').value.length < 1) {
+          this.form.get('tenantPhone').setValue(null);
+        }
       }
-      // tslint:disable-next-line:no-string-literal
-      if (this.form.controls['agencyContactName'].value.length < 1) {
-        // tslint:disable-next-line:no-string-literal
-        this.form.controls['agencyContactName'].setValue(null);
+      if (this.form.get('agencyContactName').value != null) {
+        if (this.form.get('agencyContactName').value.length < 1) {
+          this.form.get('agencyContactName').setValue(null);
+        }
       }
-      // tslint:disable-next-line:no-string-literal
-      if (this.form.controls['agencyPhone'].value.length < 1) {
-        // tslint:disable-next-line:no-string-literal
-        this.form.controls['agencyPhone'].setValue(null);
+      if (this.form.get('agencyPhone').value != null) {
+        if (this.form.get('agencyPhone').value.length < 1) {
+          this.form.get('agencyPhone').setValue(null);
+        }
       }
-      // tslint:disable-next-line:no-string-literal
-      if (this.form.controls['agencyReference'].value.length < 1) {
-        // tslint:disable-next-line:no-string-literal
-        this.form.controls['agencyReference'].setValue(null);
+      if (this.form.get('agencyReference').value != null) {
+        if (this.form.get('agencyReference').value.length < 1) {
+          this.form.get('agencyReference').setValue(null);
+        }
       }
-      this.dialogRef.close(this.form.value);
+
+      if (this.isExtraVisit && this.jobId != null) {
+        this.dialogRef.close([this.form.getRawValue(), this.jobId]);
+      } else {
+        this.dialogRef.close([this.form.getRawValue(), null]);
+      }
     }
   }
 
@@ -215,26 +234,39 @@ export class JobDialogComponent implements OnInit {
     return user ? user.name : undefined;
   }
 
+  openSnackbar(message: string, className: string) {
+    this.snackBar.open(message, '', {
+      duration: 4000,
+      panelClass: [className]
+    });
+  }
+
   onJobEnter() {
     if (this.jobNumber.trim().length > 0) {
-      this.jobService.getJobByJobNumber(this.jobNumber).subscribe((job: ExtraJob) => {
-        if (job != null) {
-          console.log(job);
-          console.log('Job found!');
-
-          this.form.setValue(job);
-
-          this.form.get('timeFrom').setValue(this.fromDefault);
-          this.form.get('timeTo').setValue(this.toDefault);
-          this.form.get('problemGiven').setValue('');
-
-          this.onPayerTypeSelection();
-          this.form.get('payerType').disable();
-        } else {
-          console.log(job);
-          console.log('Job not found');
-        }
-      });
+      this.jobService
+        .getJobByJobNumber(this.jobNumber)
+        .subscribe((job: ExtraJob) => {
+          if (job != null) {
+            this.jobId = job.id;
+            delete job.id;
+            this.form.setValue(job);
+            this.form.get('timeFrom').setValue(this.fromDefault);
+            this.form.get('timeTo').setValue(this.toDefault);
+            this.form.get('problemGiven').setValue('');
+            this.onPayerTypeSelection();
+            this.form.get('payerType').disable();
+            this.renderer.setStyle(
+              this.jobInput.nativeElement,
+              'color',
+              'green'
+            );
+            this.openSnackbar('Job found', 'success-snackbar');
+          } else {
+            this.jobId = null;
+            this.renderer.setStyle(this.jobInput.nativeElement, 'color', 'red');
+            this.openSnackbar('Job not found', 'failure-snackbar');
+          }
+        });
     }
   }
 }

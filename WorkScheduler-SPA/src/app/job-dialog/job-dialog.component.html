@@ -1,10 +1,6 @@
 <div class="flex-row" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
     <mat-form-field>
-      <input  matInput placeholder="Job Number" [(ngModel)]="jobNumber" (keyup.enter)="onJobEnter()" [disabled]="!isExtraVisit" />
-       <!-- <mat-hint>Enter an existing job number to retrieve its data and prefill the form automatically</mat-hint> -->
-      <!-- <mat-icon *ngIf="searchClear" id="clearIcon" (click)="onSearchClear()" matSuffix>
-        clear
-      </mat-icon> -->
+      <input #jobNumberInput  matInput placeholder="Job Number" [(ngModel)]="jobNumber" (keyup.enter)="onJobEnter()" [disabled]="!isExtraVisit" />
     </mat-form-field>
     <mat-slide-toggle (toggleChange)="onExtraVisitToggle()">Extra Visit
       </mat-slide-toggle>
