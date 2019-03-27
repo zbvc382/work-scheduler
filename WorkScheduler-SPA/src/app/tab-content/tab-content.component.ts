@@ -33,6 +33,7 @@ export class TabContentComponent implements OnInit {
         width: '378px',
         height: '278px',
         preview: false,
+        imagePercent: 100,
         imageArrowsAutoHide: false,
         imageSwipe: true,
         thumbnails: false,
