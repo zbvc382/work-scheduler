@@ -1,11 +1,21 @@
 @media (max-width: 600px) {
   .day {
-    width: 50px;
+    width: 40px;
   }
 }
 
-.day {
-  width: 200px;
+@media (min-width: 600px) {
+  .date {
+    text-align: center;
+  }
+
+  .day {
+    width: 80px;
+  }
+}
+
+.container {
+  margin: 0;
 }
 
 .row {
@@ -34,10 +44,8 @@
   padding-bottom: 5px;
   padding-left: 1px;
   padding-right: 1px;
-}
+  opacity: 0.75;
 
-.empty-box .mat-icon {
-  opacity: 0.25;
 }
 
 .date {

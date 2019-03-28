@@ -1,303 +1,305 @@
-<div class="main-toolbar">
-  <div fxFlex fxLayout fxLayoutAlign="start">
-    <mat-form-field *ngIf="!searching" class="calendar-picker"
-      [style.filter]="blur ? ('blur(2px)' | safe) : ('none' | safe)">
-      <input matInput [matDatepicker]="dp" (click)="dp.open()" [formControl]="date" (dateChange)="onCalendarSelect()" />
-      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
-      <mat-datepicker [touchUi]="isMobile" #dp></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field class="date-range-picker" *ngIf="searching">
-      <mat-select placeholder="Date Range" [(value)]="dateRangeSelected" (selectionChange)="onDateRangeSelection()">
-        <mat-option value="0">Last Week</mat-option>
-        <mat-option value="1">Last Month</mat-option>
-        <mat-option value="2">Last Year</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div fxFlex fxLayout fxLayoutAlign="end">
-    <div class="search-form">
-      <mat-form-field class="search-bar">
-        <input type="search" (focus)="onSearchFocus()" (focusout)="onSearchFocusOut()" [(ngModel)]="searchValue"
-          (ngModelChange)="onSearchInput()" (keyup.enter)="onSearchEnter()" matInput placeholder="Search Jobs" />
-        <mat-icon *ngIf="!searchClear" matSuffix>
-          search
-        </mat-icon>
-        <mat-icon *ngIf="searchClear" id="clearIcon" (click)="onSearchClear()" matSuffix>
-          clear
-        </mat-icon>
-      </mat-form-field>
-    </div>
-  </div>
-</div>
-<div>
-  <div class="search-result-length" *ngIf="searching">
-    <div fxFlex fxLayout fxLayoutAlign="end">
-      <p class="matchFound" *ngIf="totalItems > 1">
-        Found {{ totalItems }} matches
-      </p>
-      <p class="matchFound" *ngIf="totalItems === 1">
-        Found {{ totalItems }} match
-      </p>
-      <p class="matchNotFound" *ngIf="totalItems === 0">
-        No matches found
-      </p>
-    </div>
-  </div>
-  <ng-container *ngIf="!searching; else searchSlot">
-    <div class="slot-card" [style.filter]="blur ? ('blur(2px)' | safe) : ('blur(0px)' | safe)" *ngFor="let day of days">
-      <div class="weekday-display">
-        <div fxFlex fxLayout fxLayoutGap="5px" fxLayoutAlign="start">
-          <button mat-raised-button (click)="openDialog(day.date)">
-            <mat-icon>add</mat-icon>
-          </button>
+<div class="container">
+    <div class="main-toolbar">
+        <div fxFlex fxLayout fxLayoutAlign="start">
+          <mat-form-field *ngIf="!searching" class="calendar-picker"
+            [style.filter]="blur ? ('blur(2px)' | safe) : ('none' | safe)">
+            <input matInput [matDatepicker]="dp" (click)="dp.open()" [formControl]="date" (dateChange)="onCalendarSelect()" />
+            <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+            <mat-datepicker [touchUi]="isMobile" #dp></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="date-range-picker" *ngIf="searching">
+            <mat-select placeholder="Date Range" [(value)]="dateRangeSelected" (selectionChange)="onDateRangeSelection()">
+              <mat-option value="0">Last Week</mat-option>
+              <mat-option value="1">Last Month</mat-option>
+              <mat-option value="2">Last Year</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
-        <div fxFlex fxLayout fxLayoutAlign="end" id="week">
-          {{ day.date | date: 'fullDate' }}
+        <div fxFlex fxLayout fxLayoutAlign="end">
+          <div class="search-form">
+            <mat-form-field class="search-bar">
+              <input type="search" (focus)="onSearchFocus()" (focusout)="onSearchFocusOut()" [(ngModel)]="searchValue"
+                (ngModelChange)="onSearchInput()" (keyup.enter)="onSearchEnter()" matInput placeholder="Search Jobs" />
+              <mat-icon *ngIf="!searchClear" matSuffix>
+                search
+              </mat-icon>
+              <mat-icon *ngIf="searchClear" id="clearIcon" (click)="onSearchClear()" matSuffix>
+                clear
+              </mat-icon>
+            </mat-form-field>
+          </div>
         </div>
       </div>
-      <div *ngFor="let slot of day.slots">
-        <mat-card class="filled-mat-card" *ngIf="slot.job !== null; else emptySlot">
-          <mat-card-header>
-            <div fxFlex fxLayout fxLayoutAlign="end">
-              <mat-chip-list>
-                <mat-chip class="incomplete-tag" *ngIf="!isTags(slot.job.tags)" selected="false">Incomplete</mat-chip>
-                <mat-chip disabled *ngFor="let tag of slot.job.tags" [style.background]="tag.color">
-                  {{ tag.name }}
-                </mat-chip>
-              </mat-chip-list>
-            </div>
-          </mat-card-header>
-          &nbsp;
-          <div class="row">
-            <div class="col-10 card-details">
-              <div class="row card-details-row">
-                <div class="col-sm-2" id="postcode-col">
-                  <mat-icon class="info-icon">explore</mat-icon>
-                  {{ slot.job.postCode }}
-                </div>
-                <div class="col-sm-2" id="time-col">
-                  <mat-icon class="info-icon">access_time</mat-icon>
-                  {{ slot.job.timeFrom | date: 'shortTime' }} -
-                  {{ slot.job.timeTo | date: 'shortTime' }}
-                </div>
-                <div class="col-sm-2" id="contact-phone-col">
-                  <mat-icon
-                    [ngStyle]="{'color': slot.job.tenantPhone === null && slot.job.privatePhone === null ? '#757575' : '#484848'}"
-                    class="info-icon">local_phone</mat-icon>
-                  <a *ngIf="slot.job.payerType === 'Private'"
-                    href="tel:{{slot.job.privatePhone}}">{{slot.job.privatePhone}}</a>
-                  <a *ngIf="slot.job.payerType === 'Agency' || slot.job.payerType === 'Landlord'"
-                    href="tel:{{slot.job.tenantPhone}}">{{slot.job.tenantPhone}}</a>
-                  <a [style.color]="'#757575'"
-                    *ngIf="slot.job.tenantPhone === null && slot.job.privatePhone === null">Not Provided</a>
-                </div>
-                <div class="col-sm-2" id="payer-type-col">
-                  <mat-icon class="info-icon">attach_money</mat-icon>
-                  {{ slot.job.payerType }}
-                </div>
-                <div class="col-sm-2" id="address-col">
-                  <mat-icon class="info-icon">home</mat-icon>
-                  {{ slot.job.address }}
-                </div>
+      <div>
+        <div class="search-result-length" *ngIf="searching">
+          <div fxFlex fxLayout fxLayoutAlign="end">
+            <p class="matchFound" *ngIf="totalItems > 1">
+              Found {{ totalItems }} matches
+            </p>
+            <p class="matchFound" *ngIf="totalItems === 1">
+              Found {{ totalItems }} match
+            </p>
+            <p class="matchNotFound" *ngIf="totalItems === 0">
+              No matches found
+            </p>
+          </div>
+        </div>
+        <ng-container *ngIf="!searching; else searchSlot">
+          <div class="slot-card" [style.filter]="blur ? ('blur(2px)' | safe) : ('blur(0px)' | safe)" *ngFor="let day of days">
+            <div class="weekday-display">
+              <div fxFlex fxLayout fxLayoutGap="5px" fxLayoutAlign="start">
+                <button mat-raised-button (click)="openDialog(day.date)">
+                  <mat-icon>add</mat-icon>
+                </button>
               </div>
-              <hr *ngIf="!isMobile" />
-              <div class="row card-details-row-two">
-                <div class="col-sm-2" id="job-number-col">
-                  <mat-icon class="info-icon">work</mat-icon>
-                  {{ slot.job.jobNumber }}
-                </div>
-                <div class="col-sm-2" id="visit-col">
-                  <mat-icon class="info-icon">drive_eta</mat-icon>
-                  {{ slot.job.visitToDisplay }}
-                </div>
-                <div
-                  *ngIf="(slot.job.payerType === 'Agency' || slot.job.payerType === 'Landlord') && slot.job.tenantName != null"
-                  class="col-sm-2" id="person-col">
-                  <mat-icon class="info-icon">person</mat-icon>
-                  {{ slot.job.tenantName }}
-                </div>
-                <div *ngIf="slot.job.payerType === 'Private' && slot.job.privateName != null" class="col-sm-2"
-                  id="person-col">
-                  <mat-icon class="info-icon">person</mat-icon>
-                  {{ slot.job.privateName }}
-                </div>
-                <div *ngIf="slot.job.privateName === null && slot.job.tenantName === null" [style.color]="'#757575'"
-                  class="col-sm-2" id="person-col">
-                  <mat-icon [style.color]="'#757575'" class="info-icon">person</mat-icon>
-                  Not Provided
-                </div>
-
-                <div *ngIf="slot.job.key" class="col-sm-2" id="key-col">
-                  <mat-icon [style.color]="'#F44336'" class="info-icon">vpn_key</mat-icon>
-                  Collect
-                </div>
-                <div *ngIf="slot.job.key && slot.job.keyAddress != null" class="col-sm-2" id="key-address-col">
-                  <mat-icon [style.color]="'#F44336'" class="info-icon">domain</mat-icon>
-                  {{slot.job.keyAddress}}
-                </div>
+              <div fxFlex fxLayout fxLayoutAlign="end" id="week">
+                {{ day.date | date: 'fullDate' }}
               </div>
             </div>
-            <div class="col-2 card-options">
-              <div class="row">
-                <button onclick="this.blur()" mat-button class="options-button" (click)="
-                    onEditJobDialog(
-                      slot.job.report,
-                      slot.job.tags,
-                      slot.job.id,
-                      day.id,
-                      slot.job.photos
-                    )
-                  ">
-                  <mat-icon class="status-icon">edit</mat-icon>
-                </button>
-              </div>
-              <div class="row">
-                <button onclick="this.blur()" mat-button class="options-button"
-                  (click)="onDeleteJobDialog(slot.job.id, day.id)">
-                  <mat-icon class="delete-icon">delete_forever</mat-icon>
-                </button>
-              </div>
-              <div class="row">
-                <button mat-button class="options-button" (click)="expansion.toggle()">
-                  <mat-icon class="expand-icon">expand_more</mat-icon>
-                </button>
-              </div>
+            <div *ngFor="let slot of day.slots">
+              <mat-card class="filled-mat-card" *ngIf="slot.job !== null; else emptySlot">
+                <mat-card-header>
+                  <div fxFlex fxLayout fxLayoutAlign="end">
+                    <mat-chip-list>
+                      <mat-chip class="incomplete-tag" *ngIf="!isTags(slot.job.tags)" selected="false">Incomplete</mat-chip>
+                      <mat-chip disabled *ngFor="let tag of slot.job.tags" [style.background]="tag.color">
+                        {{ tag.name }}
+                      </mat-chip>
+                    </mat-chip-list>
+                  </div>
+                </mat-card-header>
+                &nbsp;
+                <div class="row">
+                  <div class="col-10 card-details">
+                    <div class="row card-details-row">
+                      <div class="col-sm-2" id="postcode-col">
+                        <mat-icon class="info-icon">explore</mat-icon>
+                        {{ slot.job.postCode }}
+                      </div>
+                      <div class="col-sm-2" id="time-col">
+                        <mat-icon class="info-icon">access_time</mat-icon>
+                        {{ slot.job.timeFrom | date: 'shortTime' }} -
+                        {{ slot.job.timeTo | date: 'shortTime' }}
+                      </div>
+                      <div class="col-sm-2" id="contact-phone-col">
+                        <mat-icon
+                          [ngStyle]="{'color': slot.job.tenantPhone === null && slot.job.privatePhone === null ? '#757575' : '#484848'}"
+                          class="info-icon">local_phone</mat-icon>
+                        <a *ngIf="slot.job.payerType === 'Private'"
+                          href="tel:{{slot.job.privatePhone}}">{{slot.job.privatePhone}}</a>
+                        <a *ngIf="slot.job.payerType === 'Agency' || slot.job.payerType === 'Landlord'"
+                          href="tel:{{slot.job.tenantPhone}}">{{slot.job.tenantPhone}}</a>
+                        <a [style.color]="'#757575'"
+                          *ngIf="slot.job.tenantPhone === null && slot.job.privatePhone === null">Not Provided</a>
+                      </div>
+                      <div class="col-sm-2" id="payer-type-col">
+                        <mat-icon class="info-icon">attach_money</mat-icon>
+                        {{ slot.job.payerType }}
+                      </div>
+                      <div class="col-sm-2" id="address-col">
+                        <mat-icon class="info-icon">home</mat-icon>
+                        {{ slot.job.address }}
+                      </div>
+                    </div>
+                    <hr *ngIf="!isMobile" />
+                    <div class="row card-details-row-two">
+                      <div class="col-sm-2" id="job-number-col">
+                        <mat-icon class="info-icon">work</mat-icon>
+                        {{ slot.job.jobNumber }}
+                      </div>
+                      <div class="col-sm-2" id="visit-col">
+                        <mat-icon class="info-icon">drive_eta</mat-icon>
+                        {{ slot.job.visitToDisplay }}
+                      </div>
+                      <div
+                        *ngIf="(slot.job.payerType === 'Agency' || slot.job.payerType === 'Landlord') && slot.job.tenantName != null"
+                        class="col-sm-2" id="person-col">
+                        <mat-icon class="info-icon">person</mat-icon>
+                        {{ slot.job.tenantName }}
+                      </div>
+                      <div *ngIf="slot.job.payerType === 'Private' && slot.job.privateName != null" class="col-sm-2"
+                        id="person-col">
+                        <mat-icon class="info-icon">person</mat-icon>
+                        {{ slot.job.privateName }}
+                      </div>
+                      <div *ngIf="slot.job.privateName === null && slot.job.tenantName === null" [style.color]="'#757575'"
+                        class="col-sm-2" id="person-col">
+                        <mat-icon [style.color]="'#757575'" class="info-icon">person</mat-icon>
+                        Not Provided
+                      </div>
+      
+                      <div *ngIf="slot.job.key" class="col-sm-2" id="key-col">
+                        <mat-icon [style.color]="'#F44336'" class="info-icon">vpn_key</mat-icon>
+                        Collect
+                      </div>
+                      <div *ngIf="slot.job.key && slot.job.keyAddress != null" class="col-sm-2" id="key-address-col">
+                        <mat-icon [style.color]="'#F44336'" class="info-icon">domain</mat-icon>
+                        {{slot.job.keyAddress}}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-2 card-options">
+                    <div class="row">
+                      <button onclick="this.blur()" mat-button class="options-button" (click)="
+                          onEditJobDialog(
+                            slot.job.report,
+                            slot.job.tags,
+                            slot.job.id,
+                            day.id,
+                            slot.job.photos
+                          )
+                        ">
+                        <mat-icon class="status-icon">edit</mat-icon>
+                      </button>
+                    </div>
+                    <div class="row">
+                      <button onclick="this.blur()" mat-button class="options-button"
+                        (click)="onDeleteJobDialog(slot.job.id, day.id)">
+                        <mat-icon class="delete-icon">delete_forever</mat-icon>
+                      </button>
+                    </div>
+                    <div class="row">
+                      <button mat-button class="options-button" (click)="expansion.toggle()">
+                        <mat-icon class="expand-icon">expand_more</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+                <div mdbCollapse #expansion="bs-collapse">
+                  <app-tab-content [photos]="slot.job.photos" [job]="slot.job"></app-tab-content>
+                </div>
+              </mat-card>
+              <ng-template #emptySlot>
+                <mat-card class="empty-mat-card">
+                  <div id="empty-slot-time">
+                    {{ slot.defaultFrom | date: 'shortTime' }} -
+                    {{ slot.defaultTo | date: 'shortTime' }}
+                  </div>
+                  <div fxHide.xs fxLayout="row" fxLayoutAlign="center center">
+                    <button onclick="this.blur()" mat-icon-button [disableRipple]="true" (click)="
+                        openDialog(
+                          day.date,
+                          slot.index,
+                          slot.defaultFrom,
+                          slot.defaultTo
+                        )
+                      ">
+                      <mat-icon id="add-circle-icon">add</mat-icon>
+                    </button>
+                  </div>
+                  <div fxHide.gt-xs fxLayout="row" fxLayoutAlign="center center">
+                    <button onclick="this.blur()" mat-icon-button [disableRipple]="true" (click)="
+                        openDialog(
+                          day.date,
+                          slot.index,
+                          slot.defaultFrom,
+                          slot.defaultTo
+                        )
+                      ">
+                      <mat-icon id="add-circle-icon">add</mat-icon>
+                    </button>
+                  </div>
+                </mat-card>
+              </ng-template>
             </div>
           </div>
-          <div mdbCollapse #expansion="bs-collapse">
-            <app-tab-content [photos]="slot.job.photos" [job]="slot.job"></app-tab-content>
+        </ng-container>
+        <ng-template #searchSlot>
+          <div *ngFor="let job of queriedJobs">
+            <mat-card class="filled-mat-card-search">
+              <mat-card-header>
+                <div fxFlex fxLayout fxLayoutAlign="end">
+                  <mat-chip-list>
+                    <mat-chip class="incomplete-tag" *ngIf="!isTags(job.tags)" selected="false">Incomplete</mat-chip>
+                    <mat-chip disabled *ngFor="let tag of job.tags" [style.background]="tag.color">
+                      {{ tag.name }}
+                    </mat-chip>
+                  </mat-chip-list>
+                </div>
+              </mat-card-header>
+              &nbsp;
+              <div class="row">
+                <div class="col-10 card-details">
+                  <div class="row card-details-row">
+                    <div class="col-sm-2" id="postcode-col">
+                      <mat-icon class="info-icon">explore</mat-icon>
+                      {{ job.postCode }}
+                    </div>
+                    <div class="col-sm-2" id="time-col">
+                      <mat-icon class="info-icon">access_time</mat-icon>
+                      {{ job.timeFrom | date: 'shortTime' }} -
+                      {{ job.timeTo | date: 'shortTime' }}
+                    </div>
+                    <div class="col-sm-2" id="contact-phone-col">
+                      <mat-icon
+                        [ngStyle]="{'color': job.tenantPhone === null && job.privatePhone === null ? '#757575' : '#484848'}"
+                        class="info-icon">local_phone</mat-icon>
+                      <a *ngIf="job.payerType === 'Private'" href="tel:{{job.privatePhone}}">{{job.privatePhone}}</a>
+                      <a *ngIf="job.payerType === 'Agency' || job.payerType === 'Landlord'"
+                        href="tel:{{job.tenantPhone}}">{{job.tenantPhone}}</a>
+                      <a [style.color]="'#757575'" *ngIf="job.tenantPhone === null && job.privatePhone === null">Not
+                        Provided</a>
+                    </div>
+                    <div class="col-sm-2" id="payer-type-col">
+                      <mat-icon class="info-icon">attach_money</mat-icon>
+                      {{ job.payerType }}
+                    </div>
+                    <div class="col-sm-2" id="address-col">
+                      <mat-icon class="info-icon">home</mat-icon>
+                      {{ job.address }}
+                    </div>
+                  </div>
+                  <hr *ngIf="!isMobile" />
+                  <div class="row card-details-row-two">
+                    <div class="col-sm-2" id="job-number-col">
+                      <mat-icon class="info-icon">work</mat-icon>
+                      {{ job.jobNumber }}
+                    </div>
+                    <div class="col-sm-2" id="visit-col">
+                      <mat-icon class="info-icon">drive_eta</mat-icon>
+                      {{ job.visitToDisplay }}
+                    </div>
+                    <div *ngIf="(job.payerType === 'Agency' || job.payerType === 'Landlord') && job.tenantName != null"
+                      class="col-sm-2" id="person-col">
+                      <mat-icon class="info-icon">person</mat-icon>
+                      {{ job.tenantName }}
+                    </div>
+                    <div *ngIf="job.payerType === 'Private' && job.privateName != null" class="col-sm-2" id="person-col">
+                      <mat-icon class="info-icon">person</mat-icon>
+                      {{ job.privateName }}
+                    </div>
+                    <div *ngIf="job.privateName === null && job.tenantName === null" [style.color]="'#757575'"
+                      class="col-sm-2" id="person-col">
+                      <mat-icon [style.color]="'#757575'" class="info-icon">person</mat-icon>
+                      Not Provided
+                    </div>
+      
+                    <div *ngIf="job.key" class="col-sm-2" id="key-col">
+                      <mat-icon [style.color]="'#F44336'" class="info-icon">vpn_key</mat-icon>
+                      Collect
+                    </div>
+                    <div *ngIf="job.key && job.keyAddress != null" class="col-sm-2" id="key-address-col">
+                      <mat-icon [style.color]="'#F44336'" class="info-icon">domain</mat-icon>
+                      {{job.keyAddress}}
+                    </div>
+                  </div>
+                </div>
+                <div class="col-2 card-options">
+                  <div class="row">
+                    <button mat-button class="options-button" (click)="expansion.toggle()">
+                      <mat-icon class="expand-icon">expand_more</mat-icon>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div mdbCollapse #expansion="bs-collapse">
+                <app-tab-content [photos]="job.photos" [job]="job"></app-tab-content>
+              </div>
+            </mat-card>
           </div>
-        </mat-card>
-        <ng-template #emptySlot>
-          <mat-card class="empty-mat-card">
-            <div id="empty-slot-time">
-              {{ slot.defaultFrom | date: 'shortTime' }} -
-              {{ slot.defaultTo | date: 'shortTime' }}
-            </div>
-            <div fxHide.xs fxLayout="row" fxLayoutAlign="center center">
-              <button onclick="this.blur()" mat-icon-button [disableRipple]="true" (click)="
-                  openDialog(
-                    day.date,
-                    slot.index,
-                    slot.defaultFrom,
-                    slot.defaultTo
-                  )
-                ">
-                <mat-icon id="add-circle-icon">add</mat-icon>
-              </button>
-            </div>
-            <div fxHide.gt-xs fxLayout="row" fxLayoutAlign="center center">
-              <button onclick="this.blur()" mat-icon-button [disableRipple]="true" (click)="
-                  openDialog(
-                    day.date,
-                    slot.index,
-                    slot.defaultFrom,
-                    slot.defaultTo
-                  )
-                ">
-                <mat-icon id="add-circle-icon">add</mat-icon>
-              </button>
-            </div>
-          </mat-card>
+          <mat-paginator id="paginator" [pageIndex]="pageIndex" [length]="totalItems" [pageSize]="10"
+            (page)="onPaginateChange($event)" [hidePageSize]="true">
+          </mat-paginator>
         </ng-template>
       </div>
-    </div>
-  </ng-container>
-  <ng-template #searchSlot>
-    <div *ngFor="let job of queriedJobs">
-      <mat-card class="filled-mat-card-search">
-        <mat-card-header>
-          <div fxFlex fxLayout fxLayoutAlign="end">
-            <mat-chip-list>
-              <mat-chip class="incomplete-tag" *ngIf="!isTags(job.tags)" selected="false">Incomplete</mat-chip>
-              <mat-chip disabled *ngFor="let tag of job.tags" [style.background]="tag.color">
-                {{ tag.name }}
-              </mat-chip>
-            </mat-chip-list>
-          </div>
-        </mat-card-header>
-        &nbsp;
-        <div class="row">
-          <div class="col-10 card-details">
-            <div class="row card-details-row">
-              <div class="col-sm-2" id="postcode-col">
-                <mat-icon class="info-icon">explore</mat-icon>
-                {{ job.postCode }}
-              </div>
-              <div class="col-sm-2" id="time-col">
-                <mat-icon class="info-icon">access_time</mat-icon>
-                {{ job.timeFrom | date: 'shortTime' }} -
-                {{ job.timeTo | date: 'shortTime' }}
-              </div>
-              <div class="col-sm-2" id="contact-phone-col">
-                <mat-icon
-                  [ngStyle]="{'color': job.tenantPhone === null && job.privatePhone === null ? '#757575' : '#484848'}"
-                  class="info-icon">local_phone</mat-icon>
-                <a *ngIf="job.payerType === 'Private'" href="tel:{{job.privatePhone}}">{{job.privatePhone}}</a>
-                <a *ngIf="job.payerType === 'Agency' || job.payerType === 'Landlord'"
-                  href="tel:{{job.tenantPhone}}">{{job.tenantPhone}}</a>
-                <a [style.color]="'#757575'" *ngIf="job.tenantPhone === null && job.privatePhone === null">Not
-                  Provided</a>
-              </div>
-              <div class="col-sm-2" id="payer-type-col">
-                <mat-icon class="info-icon">attach_money</mat-icon>
-                {{ job.payerType }}
-              </div>
-              <div class="col-sm-2" id="address-col">
-                <mat-icon class="info-icon">home</mat-icon>
-                {{ job.address }}
-              </div>
-            </div>
-            <hr *ngIf="!isMobile" />
-            <div class="row card-details-row-two">
-              <div class="col-sm-2" id="job-number-col">
-                <mat-icon class="info-icon">work</mat-icon>
-                {{ job.jobNumber }}
-              </div>
-              <div class="col-sm-2" id="visit-col">
-                <mat-icon class="info-icon">drive_eta</mat-icon>
-                {{ job.visitToDisplay }}
-              </div>
-              <div *ngIf="(job.payerType === 'Agency' || job.payerType === 'Landlord') && job.tenantName != null"
-                class="col-sm-2" id="person-col">
-                <mat-icon class="info-icon">person</mat-icon>
-                {{ job.tenantName }}
-              </div>
-              <div *ngIf="job.payerType === 'Private' && job.privateName != null" class="col-sm-2" id="person-col">
-                <mat-icon class="info-icon">person</mat-icon>
-                {{ job.privateName }}
-              </div>
-              <div *ngIf="job.privateName === null && job.tenantName === null" [style.color]="'#757575'"
-                class="col-sm-2" id="person-col">
-                <mat-icon [style.color]="'#757575'" class="info-icon">person</mat-icon>
-                Not Provided
-              </div>
-
-              <div *ngIf="job.key" class="col-sm-2" id="key-col">
-                <mat-icon [style.color]="'#F44336'" class="info-icon">vpn_key</mat-icon>
-                Collect
-              </div>
-              <div *ngIf="job.key && job.keyAddress != null" class="col-sm-2" id="key-address-col">
-                <mat-icon [style.color]="'#F44336'" class="info-icon">domain</mat-icon>
-                {{job.keyAddress}}
-              </div>
-            </div>
-          </div>
-          <div class="col-2 card-options">
-            <div class="row">
-              <button mat-button class="options-button" (click)="expansion.toggle()">
-                <mat-icon class="expand-icon">expand_more</mat-icon>
-              </button>
-            </div>
-          </div>
-        </div>
-        <div mdbCollapse #expansion="bs-collapse">
-          <app-tab-content [photos]="job.photos" [job]="job"></app-tab-content>
-        </div>
-      </mat-card>
-    </div>
-    <mat-paginator id="paginator" [pageIndex]="pageIndex" [length]="totalItems" [pageSize]="10"
-      (page)="onPaginateChange($event)" [hidePageSize]="true">
-    </mat-paginator>
-  </ng-template>
 </div>
