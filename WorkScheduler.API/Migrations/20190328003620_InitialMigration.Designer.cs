@@ -9,14 +9,14 @@ using WorkScheduler.API.Data;
 namespace WorkScheduler.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20190324181516_AddAdditionalFieldAndValidations")]
-    partial class AddAdditionalFieldAndValidations
+    [Migration("20190328003620_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034");
+                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -137,6 +137,18 @@ namespace WorkScheduler.API.Migrations
                     b.ToTable("Agencies");
                 });
 
+            modelBuilder.Entity("WorkScheduler.API.Models.ApplianceType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ApplianceTypes");
+                });
+
             modelBuilder.Entity("WorkScheduler.API.Models.Job", b =>
                 {
                     b.Property<int>("Id")
@@ -144,11 +156,15 @@ namespace WorkScheduler.API.Migrations
 
                     b.Property<string>("Address");
 
+                    b.Property<string>("AgencyContactName");
+
                     b.Property<int?>("AgencyId");
+
+                    b.Property<string>("AgencyPhone");
 
                     b.Property<string>("AgencyReference");
 
-                    b.Property<string>("ApplianceType");
+                    b.Property<int?>("ApplianceTypeId");
 
                     b.Property<DateTime>("DateAssigned");
 
@@ -191,6 +207,8 @@ namespace WorkScheduler.API.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AgencyId");
+
+                    b.HasIndex("ApplianceTypeId");
 
                     b.ToTable("Jobs");
                 });
@@ -340,6 +358,10 @@ namespace WorkScheduler.API.Migrations
                     b.HasOne("WorkScheduler.API.Models.Agency", "Agency")
                         .WithMany("Jobs")
                         .HasForeignKey("AgencyId");
+
+                    b.HasOne("WorkScheduler.API.Models.ApplianceType", "ApplianceType")
+                        .WithMany("Jobs")
+                        .HasForeignKey("ApplianceTypeId");
                 });
 
             modelBuilder.Entity("WorkScheduler.API.Models.JobTag", b =>

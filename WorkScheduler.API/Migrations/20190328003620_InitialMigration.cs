@@ -21,6 +21,19 @@ namespace WorkScheduler.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ApplianceTypes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApplianceTypes", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -82,7 +95,6 @@ namespace WorkScheduler.API.Migrations
                     JobNumber = table.Column<string>(nullable: true),
                     Visit = table.Column<int>(nullable: false),
                     PayerType = table.Column<string>(nullable: true),
-                    ApplianceType = table.Column<string>(nullable: true),
                     ProblemGiven = table.Column<string>(nullable: true),
                     DateAssigned = table.Column<DateTime>(nullable: false),
                     TimeFrom = table.Column<DateTime>(nullable: false),
@@ -101,7 +113,10 @@ namespace WorkScheduler.API.Migrations
                     TenantPhone = table.Column<string>(nullable: true),
                     PrivateName = table.Column<string>(nullable: true),
                     PrivatePhone = table.Column<string>(nullable: true),
-                    AgencyId = table.Column<int>(nullable: true)
+                    AgencyContactName = table.Column<string>(nullable: true),
+                    AgencyPhone = table.Column<string>(nullable: true),
+                    AgencyId = table.Column<int>(nullable: true),
+                    ApplianceTypeId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -110,6 +125,12 @@ namespace WorkScheduler.API.Migrations
                         name: "FK_Jobs_Agencies_AgencyId",
                         column: x => x.AgencyId,
                         principalTable: "Agencies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Jobs_ApplianceTypes_ApplianceTypeId",
+                        column: x => x.ApplianceTypeId,
+                        principalTable: "ApplianceTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -308,6 +329,11 @@ namespace WorkScheduler.API.Migrations
                 column: "AgencyId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Jobs_ApplianceTypeId",
+                table: "Jobs",
+                column: "ApplianceTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_JobTags_TagId",
                 table: "JobTags",
                 column: "TagId");
@@ -355,6 +381,9 @@ namespace WorkScheduler.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "Agencies");
+
+            migrationBuilder.DropTable(
+                name: "ApplianceTypes");
         }
     }
 }

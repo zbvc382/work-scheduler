@@ -1,9 +1,9 @@
 import { Agency } from './Agency';
+import { ApplianceType } from './ApplianceType';
 
 export interface ExtraJob {
     id: number;
     payerType: string;
-    applianceType?: string;
     address: string;
     postCode: string;
     key?: boolean;
@@ -18,4 +18,5 @@ export interface ExtraJob {
     tenantName?: string;
     tenantPhone?: string;
     agency?: Agency;
+    applianceType?: ApplianceType;
 }

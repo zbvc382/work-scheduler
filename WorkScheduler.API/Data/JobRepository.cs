@@ -14,9 +14,11 @@ namespace WorkScheduler.API.Data
     public class JobRepository : RepositoryBase<Job>, IJobRepository
     {
         private readonly IAgencyRpository _agencyRpository;
+        private readonly IApplianceTypeRepository _applianceRepository;
 
-        public JobRepository(DataContext dataContext, IAgencyRpository agencyRpository) : base(dataContext) {
+        public JobRepository(DataContext dataContext, IAgencyRpository agencyRpository, IApplianceTypeRepository applianceRepository) : base(dataContext) {
             _agencyRpository = agencyRpository;
+            _applianceRepository = applianceRepository;
         }
 
         public async Task<List<Job>> GetJobs()
@@ -24,6 +26,7 @@ namespace WorkScheduler.API.Data
             return await FindAll().Include(j => j.JobTags)
                                   .ThenInclude(t => t.Tag)
                                   .Include(j => j.Agency)
+                                  .Include(j => j.ApplianceType)
                                   .Include(j => j.Photos)
                                   .ToListAsync();
         }
@@ -33,6 +36,7 @@ namespace WorkScheduler.API.Data
             return await FindAll().Include(j => j.JobTags)
                                   .ThenInclude(t => t.Tag)
                                   .Include(j => j.Agency)
+                                  .Include(j => j.ApplianceType)
                                   .Include(j => j.Photos)
                                   .FirstOrDefaultAsync(j => j.Id == id);
         }
@@ -42,6 +46,7 @@ namespace WorkScheduler.API.Data
             return FindAll().Include(j => j.JobTags)
                             .ThenInclude(t => t.Tag)
                             .Include(j => j.Agency)
+                            .Include(j => j.ApplianceType)
                             .Include(j => j.Photos)
                             .FirstOrDefault(j => j.Id == id);
         }
@@ -53,6 +58,7 @@ namespace WorkScheduler.API.Data
                                         .Include(j => j.JobTags)
                                         .ThenInclude(t => t.Tag)
                                         .Include(j => j.Agency)
+                                        .Include(j => j.ApplianceType)
                                         .Include(j => j.Photos)
                                         .ToListAsync();
         }
@@ -78,6 +84,7 @@ namespace WorkScheduler.API.Data
                 )).Include(j => j.JobTags)
                   .ThenInclude(t => t.Tag)
                   .Include(j => j.Agency)
+                  .Include(j => j.ApplianceType)
                   .Include(j => j.Photos)
                   .OrderByDescending(x => x.DateAssigned);
             }
@@ -98,6 +105,7 @@ namespace WorkScheduler.API.Data
                 ).Include(j => j.JobTags)
                  .ThenInclude(t => t.Tag)
                  .Include(j => j.Agency)
+                 .Include(j => j.ApplianceType)
                  .Include(j => j.Photos)
                  .OrderByDescending(x => x.DateAssigned);
             }
@@ -146,7 +154,6 @@ namespace WorkScheduler.API.Data
                 
                 }
             }
-            // this.DataContext.SaveChanges();
             
         }
 
@@ -167,6 +174,12 @@ namespace WorkScheduler.API.Data
                     var agency = _agencyRpository.FindAll().FirstOrDefault(x => x.Id == job.Agency.Id);
                     job.Agency = agency;
                 }
+            }
+
+            if (job.ApplianceType != null) {
+                
+                var applianceType = await _applianceRepository.FindAll().FirstOrDefaultAsync(x => x.Id == job.ApplianceType.Id);
+                job.ApplianceType = applianceType;
             }
 
             return await CreateAsync(job);

@@ -4,7 +4,8 @@ import {
   Inject,
   ElementRef,
   ViewChild,
-  Renderer2
+  Renderer2,
+  ChangeDetectorRef
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
@@ -15,6 +16,8 @@ import { Agency } from '../_models/Agency';
 import { TimeService } from '../_services/time.service';
 import { JobService } from '../_services/job.service';
 import { ExtraJob } from '../_models/ExtraJob';
+import { ApplianceService } from '../_services/appliance.service';
+import { ApplianceType } from '../_models/ApplianceType';
 
 @Component({
   selector: 'app-job-dialog',
@@ -29,6 +32,7 @@ export class JobDialogComponent implements OnInit {
   timeFrom = 'Time From';
   timeTo = 'Time To';
   agencies: Agency[] = [];
+  applianceTypes: ApplianceType[] = [];
   isLandlord = false;
   isAgency = false;
   isPrivate = false;
@@ -38,7 +42,8 @@ export class JobDialogComponent implements OnInit {
   isExtraVisit = false;
   jobNumber: string;
 
-  filteredOptions: Observable<Agency[]>;
+  filteredAgencies: Observable<Agency[]>;
+  filteredApplianceTypes: Observable<ApplianceType[]>;
 
   constructor(
     private fb: FormBuilder,
@@ -48,7 +53,9 @@ export class JobDialogComponent implements OnInit {
     private timeService: TimeService,
     private jobService: JobService,
     private renderer: Renderer2,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private applianceService: ApplianceService,
+    private cdr: ChangeDetectorRef
   ) {
     this.payerTypes = data.payerTypes;
     this.fromDefault = data.fromDefault;
@@ -83,40 +90,44 @@ export class JobDialogComponent implements OnInit {
     });
 
     this.getAgenciesFromService();
+    this.getApplianceTypesFromService();
   }
 
   onPayerTypeSelection() {
-    const selection = this.form.get('payerType').value;
-    const key = this.form.get('key').value;
-    if (this.jobId === undefined || this.jobId === null) {
-      this.form.reset();
-    }
-    this.form.get('payerType').setValue(selection);
-    this.form.get('key').setValue(key);
+    const payerType = this.form.get('payerType');
 
-    if (selection === 'Agency') {
+    if (payerType.value === 'Agency') {
       this.isAgency = true;
       this.isLandlord = false;
       this.isPrivate = false;
     }
 
-    if (selection === 'Landlord') {
+    if (payerType.value === 'Landlord') {
       this.isAgency = false;
       this.isLandlord = true;
       this.isPrivate = false;
     }
 
-    if (selection === 'Private') {
+    if (payerType.value === 'Private') {
       this.isAgency = false;
       this.isLandlord = false;
       this.isPrivate = true;
     }
+
+    payerType.disable();
   }
 
   getAgenciesFromService() {
     this.agencyService.getAgencies().subscribe((agencies: Agency[]) => {
       this.agencies = agencies;
-      this.filterOptions();
+      this.filteredAgenciesOptions();
+    });
+  }
+
+  getApplianceTypesFromService() {
+    this.applianceService.getApplianceTypes().subscribe((applianceTypes: ApplianceType[]) => {
+      this.applianceTypes = applianceTypes;
+      this.filteredApplianceTypesOptions();
     });
   }
 
@@ -129,11 +140,19 @@ export class JobDialogComponent implements OnInit {
     control.disabled ? control.enable() : control.disable();
   }
 
-  private filterOptions() {
+  private filteredApplianceTypesOptions() {
     // tslint:disable-next-line:no-string-literal
-    this.filteredOptions = this.form.controls['agency'].valueChanges.pipe(
+    this.filteredApplianceTypes = this.form.controls['applianceType'].valueChanges.pipe(
       startWith(''),
-      map(val => (val.length >= 1 ? this.filter(val) : []))
+      map(val => (val.length >= 1 ? this.filterApplianceTypes(val) : []))
+    );
+  }
+
+  private filteredAgenciesOptions() {
+    // tslint:disable-next-line:no-string-literal
+    this.filteredAgencies = this.form.controls['agency'].valueChanges.pipe(
+      startWith(''),
+      map(val => (val.length >= 1 ? this.filterAgency(val) : []))
     );
   }
 
@@ -228,9 +247,16 @@ export class JobDialogComponent implements OnInit {
     this.dialogRef.close(null);
   }
 
-  private filter(name: string): Agency[] {
+  private filterAgency(name: string): Agency[] {
     const filterValue = name.toLowerCase();
     return this.agencies.filter(
+      option => option.name.toLowerCase().indexOf(filterValue) === 0
+    );
+  }
+
+  private filterApplianceTypes(name: string): ApplianceType[] {
+    const filterValue = name.toLowerCase();
+    return this.applianceTypes.filter(
       option => option.name.toLowerCase().indexOf(filterValue) === 0
     );
   }
@@ -239,10 +265,15 @@ export class JobDialogComponent implements OnInit {
     return user ? user.name : undefined;
   }
 
+  displayApplianceFn(user?: ApplianceType): string | undefined {
+    return user ? user.name : undefined;
+  }
+
   openSnackbar(message: string, className: string) {
     this.snackBar.open(message, '', {
       duration: 4000,
-      panelClass: [className]
+      panelClass: [className],
+      
     });
   }
 

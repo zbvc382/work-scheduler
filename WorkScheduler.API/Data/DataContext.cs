@@ -30,5 +30,6 @@ namespace WorkScheduler.API.Data
         public DbSet<Tag> Tags { get; set; }
         public DbSet<JobTag> JobTags { get; set; }
         public DbSet<Photo> Photos { get; set; }
+        public DbSet<ApplianceType> ApplianceTypes { get; set; }
     }
 }

@@ -9,8 +9,6 @@ namespace WorkScheduler.API.Dtos
         [Required]
         public string PayerType { get; set; }
 
-        public string ApplianceType { get; set; }
-
         [MaxLength(400)]
         public string ProblemGiven { get; set; }
 
@@ -71,5 +69,7 @@ namespace WorkScheduler.API.Dtos
         public string AgencyPhone { get; set; }
 
         public Agency Agency { get; set; }
+
+        public ApplianceType ApplianceType { get; set; }
     }
 }

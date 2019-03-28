@@ -71,6 +71,7 @@ namespace WorkScheduler.API
             services.AddScoped<IAgencyRpository, AgencyRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IPhotoRepository, PhotoRepository>();
+            services.AddScoped<IApplianceTypeRepository, ApplianceTypeRepository>();
             services.AddAutoMapper();
             services.AddTransient<Seed>();
             services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));

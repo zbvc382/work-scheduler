@@ -14,7 +14,7 @@ namespace WorkScheduler.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.2-servicing-10034");
+                .HasAnnotation("ProductVersion", "2.2.3-servicing-35854");
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
@@ -135,6 +135,18 @@ namespace WorkScheduler.API.Migrations
                     b.ToTable("Agencies");
                 });
 
+            modelBuilder.Entity("WorkScheduler.API.Models.ApplianceType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ApplianceTypes");
+                });
+
             modelBuilder.Entity("WorkScheduler.API.Models.Job", b =>
                 {
                     b.Property<int>("Id")
@@ -150,7 +162,7 @@ namespace WorkScheduler.API.Migrations
 
                     b.Property<string>("AgencyReference");
 
-                    b.Property<string>("ApplianceType");
+                    b.Property<int?>("ApplianceTypeId");
 
                     b.Property<DateTime>("DateAssigned");
 
@@ -193,6 +205,8 @@ namespace WorkScheduler.API.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AgencyId");
+
+                    b.HasIndex("ApplianceTypeId");
 
                     b.ToTable("Jobs");
                 });
@@ -342,6 +356,10 @@ namespace WorkScheduler.API.Migrations
                     b.HasOne("WorkScheduler.API.Models.Agency", "Agency")
                         .WithMany("Jobs")
                         .HasForeignKey("AgencyId");
+
+                    b.HasOne("WorkScheduler.API.Models.ApplianceType", "ApplianceType")
+                        .WithMany("Jobs")
+                        .HasForeignKey("ApplianceTypeId");
                 });
 
             modelBuilder.Entity("WorkScheduler.API.Models.JobTag", b =>

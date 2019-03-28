@@ -2,23 +2,26 @@
   <mat-tab label="Additional Information">
     <div class="info-container">
       <div *ngIf="job.payerType === 'Agency'" class="row info">
-        <div *ngIf="job.agencyContactName !== null" class="col-4">
+        <div class="col-3">
+          <span>Agency:<p>&nbsp;{{ job.agency.name }}</p></span>
+        </div>
+        <div *ngIf="job.agencyContactName !== null" class="col-3">
           <span>Agency Contact Name:<p>&nbsp;{{ job.agencyContactName }}</p></span>
         </div>
-        <div *ngIf="job.agencyContactName === null" class="col-4">
+        <div *ngIf="job.agencyContactName === null" class="col-3">
           <span>Agency Contact Name:<p class="not-provided">&nbsp;Not Provided</p></span>
         </div>
-        <div *ngIf="job.agencyPhone !== null" class="col-4">
+        <div *ngIf="job.agencyPhone !== null" class="col-3">
           <span>Agency Phone:<p>&nbsp;{{ job.agencyPhone }}</p></span>
         </div>
-        <div *ngIf="job.agencyPhone === null" class="col-4">
+        <div *ngIf="job.agencyPhone === null" class="col-3">
           <span>Agency Phone:<p class="not-provided">&nbsp;Not Provided</p></span>
-          &nbsp;Not Provided
+          &nbsp;
         </div>
-        <div *ngIf="job.agencyReference === null" class="col-4">
+        <div *ngIf="job.agencyReference === null" class="col-3">
           <span>Agency Reference:<p class="not-provided">&nbsp;Not Provided</p></span>
         </div>
-        <div *ngIf="job.agencyReference !== null" class="col-4">
+        <div *ngIf="job.agencyReference !== null" class="col-3">
           <span>Agency Reference:<p>&nbsp;{{ job.agencyReference }}</p></span>
         </div>
       </div>

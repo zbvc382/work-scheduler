@@ -55,6 +55,10 @@
   padding: 0;
 }
 
+.info-container .row .col-3 {
+  padding: 0;
+}
+
 .info-container .row {
   margin-bottom: 5px;
   margin-left: 15px;

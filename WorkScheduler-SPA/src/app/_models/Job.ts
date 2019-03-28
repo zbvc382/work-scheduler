@@ -1,6 +1,7 @@
 import { Agency } from './Agency';
 import { Tag } from './Tag';
 import { Photo } from './Photo';
+import { ApplianceType } from './ApplianceType';
 
 export interface Job {
     id: number;
@@ -9,7 +10,6 @@ export interface Job {
     report?: string;
     visitToDisplay?: string;
     payerType: string;
-    applianceType?: string;
     problemGiven?: string;
     dateAssigned: Date;
     timeFrom: Date;
@@ -28,6 +28,7 @@ export interface Job {
     tenantName?: string;
     tenantPhone?: string;
     agency?: Agency;
+    applianceType?: ApplianceType;
     agencyContactName: string;
     agencyPhone: string;
     tags: Tag;

@@ -1,9 +1,9 @@
 import { Agency } from './Agency';
+import { ApplianceType } from './ApplianceType';
 
 export interface JobToCreate {
     payerType: string;
     report?: string;
-    applianceType?: string;
     problemGiven?: string;
     dateAssigned: Date;
     timeFrom: Date;
@@ -25,4 +25,5 @@ export interface JobToCreate {
     agencyContactName: string;
     agencyPhone: string;
     agency?: Agency;
+    applianceType?: ApplianceType;
 }

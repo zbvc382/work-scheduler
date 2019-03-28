@@ -10,7 +10,6 @@ namespace WorkScheduler.API.Dtos
         public string JobNumber { get; set; }
         public int Visit { get; set; }
         public string PayerType { get; set; }
-        public string ApplianceType { get; set; }
         public string ProblemGiven { get; set; }
         public DateTime DateAssigned { get; set; }
         public DateTime TimeFrom { get; set; }
@@ -32,7 +31,7 @@ namespace WorkScheduler.API.Dtos
         public string AgencyContactName { get; set; }
         public string AgencyPhone { get; set; }
         public AgencyForReturnDto Agency { get; set; }
-
+        public ApplianceType ApplianceType { get; set; }
         public virtual ICollection<PhotoForReturnDto> Photos { get; set; }
         public virtual ICollection<TagForReturnDto> Tags { get; set; }
     }

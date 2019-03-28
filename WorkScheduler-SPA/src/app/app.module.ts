@@ -39,6 +39,7 @@ import { NgxGalleryModule } from 'ngx-gallery';
 import { FileUploadModule } from 'ng2-file-upload';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { PhotoService } from './_services/photo.service';
+import { ApplianceService } from './_services/appliance.service';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -97,7 +98,8 @@ export function tokenGetter() {
       TimeService,
       Safe,
       TagService,
-      PhotoService
+      PhotoService,
+      ApplianceService
    ],
    bootstrap: [
       AppComponent

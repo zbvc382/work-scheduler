@@ -16,21 +16,6 @@
 </div>
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <mat-dialog-content>
-
-
-
-      <!-- <div class="flex-row" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
-          <mat-form-field>
-            <input placeholder="Job Number" matInput formControlName="jobNumber"/>
-          </mat-form-field>
-          <mat-slide-toggle formControlName="extraVisit" (toggleChange)="onExtraVisitToggle()">Extra Visit
-          </mat-slide-toggle>
-      </div> -->
-
-
-
-
-
     <div class="flex-row" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
       <mat-form-field>
         <mat-select placeholder="Payer Type" (selectionChange)="onPayerTypeSelection()" formControlName="payerType"
@@ -41,8 +26,20 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field>
-        <input matInput formControlName="applianceType" placeholder="Appliance" />
+        <input type="text" matInput [matAutocomplete]="auto" formControlName="applianceType" placeholder="Appliance" />
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayApplianceFn">
+            <mat-option *ngFor="let option of (filteredApplianceTypes | async)" [value]="option">
+              {{ option.name }}
+            </mat-option>
+          </mat-autocomplete>
       </mat-form-field>
+
+
+
+
+
+
+
     </div>
     <div class="flex-row" fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="center center">
       <mat-form-field>
@@ -72,7 +69,7 @@
         <input type="text" required="isAgency" placeholder="Agency" matInput formControlName="agency" [matAutocomplete]="auto" />
         <mat-error *ngIf="form.get('agency').hasError('required')">Agency is required</mat-error>
         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let option of (filteredOptions | async)" [value]="option">
+          <mat-option *ngFor="let option of (filteredAgencies | async)" [value]="option">
             {{ option.name }}
           </mat-option>
         </mat-autocomplete>

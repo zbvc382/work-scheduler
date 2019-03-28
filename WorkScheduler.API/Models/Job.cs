@@ -11,7 +11,6 @@ namespace WorkScheduler.API.Models
         public string JobNumber { get; set; }
         public int Visit { get; set; }
         public string PayerType { get; set; }
-        public string ApplianceType { get; set; }
         public string ProblemGiven { get; set; }
         public DateTime DateAssigned { get; set; }
         public DateTime TimeFrom { get; set; }
@@ -34,7 +33,7 @@ namespace WorkScheduler.API.Models
         public string AgencyPhone { get; set; }
         public int? AgencyId { get; set; }
         public Agency Agency { get; set; }
-
+        public ApplianceType ApplianceType { get; set; }
         public virtual ICollection<Photo> Photos { get; set; }
         public virtual ICollection<JobTag> JobTags { get; set; }
     }
