@@ -283,7 +283,6 @@ export class CardComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(data => {
       if (data) {
-        console.log(data);
         this.addJob(data[0], date, index, data[1]);
       }
     });
@@ -358,6 +357,7 @@ export class CardComponent implements OnInit, OnDestroy {
           this.jobService.updateJob(data[0]).subscribe(() => {
             this.days[dayId].slots[jobIndex].job.tags = data[1];
             this.days[dayId].slots[jobIndex].job.report = data[0].report;
+            this.data$.next(this.days);
             this.openSnackbar('Changes applied', 'success-snackbar');
           }, error => {
             console.log('Failed to update job');
@@ -399,6 +399,7 @@ export class CardComponent implements OnInit, OnDestroy {
               }
             }
             this.days[dayId].slots.splice(index, 1);
+            this.data$.next(this.days);
             this.openSnackbar('Job deleted', 'success-snackbar');
           },
           error => {

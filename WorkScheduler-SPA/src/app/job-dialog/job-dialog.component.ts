@@ -273,7 +273,6 @@ export class JobDialogComponent implements OnInit {
     this.snackBar.open(message, '', {
       duration: 4000,
       panelClass: [className],
-      
     });
   }
 

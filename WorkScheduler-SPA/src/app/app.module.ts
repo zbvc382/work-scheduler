@@ -40,6 +40,7 @@ import { FileUploadModule } from 'ng2-file-upload';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { PhotoService } from './_services/photo.service';
 import { ApplianceService } from './_services/appliance.service';
+import { SplitPipe } from './_pipes/split.pipe';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -58,6 +59,7 @@ export function tokenGetter() {
       DeleteJobDialogComponent,
       TimePickerComponent,
       Safe,
+      SplitPipe,
       EditJobDialogComponent,
       TabContentComponent
    ],

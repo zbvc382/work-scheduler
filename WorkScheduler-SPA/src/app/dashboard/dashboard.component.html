@@ -1,2 +1,43 @@
-
-
+<div class="container">
+        <div class="row">
+          <div class="col-sm">
+                <div class="week-container">
+                        <mat-card>
+                            <mat-card-title>
+                                <div class="title">
+                                    <h5>This Week's Jobs</h5>
+                                </div>
+                            </mat-card-title>
+                            <mat-card-subtitle>{{today | date: 'fullDate'}}</mat-card-subtitle>
+                            <mat-card-content>
+                                <div fxLayout="row" fxLayoutAlign="space-evenly none">
+                                    <div class="day" *ngFor="let day of days" fxLayout="column" fxLayoutAlign="none">
+                                        <div class="date" [ngStyle]="{'border': isToday(day.date) ? '1px dashed #3f51b5' : '1px dashed white'}">
+                                            {{ day.date | date: 'EEE' }}</div>
+                                        <div *ngFor="let slot of day.slots" fxLayout="row">
+                                            <div class="filled-box mat-elevation-z2" *ngIf="slot.job !== null; else emptybox">
+                                                <div class="time">{{ slot.job.timeFrom | date: 'h' }}-{{ slot.job.timeTo | date: 'h' }}
+                                                </div>
+                                                <div class="postcode">{{ slot.job.postCode | split }}</div>
+                                            </div>
+                                            <ng-template #emptybox>
+                                                <div class="empty-box mat-elevation-z2">
+                                                    <div>{{ slot.defaultFrom | date: 'h a' }}</div>
+                                                    <div>{{ slot.defaultTo | date: 'h a' }}</div>
+                                                </div>
+                                            </ng-template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+          </div>
+          <div class="col-sm">
+            One of three columns
+          </div>
+          <div class="col-sm">
+            One of three columns
+          </div>
+        </div>
+      </div>

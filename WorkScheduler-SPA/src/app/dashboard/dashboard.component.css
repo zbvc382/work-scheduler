@@ -1,103 +1,51 @@
-.example-element-detail {
-  overflow: hidden;
-  display: flex;
-}
-
-.mat-card {
-  margin: 2%;
-  padding: 2%;
-}
-
-.main-container,
-.expansion-container {
-  margin-top: 1.5%;
-}
-
-/* .col-sm .details {
-  display: inline;
-  font-size: 200%;
-} */
-
-.info-icon {
-  transform: scale(1.25);
-  margin-right: 8px;
-  color: #484848;
-}
-
-a {
-  color: black;
-}
-
-/* .col-sm .mat-icon {
-  transform: scale(1.2);
-  margin-right: 6px;
-  padding-top: 10px;
-  margin-right: 2.5%;
-} */
-
-@media screen and (max-width: 600px) {
-  .expansion-container .row {
-    margin-top: 10px;
+@media (max-width: 600px) {
+  .day {
+    width: 50px;
   }
-  .info-icon {
-    transform: scale(0.9);
-    margin-right: 8px;
-    color: #484848;
-  }
- .row > div {
-   margin-bottom: 5px;
- }
 }
 
-.main-container .row,
-.expansion-container .row {
-  font-size: 18px;
+.day {
+  width: 200px;
 }
 
-mat-divider {
-  margin-top: 10px;
+.row {
+  margin-right: 0;
+  margin-top: 15px;
 }
 
-.expansion-container {
+.filled-box {
+  border: 1px solid #4caf50;
+  border-radius: 5px;
+  font-size: 10px;
   width: 100%;
+  margin-top: 10px;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
-.row > div {
-  display: inline-flex;
-  vertical-align: middle;
-
+.empty-box {
+  border-radius: 5px;
+  font-size: 10px;
+  width: 100%;
+  margin-top: 10px;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 1px;
+  padding-right: 1px;
 }
 
-.col-sm-2 {
-  max-width: 180px;
+.empty-box .mat-icon {
+  opacity: 0.25;
 }
 
-.expand-icon {
-  position: relative;
-  margin-bottom: 50%;
-  transform: scale(1.7);
-
+.date {
+  color: #3f51b5;
+  padding: 2px;
+  border-radius: 5px;
 }
 
-.status-icon {
-  position: relative;
-  margin-bottom: 50%;
-  transform: scale(1);
-}
-
-.edit-icon {
-  position: relative;
-  margin-bottom: 50%;
-  transform: scale(1);
-}
-
-.options-button {
-  font-size: 30px !important;
-  height: 30px !important;
-  width: 30px !important;
-  /* display: flex; */
-}
-
-:focus {
-  outline: none !important;
+.title {
+  color: #3f51b5;
 }
