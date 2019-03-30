@@ -52,7 +52,7 @@
         <span>Report:<p class="not-provided">&nbsp;Not Provided</p></span>
       </div>
       <div *ngIf="job.applianceType !== null" class="row info">
-        <span>Appliance Type:<p>&nbsp;{{ job.applianceType }}</p></span>
+        <span>Appliance Type:<p>&nbsp;{{ job.applianceType.name }}</p></span>
       </div>
       <div *ngIf="job.applianceType === null" class="row info">
         <span>Appliance Type:<p class="not-provided">&nbsp;Not Provided</p></span>
@@ -119,7 +119,7 @@
         <span>Report:<p class="not-provided">&nbsp;Not Provided</p></span>
       </div>
       <div *ngIf="job.applianceType !== null" class="row info">
-        <span>Appliance Type:<p>&nbsp;{{ job.applianceType }}</p></span>
+        <span>Appliance Type:<p>&nbsp;{{ job.applianceType.name }}</p></span>
       </div>
       <div *ngIf="job.applianceType === null" class="row info">
         <span>Appliance Type:<p class="not-provided">&nbsp;Not Provided</p></span>
