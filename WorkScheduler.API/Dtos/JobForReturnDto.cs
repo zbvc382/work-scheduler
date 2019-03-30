@@ -31,7 +31,7 @@ namespace WorkScheduler.API.Dtos
         public string AgencyContactName { get; set; }
         public string AgencyPhone { get; set; }
         public AgencyForReturnDto Agency { get; set; }
-        public ApplianceType ApplianceType { get; set; }
+        public AppliancesForReturn ApplianceType { get; set; }
         public virtual ICollection<PhotoForReturnDto> Photos { get; set; }
         public virtual ICollection<TagForReturnDto> Tags { get; set; }
     }

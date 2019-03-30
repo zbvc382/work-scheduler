@@ -58,7 +58,10 @@ export class EditJobDialogComponent implements OnInit, OnChanges {
     this.initialiseUploader();
     this.onChanges();
     this.uploader.onWhenAddingFileFailed = () => { this.openSnackbar('Failed to add photo', 'failure-snackbar'); };
-    this.uploader.onCompleteAll = () => { this.openSnackbar('Upload successful', 'success-snackbar'); };
+    this.uploader.onCompleteAll = () => {
+      this.form.get('multiplefile').disable();
+      this.openSnackbar('Upload successful', 'success-snackbar');
+    };
   }
 
   onUpload() {

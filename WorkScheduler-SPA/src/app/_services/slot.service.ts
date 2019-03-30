@@ -69,6 +69,8 @@ export class SlotService {
   }
 
   private setSlots(date: Date) {
+    let sundaySkipped = false;
+
     for (let i = 0; i < 8; i++) {
       const tempDate = new Date(
         date.getFullYear(),
@@ -81,7 +83,35 @@ export class SlotService {
       tempDate.setHours(0, 0, 0, 0);
 
       let jobs: Job[] = [];
-      tempDate.setDate(tempDate.getDate() + i);
+
+      // console.log('HELLO');
+      // console.log(tempDate.getDate() + i);
+
+      // if (!sundaySkipped) {
+      //   if ((tempDate.getDay() + 1) === 0) {
+
+      //     tempDate.setDate(tempDate.getDate() + i + 1);
+      //     sundaySkipped = true;
+      //   } else {
+      //     tempDate.setDate(tempDate.getDate() + i);
+      //   }
+      // }
+
+      // if (sundaySkipped) {
+      //   tempDate.setDate(tempDate.getDate() + i + 1);
+      // }
+
+      if (sundaySkipped) {
+        tempDate.setDate(tempDate.getDate() + i + 1);
+      } else {
+        tempDate.setDate(tempDate.getDate() + i);
+      }
+
+      if (tempDate.getDay() === 0) {
+        tempDate.setDate(tempDate.getDate() + 1);
+        sundaySkipped = true;
+      }
+
       const tempSlots = this.getDefaultSlots();
 
       jobs = this.jobs.filter(

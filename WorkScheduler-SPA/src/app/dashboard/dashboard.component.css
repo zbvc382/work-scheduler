@@ -1,7 +1,32 @@
 @media (max-width: 600px) {
   .day {
-    width: 40px;
+    width: 35px;
   }
+
+  .empty-box {
+    border: 1px solid #BDBDBD;
+    border-radius: 5px;
+    font-size: 10px;
+    margin-top: 10px;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    opacity: 0.75;
+    min-width: 35px !important;
+  }
+
+  .filled-box {
+    border: 1px solid #4caf50;
+    border-radius: 5px;
+    font-size: 10px;
+    margin-top: 10px;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    min-width: 35px !important;
+  }
+
+  
 }
 
 @media (min-width: 600px) {
@@ -12,41 +37,42 @@
   .day {
     width: 80px;
   }
-}
 
-.container {
-  margin: 0;
+  .empty-box {
+    border: 1px solid #BDBDBD;
+    border-radius: 5px;
+    font-size: 10px;
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 1px;
+    padding-right: 1px;
+    opacity: 0.75;
+  }
+
+  .filled-box {
+    border: 1px solid #4caf50;
+    border-radius: 5px;
+    font-size: 10px;
+    width: 100%;
+    margin-top: 10px;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
 }
 
 .row {
-  margin-right: 0;
   margin-top: 15px;
 }
 
-.filled-box {
-  border: 1px solid #4caf50;
-  border-radius: 5px;
-  font-size: 10px;
-  width: 100%;
-  margin-top: 10px;
-  text-align: center;
-  padding-top: 5px;
-  padding-bottom: 5px;
+.mat-card {
+  border-radius: 0;
+  padding-bottom: 25px;
 }
 
-.empty-box {
-  border-radius: 5px;
-  font-size: 10px;
-  width: 100%;
-  margin-top: 10px;
-  text-align: center;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 1px;
-  padding-right: 1px;
-  opacity: 0.75;
-
-}
 
 .date {
   color: #3f51b5;

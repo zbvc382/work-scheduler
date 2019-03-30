@@ -104,6 +104,7 @@ export class CardComponent implements OnInit, OnDestroy {
       this.days = this.data;
     });
     this.loadTags();
+    console.log(this.days);
   }
 
   ngOnDestroy(): void { }
@@ -246,7 +247,6 @@ export class CardComponent implements OnInit, OnDestroy {
         }
       );
     }
-
   }
 
   openDialog(
@@ -361,7 +361,6 @@ export class CardComponent implements OnInit, OnDestroy {
             this.openSnackbar('Changes applied', 'success-snackbar');
           }, error => {
             console.log('Failed to update job');
-            this.openSnackbar('Failed to save changes', 'failure-snackbar');
           });
 
           if (data[2] === true) {

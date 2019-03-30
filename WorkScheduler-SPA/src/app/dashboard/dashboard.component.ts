@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
     this.today = new Date();
     this.slotService.getWeekSlots(new Date()).subscribe((days: Day[]) => {
       this.days = days;
-      this.removeSunday();
+      // this.removeSunday();
     });
   }
 
@@ -32,7 +32,6 @@ export class DashboardComponent implements OnInit {
 
   removeSunday() {
     this.days.forEach(element => {
-      console.log(element.date.getDay());
       if (element.date.getDay() === 0) {
         this.days.splice(element.id, 1);
       }

@@ -97,7 +97,7 @@ namespace WorkScheduler.API.Controllers
             var jobToCreate = _mapper.Map<Job>(jobToCreateDto);
 
             var jobToReturn = await _jobRepository.AddJob(jobToCreate);
-            _jobRepository.Save();
+            _jobRepository.Save(); 
 
             jobToReturn.Visit = 1;
             jobToReturn.JobNumber = "JB" + (_baseJobNumber + jobToReturn.Id).ToString();
@@ -121,13 +121,8 @@ namespace WorkScheduler.API.Controllers
                 jobToUpdate.Report = updateJob.Report;
             }
 
-            if (await _jobRepository.SaveAsync())
-            {
-                return NoContent();
-            }
-
-            Console.WriteLine("Failed??????");
-            return BadRequest();
+            await _jobRepository.SaveAsync();
+            return NoContent();
         }
 
         [HttpDelete("{id}")]

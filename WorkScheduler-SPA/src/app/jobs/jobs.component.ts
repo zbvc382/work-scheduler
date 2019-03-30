@@ -21,10 +21,12 @@ export class JobsComponent implements OnInit {
     if (value) {
       this.slotService.getWeekSlots(value.date).subscribe((days: Day[]) => {
         this.days = days;
+        console.log('VALUE:' + value);
       });
     } else {
       this.slotService.getWeekSlots(new Date()).subscribe((days: Day[]) => {
         this.days = days;
+        console.log(days);
       });
     }
   }

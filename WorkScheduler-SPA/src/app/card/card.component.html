@@ -52,8 +52,11 @@
                   <mat-icon>add</mat-icon>
                 </button>
               </div>
-              <div fxFlex fxLayout fxLayoutAlign="end" id="week">
+              <div *ngIf="!isMobile" fxFlex fxLayout fxLayoutAlign="end" id="week">
                 {{ day.date | date: 'fullDate' }}
+              </div>
+              <div *ngIf="isMobile" fxFlex fxLayout fxLayoutAlign="end" id="week">
+                {{ day.date | date: 'EEEE, MMMM d' }}
               </div>
             </div>
             <div *ngFor="let slot of day.slots">
@@ -69,7 +72,7 @@
                   </div>
                 </mat-card-header>
                 &nbsp;
-                <div class="row">
+                <div class="row card-row">
                   <div class="col-10 card-details">
                     <div class="row card-details-row">
                       <div class="col-sm-2" id="postcode-col">
@@ -92,10 +95,6 @@
                         <a [style.color]="'#757575'"
                           *ngIf="slot.job.tenantPhone === null && slot.job.privatePhone === null">Not Provided</a>
                       </div>
-                      <div class="col-sm-2" id="payer-type-col">
-                        <mat-icon class="info-icon">attach_money</mat-icon>
-                        {{ slot.job.payerType }}
-                      </div>
                       <div class="col-sm-2" id="address-col">
                         <mat-icon class="info-icon">home</mat-icon>
                         {{ slot.job.address }}
@@ -107,27 +106,48 @@
                         <mat-icon class="info-icon">work</mat-icon>
                         {{ slot.job.jobNumber }}
                       </div>
-                      <div class="col-sm-2" id="visit-col">
+                        <div *ngIf="!slot.job.key" class="col-sm-2" id="visit-col">
                         <mat-icon class="info-icon">drive_eta</mat-icon>
                         {{ slot.job.visitToDisplay }}
                       </div>
                       <div
-                        *ngIf="(slot.job.payerType === 'Agency' || slot.job.payerType === 'Landlord') && slot.job.tenantName != null"
-                        class="col-sm-2" id="person-col">
-                        <mat-icon class="info-icon">person</mat-icon>
-                        {{ slot.job.tenantName }}
-                      </div>
+                      *ngIf="(slot.job.payerType === 'Agency' || slot.job.payerType === 'Landlord') && slot.job.tenantName != null"
+                      class="col-sm-2" id="person-col">
+                      <mat-icon class="info-icon">person</mat-icon>
+                      {{ slot.job.tenantName }}
+                    </div>
+                    <div [style.color]="'#757575'" *ngIf="slot.job.payerType === 'Agency' && slot.job.tenantName === null"
+                    class="col-sm-2" id="contact-phone-col">
+                    <mat-icon [style.color]="'#757575'" class="info-icon">person</mat-icon>
+                    Not Provided
+                  </div>
+                  <div [style.color]="'#757575'" *ngIf="slot.job.payerType === 'Landlord' && slot.job.tenantName === null"
+                  class="col-sm-2" id="contact-phone-col">
+                  <mat-icon [style.color]="'#757575'" class="info-icon">person</mat-icon>
+                  Not Provided
+                </div>
+
+
+
+               
+
+
                       <div *ngIf="slot.job.payerType === 'Private' && slot.job.privateName != null" class="col-sm-2"
                         id="person-col">
                         <mat-icon class="info-icon">person</mat-icon>
                         {{ slot.job.privateName }}
                       </div>
-                      <div *ngIf="slot.job.privateName === null && slot.job.tenantName === null" [style.color]="'#757575'"
-                        class="col-sm-2" id="person-col">
-                        <mat-icon [style.color]="'#757575'" class="info-icon">person</mat-icon>
-                        Not Provided
+                      <div [style.color]="'#757575'"
+                      *ngIf="slot.job.payerType === 'Private' && slot.job.privateName === null"
+                      class="col-sm-2" id="contact-phone-col">
+                      <mat-icon [style.color]="'#757575'" class="info-icon">person</mat-icon>
+                      Not Provided
                       </div>
-      
+                    
+                        <div *ngIf="!slot.job.key" class="col-sm-2" id="payer-type-col">
+                        <mat-icon class="info-icon">attach_money</mat-icon>
+                        {{ slot.job.payerType }}
+                      </div>
                       <div *ngIf="slot.job.key" class="col-sm-2" id="key-col">
                         <mat-icon [style.color]="'#F44336'" class="info-icon">vpn_key</mat-icon>
                         Collect

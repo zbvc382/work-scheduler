@@ -21,15 +21,23 @@
 
                                 <div *ngFor="let slot of day.slots" fxLayout="row">
                                     <div class="filled-box mat-elevation-z2" *ngIf="slot.job !== null; else emptybox">
-                                        <div class="time">
+                                        <div *ngIf="isMobile()" class="time">
                                             {{ slot.job.timeFrom | date: 'h' }}-{{ slot.job.timeTo | date: 'h' }}
                                         </div>
-                                        <div class="postcode">{{ slot.job.postCode | split }}</div>
+                                        <div *ngIf="!isMobile()" class="time">
+                                            {{ slot.job.timeFrom | date: 'h a' }} - {{ slot.job.timeTo | date: 'h a' }}
+                                        </div>
+                                        <div *ngIf="isMobile()" class="postcode">{{ slot.job.postCode | split }}</div>
+                                        <div *ngIf="!isMobile()" class="postcode">{{ slot.job.postCode }}</div>
                                     </div>
                                     <ng-template #emptybox>
-                                        <div class="empty-box mat-elevation-z2">
+                                        <div *ngIf="isMobile()" class="empty-box mat-elevation-z2">
                                             <div>{{ slot.defaultFrom | date: 'h a' }}</div>
                                             <div>{{ slot.defaultTo | date: 'h a' }}</div>
+                                        </div>
+                                        <div *ngIf="!isMobile()" class="empty-box mat-elevation-z2">
+                                            {{ slot.defaultFrom | date: 'h a' }} - {{ slot.defaultTo | date: 'h a' }}
+                                    
                                         </div>
                                     </ng-template>
                                 </div>
@@ -39,10 +47,7 @@
                 </mat-card>
             </div>
         </div>
-        <div class="col-sm-2">
-            One of three columns
-        </div>
-        <div class="col-sm-2">
+        <div class="col-sm-4">
             One of three columns
         </div>
     </div>
