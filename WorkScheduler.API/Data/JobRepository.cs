@@ -190,7 +190,10 @@ namespace WorkScheduler.API.Data
         }
 
         public Job GetJobByJobNumber(string jobNumber) {
-            var job = DataContext.Jobs.Include(x => x.Agency).FirstOrDefault(x => x.JobNumber == jobNumber);
+            var job = DataContext.Jobs
+            .Include(x => x.Agency)
+            .Include(x => x.ApplianceType)
+            .FirstOrDefault(x => x.JobNumber == jobNumber);
 
             return job;
         }

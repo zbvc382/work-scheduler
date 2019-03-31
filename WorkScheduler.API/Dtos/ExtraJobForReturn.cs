@@ -6,7 +6,6 @@ namespace WorkScheduler.API.Dtos
     {
         public int Id { get; set; }
         public string PayerType { get; set; }
-        public string ApplianceType { get; set; }
         public string ProblemGiven { get; set; }
         public string Address { get; set; }
         public string PostCode { get; set; }
@@ -23,6 +22,7 @@ namespace WorkScheduler.API.Dtos
         public string PrivatePhone { get; set; }
         public string AgencyContactName { get; set; }
         public string AgencyPhone { get; set; }
+        public AppliancesForReturn ApplianceType { get; set; }
         public AgencyForReturnDto Agency { get; set; }
         
     }

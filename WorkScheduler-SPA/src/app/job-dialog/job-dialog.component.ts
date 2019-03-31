@@ -9,8 +9,8 @@ import {
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, startWith, catchError } from 'rxjs/operators';
 import { AgencyService } from '../_services/agency.service';
 import { Agency } from '../_models/Agency';
 import { TimeService } from '../_services/time.service';
@@ -55,7 +55,6 @@ export class JobDialogComponent implements OnInit {
     private renderer: Renderer2,
     private snackBar: MatSnackBar,
     private applianceService: ApplianceService,
-    private cdr: ChangeDetectorRef
   ) {
     this.payerTypes = data.payerTypes;
     this.fromDefault = data.fromDefault;
@@ -141,8 +140,7 @@ export class JobDialogComponent implements OnInit {
   }
 
   private filteredApplianceTypesOptions() {
-    // tslint:disable-next-line:no-string-literal
-    this.filteredApplianceTypes = this.form.controls['applianceType'].valueChanges.pipe(
+    this.filteredApplianceTypes = this.form.get('applianceType').valueChanges.pipe(
       startWith(''),
       map(val => (val.length >= 1 ? this.filterApplianceTypes(val) : []))
     );
@@ -158,6 +156,7 @@ export class JobDialogComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
+
       if (this.form.get('agency').value != null) {
         if (this.form.get('agency').value.length < 1) {
           this.form.get('agency').setValue(null);
@@ -165,7 +164,7 @@ export class JobDialogComponent implements OnInit {
       }
       if (this.form.get('applianceType').value != null) {
         if (this.form.get('applianceType').value.length < 1) {
-          this.form.get('applianceType').setValue(null);
+          this.form.get('applianceType').setValue(null, {emitEvent: false});
         }
       }
       if (this.form.get('problemGiven').value != null) {
@@ -295,6 +294,9 @@ export class JobDialogComponent implements OnInit {
             this.form.get('problemGiven').setValue('');
             this.onPayerTypeSelection();
             this.form.get('payerType').disable();
+            this.form.get('address').disable();
+            this.form.get('postCode').disable();
+            this.form.get('applianceType').disable();
             this.renderer.setStyle(
               this.jobInput.nativeElement,
               'color',

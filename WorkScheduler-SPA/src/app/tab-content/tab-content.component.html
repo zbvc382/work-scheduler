@@ -2,27 +2,29 @@
   <mat-tab label="Additional Information">
     <div class="info-container">
       <div *ngIf="job.payerType === 'Agency'" class="row info">
-        <div class="col-3">
+        <div class="col-6">
           <span>Agency:<p>&nbsp;{{ job.agency.name }}</p></span>
         </div>
-        <div *ngIf="job.agencyContactName !== null" class="col-3">
-          <span>Agency Contact Name:<p>&nbsp;{{ job.agencyContactName }}</p></span>
-        </div>
-        <div *ngIf="job.agencyContactName === null" class="col-3">
-          <span>Agency Contact Name:<p class="not-provided">&nbsp;Not Provided</p></span>
-        </div>
-        <div *ngIf="job.agencyPhone !== null" class="col-3">
-          <span>Agency Phone:<p>&nbsp;{{ job.agencyPhone }}</p></span>
-        </div>
-        <div *ngIf="job.agencyPhone === null" class="col-3">
-          <span>Agency Phone:<p class="not-provided">&nbsp;Not Provided</p></span>
-          &nbsp;
-        </div>
-        <div *ngIf="job.agencyReference === null" class="col-3">
+        <div *ngIf="job.agencyReference === null" class="col-6">
           <span>Agency Reference:<p class="not-provided">&nbsp;Not Provided</p></span>
         </div>
-        <div *ngIf="job.agencyReference !== null" class="col-3">
+        <div *ngIf="job.agencyReference !== null" class="col-6">
           <span>Agency Reference:<p>&nbsp;{{ job.agencyReference }}</p></span>
+        </div>
+      </div>
+      <div *ngIf="job.payerType === 'Agency'" class="row info">
+        <div *ngIf="job.agencyContactName !== null" class="col-6">
+          <span>Agency Contact Name:<p>&nbsp;{{ job.agencyContactName }}</p></span>
+        </div>
+        <div *ngIf="job.agencyContactName === null" class="col-6">
+          <span>Agency Contact Name:<p class="not-provided">&nbsp;Not Provided</p></span>
+        </div>
+        <div *ngIf="job.agencyPhone !== null" class="col-6">
+          <span>Agency Phone:<p>&nbsp;{{ job.agencyPhone }}</p></span>
+        </div>
+        <div *ngIf="job.agencyPhone === null" class="col-6">
+          <span>Agency Phone:<p class="not-provided">&nbsp;Not Provided</p></span>
+          &nbsp;
         </div>
       </div>
       <div *ngIf="job.payerType === 'Landlord'" class="row info">
@@ -56,6 +58,9 @@
       </div>
       <div *ngIf="job.applianceType === null" class="row info">
         <span>Appliance Type:<p class="not-provided">&nbsp;Not Provided</p></span>
+      </div>
+      <div *ngIf="job.key" class="row info">
+        <span>Visit:<p>&nbsp;{{ job.visitToDisplay }}</p></span>
       </div>
     </div>
   </mat-tab>
@@ -92,7 +97,12 @@
       </div>
       <div *ngIf="job.payerType === 'Agency' && job.agencyPhone === null" class="row info">
         <span>Agency Phone:<p class="not-provided">&nbsp;Not Provided</p></span>
-        &nbsp;Not Provided
+      </div>
+      <div *ngIf="job.payerType === 'Agency' && job.agencyReference !== null" class="row info">
+        <span>Agency Reference:<p>&nbsp;{{ job.agencyReference }}</p></span>
+      </div>
+      <div *ngIf="job.payerType === 'Agency' && job.agencyReference === null" class="row info">
+        <span>Agency Reference:<p class="not-provided">&nbsp;Not Provided</p></span>
       </div>
       <div *ngIf="job.payerType === 'Landlord' && job.landlordName !== null" class="row info">
         <span>Landlord Name:<p>&nbsp;{{ job.landlordName }}</p></span>
@@ -124,11 +134,8 @@
       <div *ngIf="job.applianceType === null" class="row info">
         <span>Appliance Type:<p class="not-provided">&nbsp;Not Provided</p></span>
       </div>
-      <div *ngIf="job.payerType === 'Agency' && job.agencyReference !== null" class="row info">
-        <span>Agency Reference:<p>&nbsp;{{ job.agencyReference }}</p></span>
-      </div>
-      <div *ngIf="job.payerType === 'Agency' && job.agencyReference === null" class="row info">
-        <span>Agency Reference:<p class="not-provided">&nbsp;Not Provided</p></span>
+      <div *ngIf="job.key" class="row info">
+        <span>Visit:<p>&nbsp;{{ job.visitToDisplay }}</p></span>
       </div>
     </div>
   </mat-tab>
