@@ -1,54 +1,137 @@
 <div class="container">
-    <div class="row">
-        <div class="col-sm-8">
-            <div class="week-container">
-                <mat-card>
-                    <mat-card-title>
-                        <div class="title">
-                            <h5>This Week's Jobs</h5>
-                        </div>
-                    </mat-card-title>
-                    <mat-card-subtitle>{{today | date: 'fullDate'}}</mat-card-subtitle>
-                    <mat-card-content>
-                        <div fxLayout="row" fxLayoutAlign="space-evenly none">
-                            <div class="day" *ngFor="let day of days" fxLayout="column" fxLayoutAlign="none">
-                                <div class="date" *ngIf="isMobile()"
-                                    [ngStyle]="{'border': isToday(day.date) ? '1px dashed #3f51b5' : '1px dashed white'}">
-                                    {{ day.date | date: 'EEE' }}</div>
-                                <div class="date" *ngIf="!isMobile()"
-                                    [ngStyle]="{'border': isToday(day.date) ? '1px dashed #3f51b5' : '1px dashed white'}">
-                                    {{ day.date | date: 'EEEE' }}</div>
-
-                                <div *ngFor="let slot of day.slots" fxLayout="row">
-                                    <div class="filled-box mat-elevation-z2" *ngIf="slot.job !== null; else emptybox">
-                                        <div *ngIf="isMobile()" class="time">
-                                            {{ slot.job.timeFrom | date: 'h' }}-{{ slot.job.timeTo | date: 'h' }}
-                                        </div>
-                                        <div *ngIf="!isMobile()" class="time">
-                                            {{ slot.job.timeFrom | date: 'h a' }} - {{ slot.job.timeTo | date: 'h a' }}
-                                        </div>
-                                        <div *ngIf="isMobile()" class="postcode">{{ slot.job.postCode | split }}</div>
-                                        <div *ngIf="!isMobile()" class="postcode">{{ slot.job.postCode }}</div>
-                                    </div>
-                                    <ng-template #emptybox>
-                                        <div *ngIf="isMobile()" class="empty-box mat-elevation-z2">
-                                            <div>{{ slot.defaultFrom | date: 'h a' }}</div>
-                                            <div>{{ slot.defaultTo | date: 'h a' }}</div>
-                                        </div>
-                                        <div *ngIf="!isMobile()" class="empty-box mat-elevation-z2">
-                                            {{ slot.defaultFrom | date: 'h a' }} - {{ slot.defaultTo | date: 'h a' }}
-                                    
-                                        </div>
-                                    </ng-template>
-                                </div>
-                            </div>
-                        </div>
-                    </mat-card-content>
-                </mat-card>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="week-container">
+        <mat-card>
+          <mat-card-title>
+            <div class="title">
+              <h5>This Week's Jobs</h5>
             </div>
-        </div>
-        <div class="col-sm-4">
-            One of three columns
-        </div>
+          </mat-card-title>
+          <mat-card-subtitle>{{ today | date: "fullDate" }}</mat-card-subtitle>
+          <mat-card-content>
+            <div fxLayout="row" fxLayoutAlign="space-evenly none">
+              <div
+                class="day"
+                *ngFor="let day of days"
+                fxLayout="column"
+                fxLayoutAlign="none"
+              >
+                <div
+                  class="date"
+                  *ngIf="isMobile()"
+                  [ngStyle]="{
+                    border: isToday(day.date)
+                      ? '1px dashed #3f51b5'
+                      : '1px dashed white'
+                  }"
+                >
+                  {{ day.date | date: "EEE" }}
+                </div>
+                <div
+                  class="date"
+                  *ngIf="!isMobile()"
+                  [ngStyle]="{
+                    border: isToday(day.date)
+                      ? '1px dashed #3f51b5'
+                      : '1px dashed white'
+                  }"
+                >
+                  {{ day.date | date: "EEEE" }}
+                </div>
+
+                <div *ngFor="let slot of day.slots" fxLayout="row">
+                  <div
+                    class="filled-box mat-elevation-z2"
+                    *ngIf="slot.job !== null; else emptybox"
+                  >
+                    <div *ngIf="isMobile()" class="time">
+                      {{ slot.job.timeFrom | date: "h" }}-{{
+                        slot.job.timeTo | date: "h"
+                      }}
+                    </div>
+                    <div *ngIf="!isMobile()" class="time">
+                      {{ slot.job.timeFrom | date: "h a" }} -
+                      {{ slot.job.timeTo | date: "h a" }}
+                    </div>
+                    <div *ngIf="isMobile()" class="postcode">
+                      {{ slot.job.postCode | split }}
+                    </div>
+                    <div *ngIf="!isMobile()" class="postcode">
+                      {{ slot.job.postCode }}
+                    </div>
+                  </div>
+                  <ng-template #emptybox>
+                    <div *ngIf="isMobile()" class="empty-box mat-elevation-z2">
+                      <div>{{ slot.defaultFrom | date: "h a" }}</div>
+                      <div>{{ slot.defaultTo | date: "h a" }}</div>
+                    </div>
+                    <div *ngIf="!isMobile()" class="empty-box mat-elevation-z2">
+                      {{ slot.defaultFrom | date: "h a" }} -
+                      {{ slot.defaultTo | date: "h a" }}
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
+    <div class="col-sm-4 info-column">
+            <!-- <div fxLayout="column" fxLayoutAlign="space-evenly center">
+                <div>
+                    <mat-card>
+                        <mat-card-content>
+                            content1
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div>
+                        <mat-card>
+                                <mat-card-content>
+                                    content2
+                                </mat-card-content>
+                            </mat-card>
+                </div>
+            </div> -->
+
+            <div class="info1">
+                    <mat-card [style.height]="'100%'">
+                            <mat-card-content>
+                                content2
+                            </mat-card-content>
+                        </mat-card>
+            </div>
+            <div>&nbsp;</div>
+            <div class="info2">
+                    <mat-card [style.height]="'100%'">
+                            <mat-card-content>
+                                content2
+                            </mat-card-content>
+                        </mat-card>
+                </div>
+            
+
+
+
+      <!-- <div class="row blet">
+        <div class="col">
+          <mat-card class="info1">
+            <mat-card-content>
+              content
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="w-100"></div>
+        <div class="col">
+          <mat-card class="info2">
+            <mat-card-content>
+              content
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div> -->
+    </div>
+  </div>
 </div>
