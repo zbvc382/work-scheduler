@@ -1,6 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Day } from '../_models/Day';
-import { Slot } from '../_models/Slot';
 
 @Injectable({
   providedIn: 'root'
@@ -41,41 +39,34 @@ export class TimeService {
   }
 
   get12HourTime(time: Date): string {
-    let UtcHours = time.getUTCHours().toString();
-    let UtcMinutes = time.getUTCMinutes().toString();
-    let UtcSeconds = time.getUTCSeconds().toString();
+    let LocalHours = time.getHours().toString();
+    let LocalMinutes = time.getMinutes().toString();
+    let LocalSeconds = time.getSeconds().toString();
 
-    if (Number(UtcHours) < 10) {
-      UtcHours = '0' + UtcHours;
+    if (Number(LocalHours) < 10) {
+      LocalHours = '0' + LocalHours;
     }
 
-    if (Number(UtcMinutes) < 10) {
-      UtcMinutes = '0' + UtcMinutes;
+    if (Number(LocalMinutes) < 10) {
+      LocalMinutes = '0' + LocalMinutes;
     }
 
-    if (Number(UtcSeconds) < 10) {
-      UtcSeconds = '0' + UtcSeconds;
+    if (Number(LocalSeconds) < 10) {
+      LocalSeconds = '0' + LocalSeconds;
     }
 
-    let UtcTime = UtcHours + ':' + UtcMinutes + ':' + UtcSeconds;
+    let LocalTime = LocalHours + ':' + LocalMinutes + ':' + LocalSeconds;
 
-    const H = +UtcTime.substr(0, 2);
+    const H = +LocalTime.substr(0, 2);
     const h = H % 12 || 12;
     const amPm = (H < 12 || H === 24) ? ' am' : ' pm';
 
     if (h < 10) {
-      UtcTime = '0' + h + UtcTime.substr(2, 3) + amPm;
+      LocalTime = '0' + h + LocalTime.substr(2, 3) + amPm;
     } else {
-      UtcTime = h + UtcTime.substr(2, 3) + amPm;
+      LocalTime = h + LocalTime.substr(2, 3) + amPm;
     }
 
-    return UtcTime;
+    return LocalTime;
   }
-
-  // public sortSlotsByDate(): void {
-
-  //   array.sort((a: Slot, b: Slot) => {
-  //       return a.defaultFrom.getTime() - b.defaultFrom.getTime();
-  //   });
-  // }
 }

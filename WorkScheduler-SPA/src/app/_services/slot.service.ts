@@ -84,23 +84,6 @@ export class SlotService {
 
       let jobs: Job[] = [];
 
-      // console.log('HELLO');
-      // console.log(tempDate.getDate() + i);
-
-      // if (!sundaySkipped) {
-      //   if ((tempDate.getDay() + 1) === 0) {
-
-      //     tempDate.setDate(tempDate.getDate() + i + 1);
-      //     sundaySkipped = true;
-      //   } else {
-      //     tempDate.setDate(tempDate.getDate() + i);
-      //   }
-      // }
-
-      // if (sundaySkipped) {
-      //   tempDate.setDate(tempDate.getDate() + i + 1);
-      // }
-
       if (sundaySkipped) {
         tempDate.setDate(tempDate.getDate() + i + 1);
       } else {
@@ -122,6 +105,7 @@ export class SlotService {
         if (element.slotReplaced === true) {
           tempSlots[element.slotIndex].job = element;
           tempSlots[element.slotIndex].defaultFrom = element.timeFrom;
+          tempSlots[element.slotIndex].defaultTo = element.timeTo;
         }
         if (element.slotReplaced === false) {
           const jobToInsert = element;
@@ -138,6 +122,12 @@ export class SlotService {
 
       remainingEmptySlots.forEach(element => {
         element.defaultFrom.setFullYear(
+          tempDate.getFullYear(),
+          tempDate.getMonth(),
+          tempDate.getDate()
+        );
+
+        element.defaultTo.setFullYear(
           tempDate.getFullYear(),
           tempDate.getMonth(),
           tempDate.getDate()

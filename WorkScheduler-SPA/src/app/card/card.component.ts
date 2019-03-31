@@ -104,7 +104,6 @@ export class CardComponent implements OnInit, OnDestroy {
       this.days = this.data;
     });
     this.loadTags();
-    console.log(this.days);
   }
 
   ngOnDestroy(): void { }
@@ -388,21 +387,36 @@ export class CardComponent implements OnInit, OnDestroy {
       if (result === true) {
         this.jobService.deleteJob(jobId).subscribe(
           () => {
-            let index: number;
+            let slotIndex: number;
+            let defaultIndex = null;
+            let timeFrom = new Date();
+            let timeTo = new Date();
 
             for (let i = 0; i < this.days[dayId].slots.length; i++) {
               if (this.days[dayId].slots[i].job != null) {
                 if (this.days[dayId].slots[i].job.id === jobId) {
-                  index = i;
+                  slotIndex = i;
+                  defaultIndex = this.days[dayId].slots[i].index;
+                  timeFrom = this.days[dayId].slots[i].defaultFrom;
+                  timeTo = this.days[dayId].slots[i].defaultTo;
                 }
               }
             }
-            this.days[dayId].slots.splice(index, 1);
+            this.days[dayId].slots.splice(slotIndex, 1);
+
+            if (defaultIndex != null) {
+              this.days[dayId].slots.splice(slotIndex, 0, {
+                index: defaultIndex,
+                job: null,
+                defaultFrom: timeFrom,
+                defaultTo: timeTo
+              });
+            }
+
             this.data$.next(this.days);
             this.openSnackbar('Job deleted', 'success-snackbar');
           },
           error => {
-            console.log('Could not delete job');
             this.openSnackbar('Could not delete job', 'failure-snackbar');
           }
         );
