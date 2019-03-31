@@ -218,6 +218,11 @@ export class JobDialogComponent implements OnInit {
           this.form.get('agencyReference').setValue(null);
         }
       }
+      if (this.form.get('keyAddress').value != null) {
+        if (this.form.get('keyAddress').value.length < 1) {
+          this.form.get('keyAddress').setValue(null);
+        }
+      }
 
       if (this.isExtraVisit && this.jobId != null) {
         this.dialogRef.close([this.form.getRawValue(), this.jobId]);

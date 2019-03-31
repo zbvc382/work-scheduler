@@ -53,6 +53,7 @@ export class SlotService {
           job.timeFrom = new Date(job.timeFrom);
           job.timeTo = new Date(job.timeTo);
           job.dateAssigned = new Date(job.dateAssigned);
+          job.visitToDisplay = Visit[job.visit] + ' Visit';
         });
         this.queriedResult$.next(data);
       },
