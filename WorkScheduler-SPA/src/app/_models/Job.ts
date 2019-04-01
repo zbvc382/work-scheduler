@@ -31,6 +31,6 @@ export interface Job {
     applianceType?: ApplianceType;
     agencyContactName: string;
     agencyPhone: string;
-    tags: Tag;
+    tags: Tag[];
     photos: Photo[];
 }

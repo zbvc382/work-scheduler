@@ -4,4 +4,5 @@ export interface Place {
     timeTo: Date;
     latitude: number;
     longitude: number;
+    colour: string;
 }

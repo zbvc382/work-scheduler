@@ -14,7 +14,8 @@ import { MapsAPILoader } from '@agm/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Place } from '../_models/Place';
-import { Observable } from 'rxjs';
+import { SearchMarker } from '../_models/SearchMarker';
+import { Tag } from '../_models/Tag';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,9 +23,9 @@ import { Observable } from 'rxjs';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  zoom = 10;
   latitude = 51.5245;
   longitude = -0.11209;
-  zoom = 10;
   searchControl = new FormControl();
   days: Day[];
   today: Date;
@@ -38,7 +39,15 @@ export class DashboardComponent implements OnInit {
   searching = false;
   locations: Place[] = [];
   selected = new FormControl();
-  // postcode: string;
+  searchMarker: SearchMarker;
+  isCompletedBorder = '#4CAF50';
+  notCompletedBorder = '#673AB7';
+  markerColourUrls = {
+    green: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+    blue: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+    yellow: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+    red: 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png'
+  };
 
   constructor(
     private slotService: SlotService,
@@ -51,6 +60,10 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.today = new Date();
     this.getDaysFromService();
+
+    if (this.isMobile()) {
+      this.zoom = 8;
+    }
 
     this.selected.valueChanges.subscribe(value => {
       this.getLocations(value);
@@ -65,7 +78,7 @@ export class DashboardComponent implements OnInit {
     });
 
     this.mapsAPILoader.load().then(() => {
-      let autocomplete = new google.maps.places.Autocomplete(
+      const autocomplete = new google.maps.places.Autocomplete(
         this.searchElementRef.nativeElement,
         {
           types: ['geocode']
@@ -74,15 +87,17 @@ export class DashboardComponent implements OnInit {
 
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
-          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          const place: google.maps.places.PlaceResult = autocomplete.getPlace();
 
           if (place.geometry === undefined || place.geometry === null) {
             return;
           }
 
-          this.latitude = place.geometry.location.lat();
-          this.longitude = place.geometry.location.lng();
-          this.zoom = 10;
+          this.searchMarker = {
+            latitude: place.geometry.location.lat(),
+            longitude: place.geometry.location.lng()
+          };
+
         });
       });
     });
@@ -102,15 +117,29 @@ export class DashboardComponent implements OnInit {
       if (element.job != null) {
         this.callGeo(element.job.postCode).subscribe(data => {
           this.result = data.body;
-          const location = this.result.results[0].geometry.location;
-          console.log(location);
-          this.locations.push({
-            postcode: element.job.postCode,
-            timeFrom: element.job.timeFrom,
-            timeTo: element.job.timeTo,
-            latitude: this.result.results[0].geometry.location.lat,
-            longitude: this.result.results[0].geometry.location.lng
-          });
+          if (this.result.status === 'OK') {
+            const location = this.result.results[0].geometry.location;
+            let markerColourUrl = null;
+
+            if (element.job.tags.length > 0) {
+              if (this.isCompleted(element.job.tags)) {
+                markerColourUrl = this.markerColourUrls.green;
+              } else {
+                markerColourUrl = this.markerColourUrls.red;
+              }
+            } else {
+              markerColourUrl = this.markerColourUrls.red;
+            }
+
+            this.locations.push({
+              postcode: element.job.postCode,
+              timeFrom: element.job.timeFrom,
+              timeTo: element.job.timeTo,
+              latitude: this.result.results[0].geometry.location.lat,
+              longitude: this.result.results[0].geometry.location.lng,
+              colour: markerColourUrl
+            });
+          }
         });
       }
     });
@@ -129,26 +158,19 @@ export class DashboardComponent implements OnInit {
     );
   }
 
-  CallGeoAPI() {
-    let apiURL =
-      'https://maps.googleapis.com/maps/api/geocode/json?address=$E163NP&key=AIzaSyAgDUII_kvGfCJNmu4qhhzjl8YNzblV9Ng';
-    return this.httpClient.get(apiURL, { observe: 'response' }).pipe(
-      map(response => {
-        return response;
-      })
-    );
-  }
-
-  onSelection() {
-    console.log(this.selected);
-  }
-
   onSearchClear() {
     this.searchControl.setValue('');
+    this.searchMarker = null;
   }
 
   isMobile(): boolean {
     return this.breakpointObserver.isMatched('(max-width: 600px)');
+  }
+
+  isCompleted(tags: Tag[]): boolean {
+    if (tags.length > 0) {
+      return tags.filter(x => x.name === 'Completed') !== null ? true : false;
+    }
   }
 
   isToday(date: Date): boolean {

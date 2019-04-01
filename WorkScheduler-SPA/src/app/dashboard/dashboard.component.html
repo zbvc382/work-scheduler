@@ -44,6 +44,11 @@
                   <div
                     class="filled-box mat-elevation-z2"
                     *ngIf="slot.job !== null; else emptybox"
+                    [style.border-color]="
+                      isCompleted(slot.job.tags)
+                        ? isCompletedBorder
+                        : notCompletedBorder
+                    "
                   >
                     <div *ngIf="isMobile()" class="time">
                       {{ slot.job.timeFrom | date: "h" }}-{{
@@ -104,7 +109,9 @@
             <mat-label>Show Jobs For</mat-label>
             <mat-select [formControl]="selected">
               <mat-option *ngFor="let day of days" [value]="day">
-                <span *ngIf="!isToday(day.date)">{{day.date | date: 'EEEE'}}</span>
+                <span *ngIf="!isToday(day.date)">{{
+                  day.date | date: "EEEE"
+                }}</span>
                 <span *ngIf="isToday(day.date)">Today</span>
               </mat-option>
             </mat-select>
@@ -123,29 +130,43 @@
               [formControl]="searchControl"
             />
             <mat-icon *ngIf="!searchClear" matSuffix>
-                search
-              </mat-icon>
-              <mat-icon *ngIf="searchClear" id="clearIcon" (click)="onSearchClear()" matSuffix>
-                clear
-              </mat-icon>
-            <!-- <mat-icon *ngIf="searchClear" id="clearIcon" (click)="onSearchClear()" matSuffix>
-                  clear
-                </mat-icon> -->
+              search
+            </mat-icon>
+            <mat-icon
+              *ngIf="searchClear"
+              id="clearIcon"
+              (click)="onSearchClear()"
+              matSuffix
+            >
+              clear
+            </mat-icon>
           </mat-form-field>
         </div>
       </div>
       <agm-map [zoom]="zoom" [latitude]="latitude" [longitude]="longitude">
-          <agm-marker
+        <agm-marker
           *ngFor="let location of locations"
           [latitude]="location.latitude"
           [longitude]="location.longitude"
           [markerDraggable]="false"
+          [iconUrl]="location.colour"
         >
-        <agm-info-window [isOpen]="true">
-          <div> {{location.postcode}}</div>
-          <div>{{ location.timeFrom | date: "h a" }} - {{ location.timeTo | date: "h a" }}</div>
+          <agm-info-window [isOpen]="true">
+            <div>{{ location.postcode }}</div>
+            <div>
+              {{ location.timeFrom | date: "h a" }} -
+              {{ location.timeTo | date: "h a" }}
+            </div>
           </agm-info-window>
         </agm-marker>
+
+        <agm-marker
+          *ngIf="searchMarker != null"
+          [latitude]="searchMarker.latitude"
+          [longitude]="searchMarker.longitude"
+          [markerDraggable]="false"
+          [iconUrl]="markerColourUrls.yellow"
+        ></agm-marker>
       </agm-map>
     </mat-card>
   </div>
