@@ -41,6 +41,7 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
 import { PhotoService } from './_services/photo.service';
 import { ApplianceService } from './_services/appliance.service';
 import { SplitPipe } from './_pipes/split.pipe';
+import { AgmCoreModule } from '@agm/core';
 
 export function tokenGetter() {
    return localStorage.getItem('token');
@@ -87,7 +88,11 @@ export function tokenGetter() {
             whitelistedDomains: ['localhost:5000'],
             blacklistedRoutes: ['localhost:5000/auth']
          }
-      })
+      }),
+      AgmCoreModule.forRoot({
+         apiKey: 'AIzaSyCzdxX8LunlQMdF94C39gWKfEii40YKSa8',
+         libraries: ['places']
+       })
    ],
    providers: [
       AuthService,
