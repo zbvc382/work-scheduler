@@ -100,3 +100,11 @@ agm-map {
 .container-map {
   margin-top: 25px;
 }
+
+.mat-form-field {
+  width: 100%;
+}
+
+#clearIcon {
+  cursor: pointer;
+}

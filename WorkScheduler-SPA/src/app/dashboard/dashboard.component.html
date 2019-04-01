@@ -79,69 +79,74 @@
       </div>
     </div>
     <div class="col-sm-4 info-column">
-            <!-- <div fxLayout="column" fxLayoutAlign="space-evenly center">
-                <div>
-                    <mat-card>
-                        <mat-card-content>
-                            content1
-                        </mat-card-content>
-                    </mat-card>
-                </div>
-                <div>
-                        <mat-card>
-                                <mat-card-content>
-                                    content2
-                                </mat-card-content>
-                            </mat-card>
-                </div>
-            </div> -->
-
-            <div class="info1">
-                    <mat-card [style.height]="'100%'">
-                            <mat-card-content>
-                                content2
-                            </mat-card-content>
-                        </mat-card>
-            </div>
-            <div>&nbsp;</div>
-            <div class="info2">
-                    <mat-card [style.height]="'100%'">
-                            <mat-card-content>
-                                content2
-                            </mat-card-content>
-                        </mat-card>
-                </div>
-            
-
-
-
-      <!-- <div class="row blet">
-        <div class="col">
-          <mat-card class="info1">
-            <mat-card-content>
-              content
-            </mat-card-content>
-          </mat-card>
-        </div>
-        <div class="w-100"></div>
-        <div class="col">
-          <mat-card class="info2">
-            <mat-card-content>
-              content
-            </mat-card-content>
-          </mat-card>
-        </div>
-      </div> -->
+      <div class="info1">
+        <mat-card [style.height]="'100%'">
+          <mat-card-content>
+            content2
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div>&nbsp;</div>
+      <div class="info2">
+        <mat-card [style.height]="'100%'">
+          <mat-card-content>
+            content2
+          </mat-card-content>
+        </mat-card>
+      </div>
     </div>
   </div>
   <div class="container-map">
-<mat-card>
-    <div class="form-group">
-        <input placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl">
+    <mat-card>
+      <div class="row">
+        <div class="col-sm-4">
+          <mat-form-field>
+            <mat-label>Show Jobs For</mat-label>
+            <mat-select [formControl]="selected">
+              <mat-option *ngFor="let day of days" [value]="day">
+                <span *ngIf="!isToday(day.date)">{{day.date | date: 'EEEE'}}</span>
+                <span *ngIf="isToday(day.date)">Today</span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-sm-8">
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Search Location"
+              autocorrect="off"
+              autocapitalize="off"
+              spellcheck="off"
+              type="text"
+              #search
+              [formControl]="searchControl"
+            />
+            <mat-icon *ngIf="!searchClear" matSuffix>
+                search
+              </mat-icon>
+              <mat-icon *ngIf="searchClear" id="clearIcon" (click)="onSearchClear()" matSuffix>
+                clear
+              </mat-icon>
+            <!-- <mat-icon *ngIf="searchClear" id="clearIcon" (click)="onSearchClear()" matSuffix>
+                  clear
+                </mat-icon> -->
+          </mat-form-field>
+        </div>
       </div>
-    <agm-map  [zoom]="zoom" [latitude]="latitude" [longitude]="longitude">
+      <agm-map [zoom]="zoom" [latitude]="latitude" [longitude]="longitude">
+          <agm-marker
+          *ngFor="let location of locations"
+          [latitude]="location.latitude"
+          [longitude]="location.longitude"
+          [markerDraggable]="false"
+        >
+        <agm-info-window [isOpen]="true">
+          <div> {{location.postcode}}</div>
+          <div>{{ location.timeFrom | date: "h a" }} - {{ location.timeTo | date: "h a" }}</div>
+          </agm-info-window>
+        </agm-marker>
       </agm-map>
-</mat-card>
+    </mat-card>
   </div>
 </div>
-
