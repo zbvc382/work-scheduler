@@ -9,7 +9,7 @@ import { environment } from 'src/environments/environment';
 export class ApplianceService {
   baseUrl = environment.apiUrl + 'appliances';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   getApplianceTypes() {
     return this.httpClient.get<ApplianceType[]>(this.baseUrl);

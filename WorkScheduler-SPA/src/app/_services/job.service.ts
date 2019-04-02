@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { HttpClient, HttpParams} from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Job } from '../_models/Job';
 import { PaginatedResult } from '../_models/Pagination';
 import { map } from 'rxjs/operators';
@@ -12,9 +12,9 @@ import { ExtraJob } from '../_models/ExtraJob';
 @Injectable()
 export class JobService implements OnInit {
   baseUrl = environment.apiUrl + 'jobs';
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   getJobs(date: Date) {
     return this.httpClient.get<Job[]>(this.baseUrl + '/date/' + date);
@@ -38,8 +38,15 @@ export class JobService implements OnInit {
     return this.httpClient.get<ExtraJob>(this.baseUrl + '/number/' + jobNumber);
   }
 
-  searchJobs(query: string, pageNumber?: string, dateRange?: string, jobNumber?: string): Observable<PaginatedResult<Job[]>> {
-    const paginatedResult: PaginatedResult<Job[]> = new PaginatedResult<Job[]>();
+  searchJobs(
+    query: string,
+    pageNumber?: string,
+    dateRange?: string,
+    jobNumber?: string
+  ): Observable<PaginatedResult<Job[]>> {
+    const paginatedResult: PaginatedResult<Job[]> = new PaginatedResult<
+      Job[]
+    >();
 
     let params = new HttpParams();
 
@@ -57,15 +64,19 @@ export class JobService implements OnInit {
       params = params.append('query', query);
     }
 
-    return this.httpClient.get<Job[]>(this.baseUrl + '/search', {observe: 'response', params}).pipe(
-      map(response => {
-        paginatedResult.result = response.body;
-        if (response.headers.get('Pagination') !== null) {
-          paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
-        }
-        return paginatedResult;
-      })
-    );
+    return this.httpClient
+      .get<Job[]>(this.baseUrl + '/search', { observe: 'response', params })
+      .pipe(
+        map(response => {
+          paginatedResult.result = response.body;
+          if (response.headers.get('Pagination') !== null) {
+            paginatedResult.pagination = JSON.parse(
+              response.headers.get('Pagination')
+            );
+          }
+          return paginatedResult;
+        })
+      );
   }
   private getDateRange(dateRangeSelected: string): string {
     const date = new Date();

@@ -35,7 +35,7 @@ export class TabContentComponent implements OnInit {
         preview: false,
         imageSwipe: true,
         thumbnails: false,
-        imageAnimation: NgxGalleryAnimation.Slide,
+        imageAnimation: NgxGalleryAnimation.Slide
       }
     ];
 
@@ -72,7 +72,7 @@ export class TabContentComponent implements OnInit {
         this.downloadablePhotos = [];
         this.makeDownloadable();
         this.galleryImages = [];
-        this. galleryImages = this.getImages();
+        this.galleryImages = this.getImages();
       }
       return true;
     } else {

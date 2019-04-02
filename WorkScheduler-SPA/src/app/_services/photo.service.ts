@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class PhotoService {
   baseUrl = environment.apiUrl + 'jobs';
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   getPhotos(jobId: number): Observable<Photo[]> {
     return this.httpClient.get<Photo[]>(this.baseUrl + '/' + jobId + '/photos');

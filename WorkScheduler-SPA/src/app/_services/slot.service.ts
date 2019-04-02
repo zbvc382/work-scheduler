@@ -19,7 +19,7 @@ export class SlotService {
 
   constructor(
     private jobService: JobService,
-    private dateFormatPipe: DateFormat,
+    private dateFormatPipe: DateFormat
   ) {}
 
   getWeekSlots(date: Date): Observable<Day[]> {
@@ -48,7 +48,7 @@ export class SlotService {
 
   getSearchSlots(query: string, pageNumber?: string, dateRange?: string) {
     this.jobService.searchJobs(query, pageNumber, dateRange).subscribe(
-      (data) => {
+      data => {
         data.result.forEach((job: Job) => {
           job.timeFrom = new Date(job.timeFrom);
           job.timeTo = new Date(job.timeTo);
@@ -79,7 +79,8 @@ export class SlotService {
         date.getDate(),
         date.getHours(),
         date.getMinutes(),
-        date.getSeconds());
+        date.getSeconds()
+      );
 
       tempDate.setHours(0, 0, 0, 0);
 
@@ -140,7 +141,7 @@ export class SlotService {
         return a.defaultFrom.getTime() - b.defaultFrom.getTime();
       });
 
-      this.days.push({id: i, date: tempDate, slots: tempSlots });
+      this.days.push({ id: i, date: tempDate, slots: tempSlots });
     }
   }
 

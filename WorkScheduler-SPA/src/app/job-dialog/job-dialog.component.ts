@@ -4,13 +4,17 @@ import {
   Inject,
   ElementRef,
   ViewChild,
-  Renderer2,
-  ChangeDetectorRef
+  Renderer2
 } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  AbstractControl
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
-import { Observable, of } from 'rxjs';
-import { map, startWith, catchError } from 'rxjs/operators';
+import { Observable} from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 import { AgencyService } from '../_services/agency.service';
 import { Agency } from '../_models/Agency';
 import { TimeService } from '../_services/time.service';
@@ -54,7 +58,7 @@ export class JobDialogComponent implements OnInit {
     private jobService: JobService,
     private renderer: Renderer2,
     private snackBar: MatSnackBar,
-    private applianceService: ApplianceService,
+    private applianceService: ApplianceService
   ) {
     this.payerTypes = data.payerTypes;
     this.fromDefault = data.fromDefault;
@@ -77,7 +81,12 @@ export class JobDialogComponent implements OnInit {
       address: ['', [Validators.required, Validators.maxLength(60)]],
       postCode: [
         '',
-        [Validators.required, Validators.minLength(6), Validators.maxLength(8)]
+        [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(8),
+          this.spacesValidator
+        ]
       ],
       tenantName: ['', [Validators.maxLength(30)]],
       tenantPhone: ['', [Validators.maxLength(15)]],
@@ -90,6 +99,16 @@ export class JobDialogComponent implements OnInit {
 
     this.getAgenciesFromService();
     this.getApplianceTypesFromService();
+  }
+
+  spacesValidator(control: AbstractControl): { [key: string]: boolean } | null {
+    const value = control.value.trim();
+    const spaceCount = value.split(' ').length - 1;
+
+    if (spaceCount < 1) {
+      return { spaces: true };
+    }
+    return null;
   }
 
   onPayerTypeSelection() {
@@ -124,10 +143,12 @@ export class JobDialogComponent implements OnInit {
   }
 
   getApplianceTypesFromService() {
-    this.applianceService.getApplianceTypes().subscribe((applianceTypes: ApplianceType[]) => {
-      this.applianceTypes = applianceTypes;
-      this.filteredApplianceTypesOptions();
-    });
+    this.applianceService
+      .getApplianceTypes()
+      .subscribe((applianceTypes: ApplianceType[]) => {
+        this.applianceTypes = applianceTypes;
+        this.filteredApplianceTypesOptions();
+      });
   }
 
   onExtraVisitToggle() {
@@ -140,10 +161,12 @@ export class JobDialogComponent implements OnInit {
   }
 
   private filteredApplianceTypesOptions() {
-    this.filteredApplianceTypes = this.form.get('applianceType').valueChanges.pipe(
-      startWith(''),
-      map(val => (val.length >= 1 ? this.filterApplianceTypes(val) : []))
-    );
+    this.filteredApplianceTypes = this.form
+      .get('applianceType')
+      .valueChanges.pipe(
+        startWith(''),
+        map(val => (val.length >= 1 ? this.filterApplianceTypes(val) : []))
+      );
   }
 
   private filteredAgenciesOptions() {
@@ -156,7 +179,6 @@ export class JobDialogComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
-
       if (this.form.get('agency').value != null) {
         if (this.form.get('agency').value.length < 1) {
           this.form.get('agency').setValue(null);
@@ -164,7 +186,7 @@ export class JobDialogComponent implements OnInit {
       }
       if (this.form.get('applianceType').value != null) {
         if (this.form.get('applianceType').value.length < 1) {
-          this.form.get('applianceType').setValue(null, {emitEvent: false});
+          this.form.get('applianceType').setValue(null, { emitEvent: false });
         }
       }
       if (this.form.get('problemGiven').value != null) {
@@ -276,7 +298,7 @@ export class JobDialogComponent implements OnInit {
   openSnackbar(message: string, className: string) {
     this.snackBar.open(message, '', {
       duration: 4000,
-      panelClass: [className],
+      panelClass: [className]
     });
   }
 
@@ -288,6 +310,11 @@ export class JobDialogComponent implements OnInit {
           if (job != null) {
             this.jobId = job.id;
             delete job.id;
+
+            if (job.applianceType === null || job.applianceType === undefined) {
+              job.applianceType = { id: 0, name: '' };
+            }
+
             this.form.setValue(job);
             this.form.get('timeFrom').setValue(this.fromDefault);
             this.form.get('timeTo').setValue(this.toDefault);

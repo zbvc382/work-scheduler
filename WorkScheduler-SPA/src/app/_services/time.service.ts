@@ -59,7 +59,7 @@ export class TimeService {
 
     const H = +LocalTime.substr(0, 2);
     const h = H % 12 || 12;
-    const amPm = (H < 12 || H === 24) ? ' am' : ' pm';
+    const amPm = H < 12 || H === 24 ? ' am' : ' pm';
 
     if (h < 10) {
       LocalTime = '0' + h + LocalTime.substr(2, 3) + amPm;

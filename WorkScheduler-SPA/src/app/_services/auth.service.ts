@@ -11,7 +11,7 @@ export class AuthService implements OnInit {
   baseUrl = 'http://localhost:5000/api/auth/';
   jwtHelper = new JwtHelperService();
   decodedToken: any;
-  currentUser: User = {id: '', username: ''};
+  currentUser: User = { id: '', username: '' };
   private loggedIn = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -47,7 +47,9 @@ export class AuthService implements OnInit {
     const token = localStorage.getItem('token');
 
     if (token && !this.jwtHelper.isTokenExpired(token)) {
-      this.decodedToken = this.jwtHelper.decodeToken(localStorage.getItem('token'));
+      this.decodedToken = this.jwtHelper.decodeToken(
+        localStorage.getItem('token')
+      );
       this.currentUser.id = this.decodedToken.nameid;
       this.currentUser.username = this.decodedToken.unique_name;
       this.loggedIn.next(true);

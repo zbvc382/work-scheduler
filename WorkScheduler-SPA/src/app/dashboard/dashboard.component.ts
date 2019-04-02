@@ -16,8 +16,6 @@ import { map } from 'rxjs/operators';
 import { Place } from '../_models/Place';
 import { SearchMarker } from '../_models/SearchMarker';
 import { Tag } from '../_models/Tag';
-import { Job } from '../_models/Job';
-import { Slot } from '../_models/Slot';
 
 @Component({
   selector: 'app-dashboard',
@@ -108,7 +106,6 @@ export class DashboardComponent implements OnInit {
   getDaysFromService() {
     this.slotService.getWeekSlots(new Date()).subscribe((days: Day[]) => {
       this.days = days;
-      console.log(days);
       this.selected.setValue(days[0]);
       this.todayJobs = days[0];
       this.tomorrowJobs = days[1];
@@ -182,7 +179,6 @@ export class DashboardComponent implements OnInit {
         });
       }
     });
-    console.log(this.locations);
   }
 
   callGeo(postcode: string) {

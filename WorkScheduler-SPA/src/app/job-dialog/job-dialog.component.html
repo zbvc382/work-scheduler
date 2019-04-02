@@ -54,6 +54,7 @@
         <mat-error *ngIf="form.get('postCode').hasError('required')">Postcode is required</mat-error>
         <mat-error *ngIf="form.get('postCode').hasError('maxlength')">Exceeded character limit</mat-error>
         <mat-error *ngIf="form.get('postCode').hasError('minlength')">Minimum of 6 characters is required</mat-error>
+        <mat-error *ngIf="form.get('postCode').hasError('spaces')">In between space is missing</mat-error>
       </mat-form-field>
     </div>
     <div fxLayout="column" fxLayoutAlign="center center">

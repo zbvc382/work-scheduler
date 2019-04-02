@@ -4,7 +4,6 @@ import { Tag } from '../_models/Tag';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from 'src/environments/environment';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { Photo } from '../_models/Photo';
 import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
@@ -22,12 +21,13 @@ export class EditJobDialogComponent implements OnInit, OnChanges {
   uploaded = false;
   baseUrl = environment.apiUrl;
 
-  constructor(private dialogRef: MatDialogRef<EditJobDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) data,
-              private fb: FormBuilder,
-              private snackBar: MatSnackBar,
-              private breakpointObserver: BreakpointObserver) {
-
+  constructor(
+    private dialogRef: MatDialogRef<EditJobDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) data,
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar,
+    private breakpointObserver: BreakpointObserver
+  ) {
     this.defaultTags = data.defaultTags;
     this.jobTags = data.jobTags;
     this.jobReport = data.jobReport;
@@ -45,9 +45,7 @@ export class EditJobDialogComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges() {
-
-  }
+  ngOnChanges() {}
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -57,7 +55,9 @@ export class EditJobDialogComponent implements OnInit, OnChanges {
     this.setTags();
     this.initialiseUploader();
     this.onChanges();
-    this.uploader.onWhenAddingFileFailed = () => { this.openSnackbar('Failed to add photo', 'failure-snackbar'); };
+    this.uploader.onWhenAddingFileFailed = () => {
+      this.openSnackbar('Failed to add photo', 'failure-snackbar');
+    };
     this.uploader.onCompleteAll = () => {
       this.form.get('multiplefile').disable();
       this.openSnackbar('Upload successful', 'success-snackbar');
@@ -81,7 +81,9 @@ export class EditJobDialogComponent implements OnInit, OnChanges {
       maxFileSize: 10 * 1024 * 1024
     });
 
-    this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
+    this.uploader.onAfterAddingFile = file => {
+      file.withCredentials = false;
+    };
   }
 
   setTags() {
@@ -115,14 +117,25 @@ export class EditJobDialogComponent implements OnInit, OnChanges {
   }
 
   save() {
-    const selectedTags = this.defaultTags.filter(x => x.selected === true).map((value: Tag) => {
-      return value.id;
-    });
-    const unselectedTags = this.defaultTags.filter(x => x.selected === false).map((value: Tag) => {
-      return value.id;
-    });
-    const object = { id: this.jobId, selectedTags, unselectedTags, report: this.form.get('jobreport').value };
-    const selectedArray: Tag[] = this.defaultTags.filter(x => x.selected === true);
+    const selectedTags = this.defaultTags
+      .filter(x => x.selected === true)
+      .map((value: Tag) => {
+        return value.id;
+      });
+    const unselectedTags = this.defaultTags
+      .filter(x => x.selected === false)
+      .map((value: Tag) => {
+        return value.id;
+      });
+    const object = {
+      id: this.jobId,
+      selectedTags,
+      unselectedTags,
+      report: this.form.get('jobreport').value
+    };
+    const selectedArray: Tag[] = this.defaultTags.filter(
+      x => x.selected === true
+    );
 
     const data = [object, selectedArray, this.uploaded];
 

@@ -8,9 +8,9 @@ import { Agency } from '../_models/Agency';
 export class AgencyService {
   baseUrl = 'http://localhost:5000/api/agencies/';
 
-constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
-getAgencies() {
-  return this.httpClient.get<Agency[]>(this.baseUrl);
-}
+  getAgencies() {
+    return this.httpClient.get<Agency[]>(this.baseUrl);
+  }
 }

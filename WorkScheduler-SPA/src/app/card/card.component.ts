@@ -97,7 +97,7 @@ export class CardComponent implements OnInit, OnDestroy {
     private slotService: SlotService,
     private tagService: TagService,
     private photoService: PhotoService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.data$.subscribe(j => {
@@ -106,7 +106,7 @@ export class CardComponent implements OnInit, OnDestroy {
     this.loadTags();
   }
 
-  ngOnDestroy(): void { }
+  ngOnDestroy(): void {}
 
   onDateRangeSelection() {
     this.queryJobs();
@@ -239,12 +239,10 @@ export class CardComponent implements OnInit, OnDestroy {
         }
       );
     } else {
-      this.jobService.createExtraJob(job, id).subscribe(
-        () => {
-          this.addJobEmitter.emit(null);
-          this.openSnackbar('Job created', 'success-snackbar');
-        }
-      );
+      this.jobService.createExtraJob(job, id).subscribe(() => {
+        this.addJobEmitter.emit(null);
+        this.openSnackbar('Job created', 'success-snackbar');
+      });
     }
   }
 
@@ -299,7 +297,13 @@ export class CardComponent implements OnInit, OnDestroy {
     );
   }
 
-  onEditJobDialog(report: string, tags: Tag[], id: number, dayId: number, jobPhotos: Photo[]) {
+  onEditJobDialog(
+    report: string,
+    tags: Tag[],
+    id: number,
+    dayId: number,
+    jobPhotos: Photo[]
+  ) {
     const dialogConfig = new MatDialogConfig();
     const modifiedDefaultTags = this.defaultTags;
     let jobIndex: number;
@@ -339,7 +343,6 @@ export class CardComponent implements OnInit, OnDestroy {
       dialogConfig.width = '650px';
     }
 
-
     dialogConfig.data = {
       defaultTags: modifiedDefaultTags,
       jobReport: report,
@@ -353,14 +356,17 @@ export class CardComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(
       data => {
         if (data) {
-          this.jobService.updateJob(data[0]).subscribe(() => {
-            this.days[dayId].slots[jobIndex].job.tags = data[1];
-            this.days[dayId].slots[jobIndex].job.report = data[0].report;
-            this.data$.next(this.days);
-            this.openSnackbar('Changes applied', 'success-snackbar');
-          }, error => {
-            console.log('Failed to update job');
-          });
+          this.jobService.updateJob(data[0]).subscribe(
+            () => {
+              this.days[dayId].slots[jobIndex].job.tags = data[1];
+              this.days[dayId].slots[jobIndex].job.report = data[0].report;
+              this.data$.next(this.days);
+              this.openSnackbar('Changes applied', 'success-snackbar');
+            },
+            error => {
+              console.log('Failed to update job');
+            }
+          );
 
           if (data[2] === true) {
             this.photoService.getPhotos(id).subscribe((photos: Photo[]) => {
