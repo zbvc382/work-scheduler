@@ -411,4 +411,8 @@ a {
   color: black;
 }
 
+.capitalise {
+  text-transform: capitalize;   
+}
+
 

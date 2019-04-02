@@ -95,7 +95,7 @@
                         <a [style.color]="'#757575'"
                           *ngIf="slot.job.tenantPhone === null && slot.job.privatePhone === null">Not Provided</a>
                       </div>
-                      <div class="col-sm-2" id="address-col">
+                      <div class="col-sm-2 capitalise" id="address-col">
                         <mat-icon class="info-icon">home</mat-icon>
                         {{ slot.job.address }}
                       </div>
@@ -112,7 +112,7 @@
                       </div>
                       <div
                       *ngIf="(slot.job.payerType === 'Agency' || slot.job.payerType === 'Landlord') && slot.job.tenantName != null && slot.job.key === false"
-                      class="col-sm-2" id="person-col">
+                      class="col-sm-2 capitalise" id="person-col">
                       <mat-icon class="info-icon">person</mat-icon>
                       {{ slot.job.tenantName }}
                     </div>
@@ -126,7 +126,7 @@
                   <mat-icon [style.color]="'#757575'" class="info-icon">person</mat-icon>
                   Not Provided
                 </div>
-                      <div *ngIf="slot.job.payerType === 'Private' && slot.job.privateName != null && slot.job.key === false" class="col-sm-2"
+                      <div *ngIf="slot.job.payerType === 'Private' && slot.job.privateName != null && slot.job.key === false" class="col-sm-2 capitalise"
                         id="person-col">
                         <mat-icon class="info-icon">person</mat-icon>
                         {{ slot.job.privateName }}
@@ -139,7 +139,7 @@
                       </div>
                       <div
                       *ngIf="(slot.job.payerType === 'Agency' || slot.job.payerType === 'Landlord') && slot.job.tenantName != null && slot.job.key === true"
-                      class="col-sm-2" id="person-col-key">
+                      class="col-sm-2 capitalise" id="person-col-key">
                       <mat-icon class="info-icon">person</mat-icon>
                       {{ slot.job.tenantName }}
                     </div>
@@ -153,7 +153,7 @@
                   <mat-icon [style.color]="'#757575'" class="info-icon">person</mat-icon>
                   Not Provided
                 </div>
-                      <div *ngIf="slot.job.payerType === 'Private' && slot.job.privateName != null && slot.job.key === true" class="col-sm-2"
+                      <div *ngIf="slot.job.payerType === 'Private' && slot.job.privateName != null && slot.job.key === true" class="col-sm-2 capitalise"
                         id="person-col-key">
                         <mat-icon class="info-icon">person</mat-icon>
                         {{ slot.job.privateName }}
@@ -172,7 +172,7 @@
                         <mat-icon [style.color]="'#F44336'" class="info-icon">vpn_key</mat-icon>
                         Collect
                       </div>
-                      <div *ngIf="slot.job.key && slot.job.keyAddress != null" class="col-sm-2" id="key-address-col">
+                      <div *ngIf="slot.job.key && slot.job.keyAddress != null" class="col-sm-2 capitalise" id="key-address-col">
                         <mat-icon [style.color]="'#F44336'" class="info-icon">domain</mat-icon>
                         {{slot.job.keyAddress}}
                       </div>
@@ -285,7 +285,7 @@
                       <a [style.color]="'#757575'"
                         *ngIf="job.tenantPhone === null && job.privatePhone === null">Not Provided</a>
                     </div>
-                    <div class="col-sm-2" id="address-col">
+                    <div class="col-sm-2 capitalise" id="address-col">
                       <mat-icon class="info-icon">home</mat-icon>
                       {{ job.address }}
                     </div>
@@ -302,7 +302,7 @@
                     </div>
                     <div
                     *ngIf="(job.payerType === 'Agency' || job.payerType === 'Landlord') && job.tenantName != null"
-                    class="col-sm-2" id="person-col">
+                    class="col-sm-2 capitalise" id="person-col">
                     <mat-icon class="info-icon">person</mat-icon>
                     {{ job.tenantName }}
                   </div>
@@ -316,7 +316,7 @@
                 <mat-icon [style.color]="'#757575'" class="info-icon">person</mat-icon>
                 Not Provided
               </div>
-                    <div *ngIf="job.payerType === 'Private' && job.privateName != null" class="col-sm-2"
+                    <div *ngIf="job.payerType === 'Private' && job.privateName != null" class="col-sm-2 capitalise"
                       id="person-col">
                       <mat-icon class="info-icon">person</mat-icon>
                       {{ job.privateName }}
@@ -337,7 +337,7 @@
                       Collect
                     </div>
                     <div *ngIf="job.key && job.keyAddress != null" class="col-sm-2" id="key-address-col">
-                      <mat-icon [style.color]="'#F44336'" class="info-icon">domain</mat-icon>
+                      <mat-icon [style.color]="'#F44336'" class="info-icon capitalise">domain</mat-icon>
                       {{ job.keyAddress }}
                     </div>
                     <div *ngIf="job.key && job.keyAddress === null" class="col-sm-2" id="key-address-col" [style.color]="'#757575'">

@@ -135,7 +135,7 @@
       <agm-map [zoom]="zoom" [latitude]="latitude" [longitude]="longitude">
         <agm-marker *ngFor="let location of locations" [latitude]="location.latitude" [longitude]="location.longitude"
           [markerDraggable]="false" [iconUrl]="location.colour">
-          <agm-info-window [isOpen]="true">
+          <agm-info-window>
             <div>{{ location.postcode }}</div>
             <div>
               {{ location.timeFrom | date: "h a" }} -

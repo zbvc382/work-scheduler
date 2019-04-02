@@ -179,6 +179,9 @@ export class JobDialogComponent implements OnInit {
 
   onSubmit() {
     if (this.form.valid) {
+      const upperPostCode = this.form.get('postCode').value.toUpperCase();
+      this.form.get('postCode').setValue(upperPostCode);
+
       if (this.form.get('agency').value != null) {
         if (this.form.get('agency').value.length < 1) {
           this.form.get('agency').setValue(null);
