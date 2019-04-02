@@ -16,8 +16,8 @@
   }
 
   .filled-box {
-    border-width: 1px;
-    border-style: solid;
+    background: rgba(33, 150, 243, 0.25);
+    border: 1px solid rgba(33, 150, 243);
     border-radius: 5px;
     font-size: 10px;
     margin-top: 10px;
@@ -56,8 +56,8 @@
   }
 
   .filled-box {
-    background: rgba(33,150,243, 0.25);
-    border: 1px solid rgba(33,150,243);
+    background: rgba(33, 150, 243, 0.25);
+    border: 1px solid rgba(33, 150, 243);
     border-radius: 5px;
     font-size: 10px;
     width: 100%;
@@ -65,27 +65,6 @@
     text-align: center;
     padding-top: 5px;
     padding-bottom: 5px;
-  }
-
-  .completed {
-    background: rgba(76,175,80, 0.25);
-    border: 1px solid  rgba(76,175,80);
-  }
-
-  .cancelled {
-    background: rgba(244,67,54, 0.25);
-    border: 1px solid  rgba(244,67,54, 0.25);
-  }
-
-  /* .incomplete {
-    background: rgba(33,150,243, 0.25);
-    border: 1px solid  rgba(76,175,80, 0.25);
-  } */
-
-  .confirmation {
-    background: rgba(255,193,7, 0.25);
-    border: 1px solid  rgba(255,193,7);
-    
   }
 }
 
@@ -130,4 +109,19 @@ agm-map {
 
 #clearIcon {
   cursor: pointer;
+}
+
+.completed {
+  background: rgba(76, 175, 80, 0.25);
+  border: 1px solid rgba(76, 175, 80);
+}
+
+.cancelled {
+  background: rgba(244, 67, 54, 0.25);
+  border: 1px solid rgba(244, 67, 54, 0.25);
+}
+
+.confirmation {
+  background: rgba(255, 193, 7, 0.25);
+  border: 1px solid rgba(255, 193, 7);
 }
