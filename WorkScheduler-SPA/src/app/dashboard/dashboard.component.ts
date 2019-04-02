@@ -23,31 +23,35 @@ import { Tag } from '../_models/Tag';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  @ViewChild('search') searchElementRef: ElementRef;
+
   zoom = 10;
   latitude = 51.5245;
   longitude = -0.11209;
+
   searchControl = new FormControl();
+  selected = new FormControl();
+
   days: Day[];
-  today: Date;
-  @ViewChild('search')
-  public searchElementRef: ElementRef;
-  searchLat: number;
-  searchLong: number;
+  locations: Place[];
+
   todayJobs: Day;
   tomorrowJobs: Day;
+  today: Date;
+
+  searchLat: number;
+  searchLong: number;
   result: any;
   searchClear = false;
   searching = false;
-  locations: Place[] = [];
-  selected = new FormControl();
   searchMarker: SearchMarker;
-  isCompletedBorder = '#4CAF50';
-  notCompletedBorder = '#673AB7';
+
   markerColourUrls = {
     green: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
     blue: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
     yellow: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
-    red: 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png'
+    red: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+    orange: 'http://maps.google.com/mapfiles/ms/icons/orange-dot.png'
   };
 
   constructor(
@@ -160,11 +164,15 @@ export class DashboardComponent implements OnInit {
             if (element.job.tags.length > 0) {
               if (this.isCompleted(element.job.tags)) {
                 markerColourUrl = this.markerColourUrls.green;
-              } else {
+              }
+              if (this.isCancelled(element.job.tags)) {
                 markerColourUrl = this.markerColourUrls.red;
               }
+              if (this.isConfirmation(element.job.tags)) {
+                markerColourUrl = this.markerColourUrls.orange;
+              }
             } else {
-              markerColourUrl = this.markerColourUrls.red;
+              markerColourUrl = this.markerColourUrls.blue;
             }
 
             this.locations.push({
@@ -204,7 +212,25 @@ export class DashboardComponent implements OnInit {
 
   isCompleted(tags: Tag[]): boolean {
     if (tags.length > 0) {
-      return tags.filter(x => x.name === 'Completed') !== null ? true : false;
+      return tags.filter(x => x.name === 'Completed').length === 1
+        ? true
+        : false;
+    }
+  }
+
+  isCancelled(tags: Tag[]): boolean {
+    if (tags.length > 0) {
+      return tags.filter(x => x.name === 'Cancelled').length === 1
+        ? true
+        : false;
+    }
+  }
+
+  isConfirmation(tags: Tag[]): boolean {
+    if (tags.length > 0) {
+      return tags.filter(x => x.name === 'Need Confirmation').length === 1
+        ? true
+        : false;
     }
   }
 

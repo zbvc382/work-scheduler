@@ -29,11 +29,8 @@
 
                 <div *ngFor="let slot of day.slots" fxLayout="row">
                   <div class="filled-box mat-elevation-z2" *ngIf="slot.job !== null; else emptybox"
-                    [style.border-color]="
-                      isCompleted(slot.job.tags)
-                        ? isCompletedBorder
-                        : notCompletedBorder
-                    ">
+                       [ngClass]="{'cancelled': isCancelled(slot.job.tags), 'confirmation': isConfirmation(slot.job.tags), 'completed': isCompleted(slot.job.tags)}"
+                  >
                     <div *ngIf="isMobile()" class="time">
                       {{ slot.job.timeFrom | date: "h" }}-{{
                         slot.job.timeTo | date: "h"
