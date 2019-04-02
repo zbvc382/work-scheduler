@@ -1,12 +1,13 @@
 <mat-toolbar class="mat-elevation-z5" color="primary">
   <div fxHide.gt-xs>
-    <button mat-button (click)="onToggleSidenav()">
+    <button onclick="this.blur()" mat-button (click)="onToggleSidenav()">
       <mat-icon>menu</mat-icon>
     </button>
   </div>
   <div fxFlex fxLayout fxLayoutAlign="start" fxHide.xs>
     <ul fxLayout fxLayoutGap="10px" class="navigation-items">
       <button
+        class="left-side-buttons"
         mat-button
         routerLinkActive="router-link-active"
         [routerLinkActiveOptions]="{ exact: true }"
@@ -15,31 +16,18 @@
         <mat-icon>dashboard</mat-icon>
       </button>
       <button
+        class="left-side-buttons"
         mat-button
         routerLinkActive="router-link-active"
         [routerLink]="['/jobs']"
       >
         <span class="left-nav-button-text">Jobs</span>
       </button>
-      <button
-      mat-button
-      routerLinkActive="router-link-active"
-      [routerLink]="['/client']"
-    >
-      <span class="left-nav-button-text">Map</span>
-    </button>
-      <button
-        mat-button
-        routerLinkActive="router-link-active"
-        [routerLink]="['/client']"
-      >
-        <span class="left-nav-button-text">Clients</span>
-      </button>
     </ul>
   </div>
   <div class="end-nav-icons" fxFlex fxLayout fxLayoutAlign="end">
     <button mat-button (click)="onLogOut()">
-      <mat-icon>account_circle</mat-icon>
+      <mat-icon>exit_to_app</mat-icon>
       <span id="logout-nav-link" class="right-nav-button-text"></span>
     </button>
   </div>

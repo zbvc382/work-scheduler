@@ -31,8 +31,9 @@ span {
   margin-left: -40px;
 }
 
-.mat-button {
-  height: 63px;
+.left-side-buttons {
+  padding-top: 10px;
+  height: 80px;
   border-radius: 0;
 }
 
