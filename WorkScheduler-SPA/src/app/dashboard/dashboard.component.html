@@ -11,45 +11,29 @@
           <mat-card-subtitle>{{ today | date: "fullDate" }}</mat-card-subtitle>
           <mat-card-content>
             <div fxLayout="row" fxLayoutAlign="space-evenly none">
-              <div
-                class="day"
-                *ngFor="let day of days"
-                fxLayout="column"
-                fxLayoutAlign="none"
-              >
-                <div
-                  class="date"
-                  *ngIf="isMobile()"
-                  [ngStyle]="{
+              <div class="day" *ngFor="let day of days" fxLayout="column" fxLayoutAlign="none">
+                <div class="date" *ngIf="isMobile()" [ngStyle]="{
                     border: isToday(day.date)
                       ? '1px dashed #3f51b5'
                       : '1px dashed white'
-                  }"
-                >
+                  }">
                   {{ day.date | date: "EEE" }}
                 </div>
-                <div
-                  class="date"
-                  *ngIf="!isMobile()"
-                  [ngStyle]="{
+                <div class="date" *ngIf="!isMobile()" [ngStyle]="{
                     border: isToday(day.date)
                       ? '1px dashed #3f51b5'
                       : '1px dashed white'
-                  }"
-                >
+                  }">
                   {{ day.date | date: "EEEE" }}
                 </div>
 
                 <div *ngFor="let slot of day.slots" fxLayout="row">
-                  <div
-                    class="filled-box mat-elevation-z2"
-                    *ngIf="slot.job !== null; else emptybox"
+                  <div class="filled-box mat-elevation-z2" *ngIf="slot.job !== null; else emptybox"
                     [style.border-color]="
                       isCompleted(slot.job.tags)
                         ? isCompletedBorder
                         : notCompletedBorder
-                    "
-                  >
+                    ">
                     <div *ngIf="isMobile()" class="time">
                       {{ slot.job.timeFrom | date: "h" }}-{{
                         slot.job.timeTo | date: "h"
@@ -85,18 +69,39 @@
     </div>
     <div class="col-sm-4 info-column">
       <div class="info1">
-        <mat-card [style.height]="'100%'">
-          <mat-card-content>
-            content2
+        <mat-card [style.height]="'100%'" [style.background]="'#4CAF50'" [style.color]="'white'">
+          <mat-card-header>
+            <mat-card-title>
+              JOBS TODAY
+            </mat-card-title>
+            <mat-card-subtitle>
+              Good luck!
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content
+          [style.font-size]="'30px'"
+          [style.padding-left]="'16px'"
+          >
+            {{getTodayJobNumber}}
           </mat-card-content>
         </mat-card>
       </div>
       <div>&nbsp;</div>
       <div class="info2">
-        <mat-card [style.height]="'100%'">
-          <mat-card-content>
-            content2
-          </mat-card-content>
+        <mat-card [style.height]="'100%'" [style.background]="'#673AB7'" [style.color]="'white'">
+            <mat-card-header>
+                <mat-card-title>
+                  JOBS TOMORROW
+                </mat-card-title>
+                <mat-card-subtitle>
+                  Good luck!
+                </mat-card-subtitle>
+              </mat-card-header>
+              <mat-card-content
+              [style.font-size]="'30px'"
+              [style.padding-left]="'16px'">
+              {{getTomorrowJobNumber}}
+              </mat-card-content>
         </mat-card>
       </div>
     </div>
@@ -109,48 +114,30 @@
             <mat-label>Show Jobs For</mat-label>
             <mat-select [formControl]="selected">
               <mat-option *ngFor="let day of days" [value]="day">
-                <span *ngIf="!isToday(day.date)">{{
-                  day.date | date: "EEEE"
-                }}</span>
                 <span *ngIf="isToday(day.date)">Today</span>
+                <span *ngIf="!isToday(day.date)">{{
+                    day.date | date: "EEEE"
+                  }}</span>
               </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
         <div class="col-sm-8">
           <mat-form-field>
-            <input
-              matInput
-              placeholder="Search Location"
-              autocorrect="off"
-              autocapitalize="off"
-              spellcheck="off"
-              type="text"
-              #search
-              [formControl]="searchControl"
-            />
+            <input matInput placeholder="Search Location" autocorrect="off" autocapitalize="off" spellcheck="off"
+              type="text" #search [formControl]="searchControl" />
             <mat-icon *ngIf="!searchClear" matSuffix>
               search
             </mat-icon>
-            <mat-icon
-              *ngIf="searchClear"
-              id="clearIcon"
-              (click)="onSearchClear()"
-              matSuffix
-            >
+            <mat-icon *ngIf="searchClear" id="clearIcon" (click)="onSearchClear()" matSuffix>
               clear
             </mat-icon>
           </mat-form-field>
         </div>
       </div>
       <agm-map [zoom]="zoom" [latitude]="latitude" [longitude]="longitude">
-        <agm-marker
-          *ngFor="let location of locations"
-          [latitude]="location.latitude"
-          [longitude]="location.longitude"
-          [markerDraggable]="false"
-          [iconUrl]="location.colour"
-        >
+        <agm-marker *ngFor="let location of locations" [latitude]="location.latitude" [longitude]="location.longitude"
+          [markerDraggable]="false" [iconUrl]="location.colour">
           <agm-info-window [isOpen]="true">
             <div>{{ location.postcode }}</div>
             <div>
@@ -160,13 +147,8 @@
           </agm-info-window>
         </agm-marker>
 
-        <agm-marker
-          *ngIf="searchMarker != null"
-          [latitude]="searchMarker.latitude"
-          [longitude]="searchMarker.longitude"
-          [markerDraggable]="false"
-          [iconUrl]="markerColourUrls.yellow"
-        ></agm-marker>
+        <agm-marker *ngIf="searchMarker != null" [latitude]="searchMarker.latitude" [longitude]="searchMarker.longitude"
+          [markerDraggable]="false" [iconUrl]="markerColourUrls.yellow"></agm-marker>
       </agm-map>
     </mat-card>
   </div>

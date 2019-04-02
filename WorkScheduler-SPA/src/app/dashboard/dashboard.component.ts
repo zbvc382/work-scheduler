@@ -16,6 +16,8 @@ import { map } from 'rxjs/operators';
 import { Place } from '../_models/Place';
 import { SearchMarker } from '../_models/SearchMarker';
 import { Tag } from '../_models/Tag';
+import { Job } from '../_models/Job';
+import { Slot } from '../_models/Slot';
 
 @Component({
   selector: 'app-dashboard',
@@ -33,7 +35,8 @@ export class DashboardComponent implements OnInit {
   public searchElementRef: ElementRef;
   searchLat: number;
   searchLong: number;
-  address = 'E163NP';
+  todayJobs: Day;
+  tomorrowJobs: Day;
   result: any;
   searchClear = false;
   searching = false;
@@ -97,7 +100,6 @@ export class DashboardComponent implements OnInit {
             latitude: place.geometry.location.lat(),
             longitude: place.geometry.location.lng()
           };
-
         });
       });
     });
@@ -106,8 +108,45 @@ export class DashboardComponent implements OnInit {
   getDaysFromService() {
     this.slotService.getWeekSlots(new Date()).subscribe((days: Day[]) => {
       this.days = days;
+      console.log(days);
       this.selected.setValue(days[0]);
+      this.todayJobs = days[0];
+      this.tomorrowJobs = days[1];
     });
+  }
+
+  get getTomorrowJobNumber(): string {
+    if (this.tomorrowJobs !== undefined) {
+      const jobs = this.tomorrowJobs.slots.filter(x => x.job !== null);
+
+      if (jobs !== null) {
+        if (jobs.length === 1) {
+          return '1 Job';
+        }
+        if (jobs.length > 1) {
+          return jobs.length + ' Jobs';
+        }
+      }
+
+      return '0 Jobs';
+    }
+  }
+
+  get getTodayJobNumber(): string {
+    if (this.todayJobs !== undefined) {
+      const jobs = this.todayJobs.slots.filter(x => x.job !== null);
+
+      if (jobs !== null) {
+        if (jobs.length === 1) {
+          return '1 Job';
+        }
+        if (jobs.length > 1) {
+          return jobs.length + ' Jobs';
+        }
+      }
+
+      return '0 Jobs';
+    }
   }
 
   getLocations(day: Day) {
