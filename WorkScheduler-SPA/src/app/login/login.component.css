@@ -1,11 +1,24 @@
 mat-card {
-  max-width: 400px;
+  max-width: 500px;
   margin: 2em auto;
   text-align: center;
+  border: 1px solid #3f51b5;
+
 }
-.signin-content {
+/* .signin-content {
   padding: 60px 1rem;
-}
+} */
 .full-width-input {
   width: 100%;
+}
+
+.logo {
+  align-content: center;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.signin-content {
+  padding-top: 100px;
 }
