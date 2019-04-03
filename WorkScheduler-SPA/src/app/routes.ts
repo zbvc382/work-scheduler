@@ -5,14 +5,18 @@ import { AuthGuard } from './_guards/auth.guard';
 import { JobsComponent } from './jobs/jobs.component';
 
 export const appRoutes: Routes = [
-    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-    {
-        path: '',
-        children: [
-            { path: 'login', component: LoginComponent },
-            { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
-            { path: 'jobs', component: JobsComponent, canActivate: [AuthGuard]}
-        ]
-    },
-    { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  {
+    path: '',
+    children: [
+      { path: 'login', component: LoginComponent },
+      {
+        path: 'dashboard',
+        component: DashboardComponent,
+        canActivate: [AuthGuard]
+      },
+      { path: 'jobs', component: JobsComponent, canActivate: [AuthGuard] }
+    ]
+  },
+  { path: '**', redirectTo: 'dashboard', pathMatch: 'full' }
 ];

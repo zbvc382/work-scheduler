@@ -171,7 +171,6 @@ a {
 }
 
 @media screen and (min-width: 1280px) {
-
   .card-options {
     flex: none;
     max-width: 5%;
@@ -260,36 +259,6 @@ a {
     min-width: 600px;
     max-width: 600px;
   }
-
-  /* #postcode-col-search {
-    min-width: 150px;
-    max-width: 150px;
-  } */
-
-  /* #date-col-search {
-    min-width: 180px;
-    max-width: 180px;
-  } */
-
-  /* #job-number-col-search {
-    min-width: 150px;
-    max-width: 150px;
-  } */
-
-  /* #status-col-search {
-    min-width: 150px;
-    max-width: 150px;
-  } */
-
-  /* #phone-col {
-    min-width: 180px;
-    max-width: 180px;
-  } */
-
-  /* #job-number-col-search {
-    min-width: 130px;
-    max-width: 130px;
-  } */
 
   .status-col-icon {
     transform: scale(0.8);
@@ -412,7 +381,5 @@ a {
 }
 
 .capitalise {
-  text-transform: capitalize;   
+  text-transform: capitalize;
 }
-
-

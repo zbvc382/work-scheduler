@@ -44,73 +44,75 @@ import { SplitPipe } from './_pipes/split.pipe';
 import { AgmCoreModule } from '@agm/core';
 
 export function tokenGetter() {
-   return localStorage.getItem('token');
+  return localStorage.getItem('token');
 }
 
 @NgModule({
-   declarations: [
-      AppComponent,
-      LoginComponent,
-      DashboardComponent,
-      HeaderComponent,
-      SidenavListComponent,
-      CardComponent,
-      JobsComponent,
-      JobDialogComponent,
-      DeleteJobDialogComponent,
-      TimePickerComponent,
-      Safe,
-      SplitPipe,
-      EditJobDialogComponent,
-      TabContentComponent
-   ],
-   imports: [
-      BrowserModule,
-      FormsModule,
-      HttpClientModule,
-      BrowserAnimationsModule,
-      MaterialModule,
-      FlexLayoutModule,
-      ReactiveFormsModule,
-      FileUploadModule,
-      RouterModule,
-      MomentModule,
-      NgxGalleryModule,
-      MaterialFileInputModule,
-      RouterModule.forRoot(appRoutes),
-      NgMatSearchBarModule,
-      LayoutModule,
-      MDBBootstrapModule.forRoot(),
-      NgxMaterialTimepickerModule.forRoot(),
-      JwtModule.forRoot({
-         config: {
-            tokenGetter,
-            whitelistedDomains: ['localhost:5000'],
-            blacklistedRoutes: ['localhost:5000/auth']
-         }
-      }),
-      AgmCoreModule.forRoot({
-         apiKey: 'AIzaSyCzdxX8LunlQMdF94C39gWKfEii40YKSa8',
-         libraries: ['places']
-       })
-   ],
-   providers: [
-      AuthService,
-      JobService,
-      AuthGuard,
-      DateFormat,
-      SlotService,
-      MomentDateModule,
-      AgencyService,
-      TimeService,
-      Safe,
-      TagService,
-      PhotoService,
-      ApplianceService
-   ],
-   bootstrap: [
-      AppComponent
-   ],
-   entryComponents: [JobDialogComponent, DeleteJobDialogComponent, EditJobDialogComponent]
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    DashboardComponent,
+    HeaderComponent,
+    SidenavListComponent,
+    CardComponent,
+    JobsComponent,
+    JobDialogComponent,
+    DeleteJobDialogComponent,
+    TimePickerComponent,
+    Safe,
+    SplitPipe,
+    EditJobDialogComponent,
+    TabContentComponent
+  ],
+  imports: [
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    FlexLayoutModule,
+    ReactiveFormsModule,
+    FileUploadModule,
+    RouterModule,
+    MomentModule,
+    NgxGalleryModule,
+    MaterialFileInputModule,
+    RouterModule.forRoot(appRoutes),
+    NgMatSearchBarModule,
+    LayoutModule,
+    MDBBootstrapModule.forRoot(),
+    NgxMaterialTimepickerModule.forRoot(),
+    JwtModule.forRoot({
+      config: {
+        tokenGetter,
+        whitelistedDomains: ['localhost:5000'],
+        blacklistedRoutes: ['localhost:5000/auth']
+      }
+    }),
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCzdxX8LunlQMdF94C39gWKfEii40YKSa8',
+      libraries: ['places']
+    })
+  ],
+  providers: [
+    AuthService,
+    JobService,
+    AuthGuard,
+    DateFormat,
+    SlotService,
+    MomentDateModule,
+    AgencyService,
+    TimeService,
+    Safe,
+    TagService,
+    PhotoService,
+    ApplianceService
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [
+    JobDialogComponent,
+    DeleteJobDialogComponent,
+    EditJobDialogComponent
+  ]
 })
-export class AppModule { }
+export class AppModule {}
