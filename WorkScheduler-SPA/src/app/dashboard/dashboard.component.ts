@@ -193,7 +193,7 @@ export class DashboardComponent implements OnInit {
     const apiURL =
       'https://maps.googleapis.com/maps/api/geocode/json?address=$' +
       postcode +
-      '&key=AIzaSyAgDUII_kvGfCJNmu4qhhzjl8YNzblV9Ng';
+      '&key=AIzaSyCzdxX8LunlQMdF94C39gWKfEii40YKSa8';
     return this.httpClient.get(apiURL, { observe: 'response' }).pipe(
       map(response => {
         return response;

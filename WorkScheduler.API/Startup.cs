@@ -31,29 +31,29 @@ namespace WorkScheduler.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Allow 'weak' passwords while in development mode
-            IdentityBuilder builder = services.AddIdentityCore<User>(options => {
-                options.Password.RequireDigit = false;
-                options.Password.RequiredLength = 4;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = false;
+            IdentityBuilder builder = services.AddIdentityCore<User>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 6;
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-            .AddJsonOptions(opt => {
+            .AddJsonOptions(opt =>
+            {
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
                 opt.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
-                });
+            });
 
             builder = new IdentityBuilder(builder.UserType, builder.Services);
             builder.AddEntityFrameworkStores<DataContext>();
             builder.AddUserManager<UserManager<User>>();
             builder.AddSignInManager<SignInManager<User>>();
 
-            // Default authentication scheme
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -80,7 +80,6 @@ namespace WorkScheduler.API
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seed seed)
         {
             if (env.IsDevelopment())
@@ -94,7 +93,7 @@ namespace WorkScheduler.API
             }
 
             // app.UseHttpsRedirection();
-            // seed.SeedUsers();
+            seed.Initialise();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
             app.UseMvc();

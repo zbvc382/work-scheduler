@@ -16,15 +16,13 @@ namespace WorkScheduler.API.Data
 
         }
 
-        public void SeedUsers() {
+        public void Initialise() {
             if (!_userManager.Users.Any())
             {
-                var userData = System.IO.File.ReadAllText("Data/UserSeedData.json");
-                var users = JsonConvert.DeserializeObject<List<User>>(userData);
+                var user = new User { UserName = "Paragon" };
+                var password = "pAssword1!";
 
-                foreach (var user in users) {
-                    _userManager.CreateAsync(user, "password").Wait();
-                }
+                _userManager.CreateAsync(user, password);
             }
         }
     }
