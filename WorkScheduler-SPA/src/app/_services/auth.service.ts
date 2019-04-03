@@ -5,10 +5,11 @@ import { BehaviorSubject } from 'rxjs';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { User } from '../_models/User';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class AuthService implements OnInit {
-  baseUrl = 'http://localhost:5000/api/auth/';
+  baseUrl = environment.apiUrl + 'auth/';
   jwtHelper = new JwtHelperService();
   decodedToken: any;
   currentUser: User = { id: '', username: '' };

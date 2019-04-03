@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Agency } from '../_models/Agency';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AgencyService {
-  baseUrl = 'http://localhost:5000/api/agencies/';
+  baseUrl = environment.apiUrl + 'agencies/';
 
   constructor(private httpClient: HttpClient) {}
 
