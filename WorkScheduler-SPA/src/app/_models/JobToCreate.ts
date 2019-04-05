@@ -5,9 +5,9 @@ export interface JobToCreate {
     payerType: string;
     report?: string;
     problemGiven?: string;
-    dateAssigned: Date;
-    timeFrom: Date;
-    timeTo: Date;
+    dateAssigned: string;
+    timeFrom: string;
+    timeTo: string;
     address: string;
     postCode: string;
     slotReplaced: boolean;

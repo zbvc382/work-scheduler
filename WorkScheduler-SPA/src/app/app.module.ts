@@ -61,6 +61,7 @@ export function tokenGetter() {
     TimePickerComponent,
     Safe,
     SplitPipe,
+    DateFormat,
     EditJobDialogComponent,
     TabContentComponent
   ],

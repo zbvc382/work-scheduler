@@ -199,6 +199,8 @@ export class CardComponent implements OnInit, OnDestroy {
 
   addJob(data, date: Date, index: number, id: number) {
     let job: JobToCreate;
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
+    hour: 'numeric', minute: 'numeric', second: 'numeric' };
 
     if (!isObject(data.agency)) {
       if (data.agency != null) {
@@ -211,7 +213,7 @@ export class CardComponent implements OnInit, OnDestroy {
     }
 
     job = data;
-    job.dateAssigned = date;
+    job.dateAssigned = date.toLocaleDateString('en-GB', options)
 
     if (index != null) {
       job.slotIndex = index;
@@ -225,8 +227,8 @@ export class CardComponent implements OnInit, OnDestroy {
       job.keyAddress = null;
     }
 
-    job.timeFrom = this.timeService.get24HourTime(job.timeFrom, new Date(date));
-    job.timeTo = this.timeService.get24HourTime(job.timeTo, new Date(date));
+    job.timeFrom = this.timeService.get24HourTime(data.timeFrom, new Date(date)).toLocaleDateString('en-GB', options);
+    job.timeTo = this.timeService.get24HourTime(data.timeTo, new Date(date)).toLocaleDateString('en-GB', options);
 
     if (id === null) {
       this.jobService.createJob(job).subscribe(

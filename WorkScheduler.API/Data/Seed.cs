@@ -20,7 +20,7 @@ namespace WorkScheduler.API.Data
             if (!_userManager.Users.Any())
             {
                 var user = new User { UserName = "Paragon" };
-                var password = "pAssword1!";
+                var password = " ";
 
                 _userManager.CreateAsync(user, password);
             }

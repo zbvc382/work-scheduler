@@ -46,7 +46,7 @@ namespace WorkScheduler.API
             .AddJsonOptions(opt =>
             {
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-                opt.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
+                // opt.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
             });
 
             builder = new IdentityBuilder(builder.UserType, builder.Services);
@@ -75,7 +75,7 @@ namespace WorkScheduler.API
             services.AddScoped<IApplianceTypeRepository, ApplianceTypeRepository>();
             services.AddAutoMapper();
             services.AddTransient<Seed>();
-            services.AddDbContext<DataContext>(x => x.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<DataContext>(x => x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
@@ -96,14 +96,16 @@ namespace WorkScheduler.API
             seed.Initialise();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-            app.UseMvc(routes => {
-                routes.MapSpaFallbackRoute(
-                    name: "spa-fallback",
-                    defaults: new { Controller = "Fallback", action = "Index" }
-                );
-            });
+            // app.UseDefaultFiles();
+            // app.UseStaticFiles();
+            // app.UseMvc(routes =>
+            // {
+            //     routes.MapSpaFallbackRoute(
+            //         name: "spa-fallback",
+            //         defaults: new { Controller = "Fallback", action = "Index" }
+            //     );
+            // });
+            app.UseMvc();
         }
     }
 }
