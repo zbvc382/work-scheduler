@@ -8,7 +8,7 @@ using WorkScheduler.API.Dtos;
 
 namespace WorkScheduler.API.Controllers
 {
-    [AllowAnonymous]
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class AppliancesController: ControllerBase

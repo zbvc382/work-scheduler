@@ -10,6 +10,7 @@ using WorkScheduler.API.Dtos;
 
 namespace WorkScheduler.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class TagsController : ControllerBase
@@ -23,7 +24,6 @@ namespace WorkScheduler.API.Controllers
             this._mapper = mapper;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> getTags() {
             var tags = await _dataContext.Tags.ToListAsync();

@@ -5,6 +5,7 @@ using WorkScheduler.API.Data;
 
 namespace WorkScheduler.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AgenciesController : ControllerBase
@@ -16,7 +17,6 @@ namespace WorkScheduler.API.Controllers
             this._agencyRpository = agencyRpository;
         }
 
-        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> getAgencies() {
             var agenciesToReturn = await _agencyRpository.getAllAgencies();

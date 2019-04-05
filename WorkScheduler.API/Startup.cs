@@ -46,7 +46,6 @@ namespace WorkScheduler.API
             .AddJsonOptions(opt =>
             {
                 opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-                // opt.SerializerSettings.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Local;
             });
 
             builder = new IdentityBuilder(builder.UserType, builder.Services);
@@ -96,15 +95,15 @@ namespace WorkScheduler.API
             seed.Initialise();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
-            // app.UseDefaultFiles();
-            // app.UseStaticFiles();
-            // app.UseMvc(routes =>
-            // {
-            //     routes.MapSpaFallbackRoute(
-            //         name: "spa-fallback",
-            //         defaults: new { Controller = "Fallback", action = "Index" }
-            //     );
-            // });
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+            app.UseMvc(routes =>
+            {
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new { Controller = "Fallback", action = "Index" }
+                );
+            });
             app.UseMvc();
         }
     }

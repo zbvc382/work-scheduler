@@ -13,7 +13,7 @@ using WorkScheduler.API.Models;
 
 namespace WorkScheduler.API.Controllers
 {
-    [AllowAnonymous]
+    [Authorize]
     [Route("api/jobs/{jobId}/[controller]")]
     [ApiController]
     public class PhotosController : ControllerBase
