@@ -113,15 +113,15 @@ agm-map {
 
 .completed {
   background: rgba(76, 175, 80, 0.25);
-  border: 1px solid rgba(76, 175, 80);
+  border: 1px solid #4caf50;
 }
 
 .cancelled {
   background: rgba(244, 67, 54, 0.25);
-  border: 1px solid rgba(244, 67, 54, 0.25);
+  border: 1px solid #f44336;
 }
 
 .confirmation {
   background: rgba(255, 193, 7, 0.25);
-  border: 1px solid rgba(255, 193, 7);
+  border: 1px solid #ffc107;
 }

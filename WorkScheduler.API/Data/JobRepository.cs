@@ -16,7 +16,8 @@ namespace WorkScheduler.API.Data
         private readonly IAgencyRpository _agencyRpository;
         private readonly IApplianceTypeRepository _applianceRepository;
 
-        public JobRepository(DataContext dataContext, IAgencyRpository agencyRpository, IApplianceTypeRepository applianceRepository) : base(dataContext) {
+        public JobRepository(DataContext dataContext, IAgencyRpository agencyRpository, IApplianceTypeRepository applianceRepository) : base(dataContext)
+        {
             _agencyRpository = agencyRpository;
             _applianceRepository = applianceRepository;
         }
@@ -123,11 +124,12 @@ namespace WorkScheduler.API.Data
 
             if (!exisits)
             {
-                job.JobTags.Add(new JobTag { Job = job, Tag = tag});
+                job.JobTags.Add(new JobTag { Job = job, Tag = tag });
             }
         }
 
-        public void UpdateTags(UpdateJob updateJob) {
+        public void UpdateTags(UpdateJob updateJob)
+        {
             var job = this.DataContext.Jobs.Include(x => x.JobTags).ThenInclude(x => x.Tag).Single(x => x.Id == updateJob.Id);
             var unselectedTags = updateJob.UnselectedTags;
             var selectedTags = updateJob.SelectedTags;
@@ -136,29 +138,31 @@ namespace WorkScheduler.API.Data
             {
                 var exists = job.JobTags.Any(x => x.TagId == item);
 
-                if (exists) {
+                if (exists)
+                {
                     var jobTag = job.JobTags.Single(x => x.TagId == item);
-                    
+
                     job.JobTags.Remove(jobTag);
                 }
             }
-            
+
             foreach (var item in selectedTags)
             {
                 var exists = job.JobTags.Any(x => x.TagId == item);
 
-                if (!exists) {
+                if (!exists)
+                {
                     var newTag = this.DataContext.Tags.Single(x => x.Id == item);
-        
+
                     job.JobTags.Add(new JobTag
                     {
                         Job = job,
                         Tag = newTag
                     });
-                
+
                 }
             }
-            
+
         }
 
         public async Task<Job> AddJob(Job job)
@@ -180,8 +184,9 @@ namespace WorkScheduler.API.Data
                 }
             }
 
-            if (job.ApplianceType != null) {
-                
+            if (job.ApplianceType != null)
+            {
+
                 var applianceType = await _applianceRepository.FindAll().FirstOrDefaultAsync(x => x.Id == job.ApplianceType.Id);
                 job.ApplianceType = applianceType;
             }
@@ -189,7 +194,8 @@ namespace WorkScheduler.API.Data
             return await CreateAsync(job);
         }
 
-        public Job GetJobByJobNumber(string jobNumber) {
+        public Job GetJobByJobNumber(string jobNumber)
+        {
             var job = DataContext.Jobs
             .Include(x => x.Agency)
             .Include(x => x.ApplianceType)
