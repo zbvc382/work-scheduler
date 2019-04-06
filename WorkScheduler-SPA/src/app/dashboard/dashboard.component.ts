@@ -16,6 +16,7 @@ import { map } from 'rxjs/operators';
 import { Place } from '../_models/Place';
 import { SearchMarker } from '../_models/SearchMarker';
 import { Tag } from '../_models/Tag';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -32,6 +33,8 @@ export class DashboardComponent implements OnInit {
   searchControl = new FormControl();
   selected = new FormControl();
 
+  days$ = new BehaviorSubject<Day[]>(null);
+
   days: Day[];
   locations: Place[];
 
@@ -44,6 +47,7 @@ export class DashboardComponent implements OnInit {
   result: any;
   searchClear = false;
   searching = false;
+  loading = true;
   searchMarker: SearchMarker;
 
   markerColourUrls = {
@@ -63,6 +67,15 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.days$.subscribe(value => {
+      this.days = value;
+      if (this.days !== null) {
+        if (this.days.length > 1) {
+          this.loading = false;
+        }
+      }
+    });
+
     this.today = new Date();
     this.getDaysFromService();
 
@@ -109,7 +122,7 @@ export class DashboardComponent implements OnInit {
 
   getDaysFromService() {
     this.slotService.getWeekSlots(new Date()).subscribe((days: Day[]) => {
-      this.days = days;
+      this.days$.next(days);
       this.selected.setValue(days[0]);
       this.todayJobs = days[0];
       this.tomorrowJobs = days[1];
@@ -148,6 +161,10 @@ export class DashboardComponent implements OnInit {
 
       return '0 Jobs';
     }
+  }
+
+  onDayChange() {
+    console.log('Loaded?');
   }
 
   getLocations(day: Day) {
