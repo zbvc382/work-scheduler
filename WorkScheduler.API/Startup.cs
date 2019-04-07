@@ -77,6 +77,9 @@ namespace WorkScheduler.API
             services.AddDbContext<DataContext>(x => x.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            // services.Configure<MvcOptions>(options => {
+            //     options.Filters.Add(new RequireHttpsAttribute());
+            //     });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, Seed seed)
@@ -87,8 +90,7 @@ namespace WorkScheduler.API
             }
             else
             {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                //app.UseHsts();
+                
             }
 
             // app.UseHttpsRedirection();
