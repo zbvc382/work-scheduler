@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -90,9 +91,13 @@ namespace WorkScheduler.API
             }
             else
             {
-                
+
             }
 
+            // var options = new RewriteOptions()
+            //    .AddRedirectToHttps();
+
+            // app.UseRewriter(options);
             // app.UseHttpsRedirection();
             seed.Initialise();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
