@@ -17,6 +17,7 @@ import { Place } from '../_models/Place';
 import { SearchMarker } from '../_models/SearchMarker';
 import { Tag } from '../_models/Tag';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-dashboard',
@@ -24,6 +25,8 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  googleApiKey = '&key=' + environment.googleApiKey;
+
   @ViewChild('search') searchElementRef: ElementRef;
 
   zoom = 10;
@@ -210,7 +213,7 @@ export class DashboardComponent implements OnInit {
     const apiURL =
       'https://maps.googleapis.com/maps/api/geocode/json?address=$' +
       postcode +
-      '&key=AIzaSyCzdxX8LunlQMdF94C39gWKfEii40YKSa8';
+      this.googleApiKey;
     return this.httpClient.get(apiURL, { observe: 'response' }).pipe(
       map(response => {
         return response;
