@@ -54,11 +54,11 @@ export class DashboardComponent implements OnInit {
   searchMarker: SearchMarker;
 
   markerColourUrls = {
-    green: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
-    blue: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-    yellow: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
-    red: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
-    orange: 'http://maps.google.com/mapfiles/ms/icons/orange-dot.png'
+    green: 'https://maps.google.com/mapfiles/ms/icons/green-dot.png',
+    blue: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+    yellow: 'https://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+    red: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+    orange: 'https://maps.google.com/mapfiles/ms/icons/orange-dot.png'
   };
 
   constructor(
