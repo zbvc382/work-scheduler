@@ -98,7 +98,6 @@ namespace WorkScheduler.API
             //    .AddRedirectToHttps();
 
             // app.UseRewriter(options);
-            // app.UseHttpsRedirection();
             seed.Initialise();
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
             app.UseAuthentication();
