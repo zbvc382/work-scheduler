@@ -166,10 +166,6 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  onDayChange() {
-    console.log('Loaded?');
-  }
-
   getLocations(day: Day) {
     this.locations = [];
 
@@ -179,7 +175,7 @@ export class DashboardComponent implements OnInit {
           this.result = data.body;
           if (this.result.status === 'OK') {
             const location = this.result.results[0].geometry.location;
-            let markerColourUrl = null;
+            let markerColourUrl = this.markerColourUrls.blue;
 
             if (element.job.tags.length > 0) {
               if (this.isCompleted(element.job.tags)) {
@@ -191,8 +187,6 @@ export class DashboardComponent implements OnInit {
               if (this.isConfirmation(element.job.tags)) {
                 markerColourUrl = this.markerColourUrls.orange;
               }
-            } else {
-              markerColourUrl = this.markerColourUrls.blue;
             }
 
             this.locations.push({
@@ -207,6 +201,7 @@ export class DashboardComponent implements OnInit {
         });
       }
     });
+    console.log(this.locations);
   }
 
   callGeo(postcode: string) {

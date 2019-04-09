@@ -91,7 +91,7 @@ export function tokenGetter() {
       }
     }),
     AgmCoreModule.forRoot({
-      apiKey: '',
+      apiKey: 'AIzaSyD3lOQMip8B5Dc_Sx2UCLgvXh9LEjJns2E',
       libraries: ['places']
     })
   ],
