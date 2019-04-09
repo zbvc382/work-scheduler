@@ -201,7 +201,6 @@ export class DashboardComponent implements OnInit {
         });
       }
     });
-    console.log(this.locations);
   }
 
   callGeo(postcode: string) {

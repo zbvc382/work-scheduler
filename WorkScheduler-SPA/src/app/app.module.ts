@@ -42,6 +42,7 @@ import { PhotoService } from './_services/photo.service';
 import { ApplianceService } from './_services/appliance.service';
 import { SplitPipe } from './_pipes/split.pipe';
 import { AgmCoreModule } from '@agm/core';
+import {TimeAgoPipe} from 'time-ago-pipe';
 
 export function tokenGetter() {
   return localStorage.getItem('token');
@@ -63,7 +64,8 @@ export function tokenGetter() {
     SplitPipe,
     DateFormat,
     EditJobDialogComponent,
-    TabContentComponent
+    TabContentComponent,
+    TimeAgoPipe
   ],
   imports: [
     BrowserModule,
@@ -91,7 +93,7 @@ export function tokenGetter() {
       }
     }),
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyD3lOQMip8B5Dc_Sx2UCLgvXh9LEjJns2E',
+      apiKey: '',
       libraries: ['places']
     })
   ],
