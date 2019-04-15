@@ -2,7 +2,7 @@
 
 # Work Scheduler
 
-A simple appliance repair scheduling application
+A simple appliance repair scheduling application.
 
 ## Tech Stack
 
