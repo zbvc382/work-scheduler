@@ -10,7 +10,7 @@ A simple appliance repair scheduling application.
 * **Frameworks** - .NET Core, Angular
 * **Databases** - MySQL
 
-# Desktop Images
+# Desktop View
 
 ![alt Dashboard](/img/1.png)
 ![alt Jobs](/img/2.png)
@@ -18,6 +18,6 @@ A simple appliance repair scheduling application.
 ![alt Edit Job](/img/4.png)
 ![alt Search Results](/img/5.png)
 
-# Mobile Images
+# Mobile View
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="/img/m1.png" width="180" title="Dashboard">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/img/m2.png" width="180" title="Jobs">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/img/m3.png" width="180" title="Create Job">&nbsp;&nbsp;&nbsp;&nbsp;<img src="/img/m4.png" width="180" title="Edit Job">
