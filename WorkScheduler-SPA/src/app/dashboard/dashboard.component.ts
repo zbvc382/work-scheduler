@@ -224,6 +224,12 @@ export class DashboardComponent implements OnInit {
     return this.breakpointObserver.isMatched('(max-width: 600px)');
   }
 
+  isTablet(): boolean {
+    return this.breakpointObserver.isMatched('(min-device-width : 768px)') &&
+    this.breakpointObserver.isMatched('(max-device-width : 1024px)') &&
+    this.breakpointObserver.isMatched('(orientation : portrait)');
+  }
+
   isCompleted(tags: Tag[]): boolean {
     if (tags.length > 0) {
       return tags.filter(x => x.name === 'Completed').length === 1

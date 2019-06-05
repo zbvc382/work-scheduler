@@ -144,3 +144,40 @@ agm-map {
 .tomorrow-wrapper {
   padding-left: 15px;
 }
+
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) {
+  .day {
+    width: 35px;
+  }
+
+  .empty-box {
+    border: 1px solid #bdbdbd;
+    border-radius: 5px;
+    font-size: 10px;
+    margin-top: 10px;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    opacity: 0.75;
+    min-width: 45px !important;
+  }
+
+  .filled-box {
+    background: rgba(33, 150, 243, 0.25);
+    border: 1px solid #2196f3;
+    border-radius: 5px;
+    font-size: 10px;
+    margin-top: 10px;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    min-width: 45px !important;
+  }
+
+  .info-column {
+    margin-top: 0px;
+  }
+}

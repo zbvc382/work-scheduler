@@ -12,14 +12,14 @@
           <mat-card-content>
             <div *ngIf="!loading" fxLayout="row" fxLayoutAlign="space-evenly none">
               <div class="day" *ngFor="let day of days" fxLayout="column" fxLayoutAlign="none">
-                <div class="date" *ngIf="isMobile()" [ngStyle]="{
+                <div class="date" *ngIf="isMobile() || isTablet()" [ngStyle]="{
                     border: isToday(day.date)
                       ? '1px dashed #3f51b5'
                       : '1px dashed white'
                   }">
                   {{ day.date | date: "EEE" }}
                 </div>
-                <div class="date" *ngIf="!isMobile()" [ngStyle]="{
+                <div class="date" *ngIf="!isMobile() && !isTablet()" [ngStyle]="{
                     border: isToday(day.date)
                       ? '1px dashed #3f51b5'
                       : '1px dashed white'
@@ -31,28 +31,28 @@
                   <div class="filled-box mat-elevation-z2" *ngIf="slot.job !== null; else emptybox"
                        [ngClass]="{'cancelled': isCancelled(slot.job.tags), 'confirmation': isConfirmation(slot.job.tags), 'completed': isCompleted(slot.job.tags)}"
                   >
-                    <div *ngIf="isMobile()" class="time">
+                    <div *ngIf="isMobile() || isTablet()" class="time">
                       {{ slot.job.timeFrom | date: "h" }}-{{
                         slot.job.timeTo | date: "h"
                       }}
                     </div>
-                    <div *ngIf="!isMobile()" class="time">
+                    <div *ngIf="!isMobile() && !isTablet()" class="time">
                       {{ slot.job.timeFrom | date: "h a" }} -
                       {{ slot.job.timeTo | date: "h a" }}
                     </div>
-                    <div *ngIf="isMobile()" class="postcode">
+                    <div *ngIf="isMobile() || isTablet()" class="postcode">
                       {{ slot.job.postCode | split }}
                     </div>
-                    <div *ngIf="!isMobile()" class="postcode">
+                    <div *ngIf="!isMobile() && !isTablet()" class="postcode">
                       {{ slot.job.postCode }}
                     </div>
                   </div>
                   <ng-template #emptybox>
-                    <div *ngIf="isMobile()" class="empty-box mat-elevation-z2">
+                    <div *ngIf="isMobile() || isTablet()" class="empty-box mat-elevation-z2">
                       <div>{{ slot.defaultFrom | date: "h a" }}</div>
                       <div>{{ slot.defaultTo | date: "h a" }}</div>
                     </div>
-                    <div *ngIf="!isMobile()" class="empty-box mat-elevation-z2">
+                    <div *ngIf="!isMobile() && !isTablet()" class="empty-box mat-elevation-z2">
                       {{ slot.defaultFrom | date: "h a" }} -
                       {{ slot.defaultTo | date: "h a" }}
                     </div>
@@ -71,8 +71,11 @@
       <div class="info1">
         <mat-card [style.height]="'100%'" [style.background]="'#4CAF50'" [style.color]="'white'">
           <mat-card-header>
-            <mat-card-title>
+            <mat-card-title *ngIf="!isTablet()">
               JOBS TODAY
+            </mat-card-title>
+            <mat-card-title *ngIf="isTablet()">
+              TODAY
             </mat-card-title>
             <mat-card-subtitle>
               Good luck!
@@ -95,8 +98,11 @@
       <div class="info2">
         <mat-card [style.height]="'100%'" [style.background]="'#673AB7'" [style.color]="'white'">
             <mat-card-header>
-                <mat-card-title>
+                <mat-card-title *ngIf="!isTablet()">
                   JOBS TOMORROW
+                </mat-card-title>
+                <mat-card-title *ngIf="isTablet()">
+                  TOMORROW
                 </mat-card-title>
                 <mat-card-subtitle>
                   Good luck!
