@@ -7,4 +7,4 @@ A simple appliance repair scheduling application. Try it out at [here](https://s
 ## Technologies
 
 * **Front End** - TypeScript, Angular, Angular Material, HTML, CSS
-* **Back End** - C#, .NET Core, Entity Framework
+* **Back End** - C#, .NET Core, Entity Framework, Microsoft Azure
