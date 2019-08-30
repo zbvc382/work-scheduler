@@ -2,7 +2,7 @@
 
 # Work Scheduler
 
-A simple appliance repair scheduling application. Try it out at [here](https://scheduler.zilvinaspocius.lt "Work Scheduler") :).
+A simple appliance repair scheduling application. Try it out at [here](https://scheduler.zilvinaspocius.lt "Work Scheduler") :)
 
 ## Technologies
 
