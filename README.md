@@ -4,12 +4,7 @@
 
 A simple appliance repair scheduling application.
 
-## Tech Stack
+## Technologies
 
-* **Programming languages** - C#, TypeScript
-* **Frameworks** - .NET Core, Angular
-* **Databases** - MySQL
-
-## Features
-
-* **TODO:** TODO
+* **Front End** - TypeScript, Angular, Angular Material, HTML, CSS
+* **Back End** - C#, .NET Core, Entity Framework
