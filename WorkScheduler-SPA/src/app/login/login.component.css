@@ -1,3 +1,7 @@
+:host {
+  background: blue;
+}
+
 mat-card {
   max-width: 500px;
   margin: 2em auto;
@@ -18,4 +22,58 @@ mat-card {
 
 .signin-content {
   padding-top: 100px;
+}
+
+.container {
+  height: 100%;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 50%);
+  clip-path: ellipse(81% 71% at 76% 24%);
+  clip-path: ellipse(81% 71% at 78% 19%);
+  clip-path: ellipse(81% 71% at 78% 11%);
+  clip-path: ellipse(70% 83% at 64% 7%);
+}
+
+.background {
+  position: relative;
+  background-color: #3f51b5;
+  height: 100%;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.annotation {
+  position: absolute;
+  display: inline-block;
+  top: 78%;
+  left: 6.5%;
+}
+
+.annotation p {
+  padding-left: 10px;
+  color: #fff;
+  font-size: 24px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.login-info {
+  color: #3f51b5;
+  position: absolute;
+  display: inline-block;
+  bottom: 31%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#img-angular {
+  max-width: 65px;
+  margin-left: 10px;
+}
+
+#img-core {
+  max-width: 60px;
 }
