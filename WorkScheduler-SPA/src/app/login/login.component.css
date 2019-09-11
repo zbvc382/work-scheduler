@@ -32,10 +32,12 @@ mat-card {
   padding: 0;
   background-color: #fff;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 50%);
-  clip-path: ellipse(81% 71% at 76% 24%);
+  clip-path: ellipse(60% 71% at 76% 24%);
   clip-path: ellipse(81% 71% at 78% 19%);
   clip-path: ellipse(81% 71% at 78% 11%);
-  clip-path: ellipse(70% 83% at 64% 7%);
+  clip-path: ellipse(76% 81% at 66% 16%);
+
+
 }
 
 .background {
@@ -50,7 +52,7 @@ mat-card {
   position: absolute;
   display: inline-block;
   top: 78%;
-  left: 6.5%;
+  left: 4%;
 }
 
 .annotation p {
@@ -62,11 +64,6 @@ mat-card {
 
 .login-info {
   color: #3f51b5;
-  position: absolute;
-  display: inline-block;
-  bottom: 31%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 #img-angular {
